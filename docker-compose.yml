@@ -1,0 +1,47 @@
+version: '3.3'
+
+services:
+  app:
+    build: ./
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - app-network
+    command: npm run dev
+
+  mysql:
+    image: mysql:5.7.31
+    restart: always
+    env_file:
+      - ./src/config/dev.env
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+  node_modules:

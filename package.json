@@ -8,7 +8,7 @@
     "lint": "eslint \"./src/**/*.{ts,tsx}\" --quiet --fix",
     "build": "npm run lint && tsc",
     "test": "jest",
-    "dev": "env-cmd -f ./src/config/dev.env nodemon"
+    "dev": "env-cmd -f ./src/config/dev.env nodemon -L"
   },
   "keywords": [
     "nodejs",
