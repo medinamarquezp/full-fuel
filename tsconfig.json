@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./build/src",
+    "removeComments": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/**.ts", "package*.json"],
+  "exclude": ["node_modules"]
+}
