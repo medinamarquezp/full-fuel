@@ -13,7 +13,7 @@ describe('Rest Client implementation test', () =>
         "CCAA": "Baleares"
       }
     ];
-    const stu = await RestClient.fetch(testGetRequest, { method: "GET" })
+    const stu = await RestClient.get(testGetRequest)
     expect(stu).toEqual(expectedResponse)
   }),
     test('it should display a correct structure of serialized error when http request fails', async () =>

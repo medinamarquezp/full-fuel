@@ -2,7 +2,7 @@ import client, { RequestInfo, RequestInit, Response } from "node-fetch";
 import { FetchRestClientException } from "@/sharedExceptions/FetchRestClientException";
 export class RestClient
 {
-  static async fetch(url: RequestInfo, options: RequestInit): Promise<Response | void>
+  static async fetch(url: RequestInfo, options?: RequestInit): Promise<Response | void>
   {
     try
     {
@@ -13,5 +13,11 @@ export class RestClient
     {
       throw new FetchRestClientException(`Error on fetching data: ${error}`);
     }
+  }
+  static async get(url: RequestInfo, options?: RequestInit): Promise<Response | void>
+  {
+    (options) ? options.method = "GET" : { method: "GET" };
+    const json = await RestClient.fetch(url, options);
+    return json;
   }
 }
