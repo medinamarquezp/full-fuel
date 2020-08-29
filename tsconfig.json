@@ -8,8 +8,10 @@
     "strict": true,
     "moduleResolution": "node",
     "baseUrl": "./src",
-    "rootDir": "./src",
     "paths": {
+      "@/sharedDomain/*": ["contexts/Shared/Domain/*"],
+      "@/sharedExceptions/*": ["contexts/Shared/Domain/Exceptions/*"],
+      "@/sharedInfrastructure/*": ["contexts/Shared/Infrastructure/*"],
       "@/*": ["*"]
     },
     "esModuleInterop": true,
@@ -17,6 +19,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/**.ts", "package*.json"],
+  "include": ["src/**/**.ts", "tests/**/**.ts", "package*.json"],
   "exclude": ["node_modules"]
 }

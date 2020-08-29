@@ -17,7 +17,9 @@
   "author": "Pedro Medina",
   "license": "ISC",
   "dependencies": {
-    "env-cmd": "^10.1.0"
+    "@types/node-fetch": "^2.5.7",
+    "env-cmd": "^10.1.0",
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",
