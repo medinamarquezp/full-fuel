@@ -9,11 +9,6 @@ module.exports = {
   transform: {
     "^.+\\.ts?$": "ts-jest"
   },
-  globals: {
-    "ts-jest": {
-      "tsConfigFile": "tsconfig.json"
-    }
-  },
   testRegex: "(/tests/.*|(\\.|/)(test|spec))\\.ts?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths)

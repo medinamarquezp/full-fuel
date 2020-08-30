@@ -19,7 +19,8 @@
   "dependencies": {
     "@types/node-fetch": "^2.5.7",
     "env-cmd": "^10.1.0",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/jest": "^26.0.10",
