@@ -11,7 +11,7 @@ export class WinstonLogger
     this.logsFolderPath = logsFolderPath;
   }
 
-  public winstonLogger(): Logger
+  public winstonLogger(logLevels: string[]): Logger
   {
     return createLogger({
       exitOnError: false,
@@ -20,7 +20,7 @@ export class WinstonLogger
         timestamp(),
         printf(info => this.logContent(info))
       ),
-      transports: this.createTransportList(["info", "warn", "error"])
+      transports: this.createTransportList(logLevels)
     });
   }
 

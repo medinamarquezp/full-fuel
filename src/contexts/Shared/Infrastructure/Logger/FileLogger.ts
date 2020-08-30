@@ -10,7 +10,7 @@ FileLogger = class
   {
     const logsFolderPath = `${process.cwd()}/logs`;
     const loggerInstance = new WinstonLogger(logsFolderPath);
-    return loggerInstance.winstonLogger();
+    return loggerInstance.winstonLogger(["info", "warn", "error"]);
   }
 
   static info(message: string): void
