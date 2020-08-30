@@ -1,6 +1,11 @@
+/* eslint-disable prefer-const */
 import client, { RequestInfo, RequestInit, Response } from "node-fetch";
+import { RestClient } from "@/sharedDomain/RestClient";
 import { FetchRestClientException } from "@/sharedExceptions/FetchRestClientException";
-export class RestClient
+
+export let FecthRestClient: RestClient;
+
+FecthRestClient = class
 {
   static async fetch(url: RequestInfo, options?: RequestInit): Promise<Response | void>
   {
@@ -17,7 +22,7 @@ export class RestClient
   static async get(url: RequestInfo, options?: RequestInit): Promise<Response | void>
   {
     (options) ? options.method = "GET" : { method: "GET" };
-    const json = await RestClient.fetch(url, options);
+    const json = await FecthRestClient.fetch(url, options);
     return json;
   }
-}
+};

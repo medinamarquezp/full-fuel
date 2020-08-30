@@ -1,4 +1,4 @@
-import { RestClient } from '@/sharedInfrastructure/RestClient';
+import { FecthRestClient } from '@/sharedInfrastructure/FetchRestClient';
 import { DomainError } from "@/sharedDomain/DomainError";
 describe('Rest Client implementation test', () =>
 {
@@ -13,7 +13,7 @@ describe('Rest Client implementation test', () =>
         "CCAA": "Baleares"
       }
     ];
-    const stu = await RestClient.get(testGetRequest)
+    const stu = await FecthRestClient.get(testGetRequest)
     expect(stu).toEqual(expectedResponse)
   }),
     test('it should display a correct structure of serialized error when http request fails', async () =>
@@ -23,7 +23,7 @@ describe('Rest Client implementation test', () =>
       let error: DomainError | undefined;
       try
       {
-        await RestClient.fetch(incorrectURL, { method: "GET" })
+        await FecthRestClient.fetch(incorrectURL, { method: "GET" })
       } catch (err)
       {
         error = err;
