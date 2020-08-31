@@ -1,10 +1,12 @@
+import { MineturEndpoints } from "@/config/MineturEndpoints";
 import { FecthRestClient } from '@/sharedInfrastructure/FetchRestClient';
 import { DomainError } from "@/sharedDomain/DomainError";
 describe('Fetch Rest Client implementation test', () =>
 {
   test('it should perform a correct http get request', async () =>
   {
-    const testGetRequest = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/Listados/ProvinciasPorComunidad/04';
+    const idCCAABaleares = "04";
+    const testGetRequest = MineturEndpoints.ProvinceByIdCCAA + idCCAABaleares;
     const expectedResponse = [
       {
         "IDPovincia": "07",
