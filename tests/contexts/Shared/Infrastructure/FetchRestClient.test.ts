@@ -1,6 +1,6 @@
 import { FecthRestClient } from '@/sharedInfrastructure/FetchRestClient';
 import { DomainError } from "@/sharedDomain/DomainError";
-describe('Rest Client implementation test', () =>
+describe('Fetch Rest Client implementation test', () =>
 {
   test('it should perform a correct http get request', async () =>
   {
