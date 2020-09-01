@@ -1,15 +1,14 @@
 import { CCAA } from "../Domain/CCAA";
 import { CCAAMineturDto } from "../Domain/CCAAMineturDto";
 import { CCAAMineturRepo } from "../Domain/CCAAMineturRepo";
-import { Logger } from "@/sharedDomain/Logger";
 import { RestClient } from "@/sharedDomain/RestClient";
+import { BaseUseCase } from "@/sharedUseCases/BaseUseCase";
 
-export class FetchCCAAsfromMinetur implements CCAAMineturRepo
+export class FetchCCAAsfromMinetur extends BaseUseCase implements CCAAMineturRepo
 {
   constructor(
     private url: string,
-    private client: RestClient,
-    private logger: Logger) { }
+    private client: RestClient) { super(); }
 
   async getAll(): Promise<CCAA[]>
   {

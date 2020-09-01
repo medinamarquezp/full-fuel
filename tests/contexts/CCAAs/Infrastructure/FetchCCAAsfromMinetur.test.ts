@@ -1,10 +1,9 @@
 import { MineturEndpoints } from "@/config/MineturEndpoints";
-import { FileLogger } from "@/sharedInfrastructure/Logger/FileLogger";
 import { FecthRestClient } from "@/sharedInfrastructure/FetchRestClient";
 import { FetchCCAAsfromMinetur } from "@/contexts/CCAAs/UseCases/FetchCCAAsfromMinetur";
 
 const CCAAsEndpoint = MineturEndpoints.CCAAList;
-const sut = new FetchCCAAsfromMinetur(CCAAsEndpoint, FecthRestClient, FileLogger);
+const sut = new FetchCCAAsfromMinetur(CCAAsEndpoint, FecthRestClient);
 describe('Fetch CCAAs from Minetur use case test', () =>
 {
   test('it should return 19 CCAAs', async () =>

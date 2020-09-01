@@ -10,14 +10,17 @@
     "baseUrl": "./src",
     "paths": {
       "@/sharedDomain/*": ["contexts/Shared/Domain/*"],
+      "@/sharedUseCases/*": ["contexts/Shared/UseCases/*"],
       "@/sharedExceptions/*": ["contexts/Shared/Domain/Exceptions/*"],
       "@/sharedInfrastructure/*": ["contexts/Shared/Infrastructure/*"],
       "@/*": ["*"]
     },
     "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false
   },
   "include": ["src/**/**.ts", "tests/**/**.ts", "package*.json"],
   "exclude": ["node_modules"]
