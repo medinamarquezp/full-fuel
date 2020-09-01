@@ -1,7 +1,6 @@
 import { CCAA } from "../Domain/CCAA";
 import { CCAAMineturDto } from "../Domain/CCAAMineturDto";
 import { CCAAMineturRepo } from "../Domain/CCAAMineturRepo";
-import { Uuid } from "@/sharedDomain/Uuid";
 import { Logger } from "@/sharedDomain/Logger";
 import { RestClient } from "@/sharedDomain/RestClient";
 
@@ -9,7 +8,6 @@ export class FetchCCAAsfromMinetur implements CCAAMineturRepo
 {
   constructor(
     private url: string,
-    private uuid: Uuid,
     private client: RestClient,
     private logger: Logger) { }
 
@@ -26,8 +24,7 @@ export class FetchCCAAsfromMinetur implements CCAAMineturRepo
 
     for (const CCAAMinetur of CCAAsfromMinetur)
     {
-      const uuid = this.uuid.generate();
-      const ccaa = new CCAA(uuid, CCAAMinetur.IDCCAA, CCAAMinetur.CCAA);
+      const ccaa = new CCAA(CCAAMinetur.IDCCAA, CCAAMinetur.CCAA);
       CCAAList.push(ccaa);
     }
     this.logger.info("All CCAA from Minetur has been serialized correctly");
