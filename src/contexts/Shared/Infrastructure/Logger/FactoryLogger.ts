@@ -4,7 +4,7 @@ import { ConsoleLogger } from "./ConsoleLogger";
 
 export class FactoryLogger
 {
-  public static getLoggerInstance(type: string): Logger
+  public static getLoggerInstance(type?: string): Logger
   {
     switch (type)
     {
