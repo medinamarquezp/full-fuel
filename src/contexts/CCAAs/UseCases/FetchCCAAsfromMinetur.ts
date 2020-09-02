@@ -19,13 +19,7 @@ export class FetchCCAAsfromMinetur extends BaseUseCase implements CCAAMineturRep
 
   private serializeCCAAList(CCAAsfromMinetur: CCAAMineturDto[]): CCAA[]
   {
-    const CCAAList: CCAA[] = [];
-
-    for (const CCAAMinetur of CCAAsfromMinetur)
-    {
-      const ccaa = new CCAA(CCAAMinetur.IDCCAA, CCAAMinetur.CCAA);
-      CCAAList.push(ccaa);
-    }
+    const CCAAList = CCAAsfromMinetur.map(CCAAMinetur => new CCAA(CCAAMinetur.IDCCAA, CCAAMinetur.CCAA));
     this.logger.info("All CCAA from Minetur has been serialized correctly");
     return CCAAList;
   }
