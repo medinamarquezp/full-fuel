@@ -1,6 +1,6 @@
-import { CCAADto } from "./CCAADto";
+import { CCAAProperties } from "./CCAAProperties";
 
-export class CCAA implements CCAADto
+export class CCAA implements CCAAProperties
 {
   externalID: string;
   name: string;

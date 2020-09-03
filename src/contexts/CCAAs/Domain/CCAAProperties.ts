@@ -1,4 +1,4 @@
-export interface CCAADto
+export interface CCAAProperties
 {
   externalID: string;
   name: string;
