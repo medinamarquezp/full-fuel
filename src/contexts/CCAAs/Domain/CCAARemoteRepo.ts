@@ -1,6 +1,6 @@
 import { CCAA } from "./CCAA";
 
-export interface CCAAMineturRepo
+export interface CCAARemoteRepo
 {
   getAll: () => Promise<CCAA[]>
 }

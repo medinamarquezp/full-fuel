@@ -1,9 +1,9 @@
 import { MineturEndpoints } from "@/config/MineturEndpoints";
 import { FecthRestClient } from "@/sharedInfrastructure/FetchRestClient";
-import { FetchCCAAsfromMinetur } from "@/contexts/CCAAs/UseCases/FetchCCAAsfromMinetur";
+import { RestCCAARemoteRepo } from "@/contexts/CCAAs/Infrastructure/Remote/RestCCAARemoteRepo";
 
 const CCAAsEndpoint = MineturEndpoints.CCAAList;
-const sut = new FetchCCAAsfromMinetur(CCAAsEndpoint, FecthRestClient);
+const sut = new RestCCAARemoteRepo(CCAAsEndpoint, FecthRestClient);
 describe('Fetch CCAAs from Minetur use case test', () =>
 {
   test('it should return 19 CCAAs', async () =>
