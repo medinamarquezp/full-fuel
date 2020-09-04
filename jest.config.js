@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+require("dotenv").config({
+  path: "./src/config/dev.env"
+});
+
 const { pathsToModuleNameMapper } = require("ts-jest/utils");
 const { compilerOptions } = require("./tsconfig");
 
