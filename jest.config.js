@@ -13,7 +13,7 @@ module.exports = {
   transform: {
     "^.+\\.ts?$": "ts-jest"
   },
-  testRegex: "(/tests/.*|(\\.|/)(test|spec))\\.ts?$",
+  testRegex: "(/tests/.*.(test|spec)).ts?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths)
 };
