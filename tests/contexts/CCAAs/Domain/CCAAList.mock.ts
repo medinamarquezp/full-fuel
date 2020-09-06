@@ -80,4 +80,4 @@ const CCAAListPlainObject = [
   }
 ]
 
-export const CCAAListMother = plainToClass(CCAA, CCAAListPlainObject);
+export const CCAAListMock = plainToClass(CCAA, CCAAListPlainObject);

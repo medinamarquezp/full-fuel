@@ -1,8 +1,8 @@
-import { CCAAListMother } from "./../Domain/CCAAListMother"
+import { CCAAListMock } from "../Domain/CCAAList.mock"
 import { InMemoryCCAARemoteRepo } from "@/contexts/CCAAs/Infrastructure/Remote/InMemoryCCAARemoteRepo";
 import { GetCCAAsfromRemote } from "@/contexts/CCAAs/UseCases/GetCCAAsfromRemote";
 
-const InMemotyRepo = new InMemoryCCAARemoteRepo(CCAAListMother);
+const InMemotyRepo = new InMemoryCCAARemoteRepo(CCAAListMock);
 const sut = new GetCCAAsfromRemote(InMemotyRepo);
 
 describe('Get CCAAs from remote use case', () =>
