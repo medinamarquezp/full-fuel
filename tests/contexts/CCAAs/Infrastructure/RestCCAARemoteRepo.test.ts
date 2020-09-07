@@ -2,10 +2,13 @@ import { MineturEndpoints } from "@/config/MineturEndpoints";
 import { FecthRestClient } from "@/sharedInfrastructure/FetchRestClient";
 import { RestCCAARemoteRepo } from "@/contexts/CCAAs/Infrastructure/Remote/RestCCAARemoteRepo";
 
-const CCAAsEndpoint = MineturEndpoints.CCAAList;
-const sut = new RestCCAARemoteRepo(CCAAsEndpoint, FecthRestClient);
 describe('Fetch CCAAs from Minetur use case test', () =>
 {
+  let sut: RestCCAARemoteRepo;
+  beforeAll(() =>
+  {
+    sut = new RestCCAARemoteRepo(MineturEndpoints.CCAAList, FecthRestClient);
+  })
   test('it should return 19 CCAAs', async () =>
   {
     const allCCAAsFromMinetur = await sut.getAll();

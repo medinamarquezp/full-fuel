@@ -1,4 +1,4 @@
-import { CCAAListMock } from "../Domain/CCAAList.mock"
+import { CCAAListMock } from "../Mocks/CCAAList.mock"
 import { PersistCCAAs } from "@/contexts/CCAAs/UseCases/PersistCCAAs";
 import { GetAllCCAAs } from "@/contexts/CCAAs/UseCases/GetAllCCAAs";
 import { InMemoryCCAARepo } from "@/contexts/CCAAs/Infrastructure/Persistence/InMemoryCCAARepo";
