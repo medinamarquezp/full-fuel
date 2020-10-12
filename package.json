@@ -1,7 +1,7 @@
 {
-  "name": "node-typescript-bootstrap",
+  "name": "full-fuel-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Full Fuel API",
   "main": "index.ts",
   "scripts": {
     "clean": "rm -r ./build",
@@ -12,7 +12,8 @@
   },
   "keywords": [
     "nodejs",
-    "typescript"
+    "typescript",
+    "ddd"
   ],
   "author": "Pedro Medina",
   "license": "ISC",
