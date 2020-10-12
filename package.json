@@ -22,7 +22,7 @@
     "dotenv": "^8.2.0",
     "env-cmd": "^10.1.0",
     "mysql2": "^2.1.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "sequelize": "5.22.3",
     "uuidv4": "^6.2.3",
     "winston": "^3.3.3"
