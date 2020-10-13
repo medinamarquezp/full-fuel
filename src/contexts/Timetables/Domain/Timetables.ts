@@ -20,6 +20,18 @@ export class Timetables implements TimetablesProperties {
     return timetable === alwaysOpenString;
   }
 
+  static timetablesInstancesFromString(timetable: string, fuelstationID: number): Timetables[]
+  {
+    const timetables = Timetables.timeTableFromString(timetable);
+
+    const timetablesInstances = timetables.map(timetable => {
+      const { weekDay, alwaysOpen, opening, closing } = timetable;
+      const timetablesIntance = new this({ fuelstationID, weekDay, alwaysOpen, opening, closing });
+      return timetablesIntance;
+    });
+    return timetablesInstances;
+  }
+
   static timeTableFromString(timetable: string): TimetablesProperties[] {
     const timetables: TimetablesProperties[] = [];
     const dayRanges:string[] = timetable.split("; ");
