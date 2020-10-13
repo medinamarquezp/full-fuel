@@ -1,5 +1,5 @@
 export interface TimetablesProperties {
-  fuelstationID: number,
+  fuelstationID?: number,
   weekDay: number,
   alwaysOpen: boolean,
   opening: string,
