@@ -30,13 +30,14 @@ export class Today extends Date {
     return `${time.getHours()}:${monutesFormated}`;
   }
 
-  static getDayMoment(hour: string): string {
+  static getDayMoment(time: string | Date): string {
+    const parsedInputTime = (typeof time === "object") ? Today.timeToString(time) : time as string;
     const MORNING = { start: "6:00", end: "12:59" };
     const AFTERNOOM = { start: "13:00", end: "18:59" };
     const NIGHT = { start: "19:00", end: "23:59" };
-    if (Today.isBetween(MORNING.start, MORNING.end, hour)) return dayMoments.MORNING;
-    if (Today.isBetween(AFTERNOOM.start, AFTERNOOM.end, hour)) return dayMoments.AFTERNOOM;
-    if (Today.isBetween(NIGHT.start, NIGHT.end, hour)) return dayMoments.NIGHT;
+    if (Today.isBetween(MORNING.start, MORNING.end, parsedInputTime)) return dayMoments.MORNING;
+    if (Today.isBetween(AFTERNOOM.start, AFTERNOOM.end, parsedInputTime)) return dayMoments.AFTERNOOM;
+    if (Today.isBetween(NIGHT.start, NIGHT.end, parsedInputTime)) return dayMoments.NIGHT;
     return dayMoments.EARLYMORNING;
   }
 

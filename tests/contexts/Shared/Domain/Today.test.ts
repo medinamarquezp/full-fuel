@@ -9,11 +9,15 @@ describe('Today implementation test', () => {
      const sut = Today.timeToString(dateTime);
      expect(sut).toBe("22:00");
    });
-   test('it should return "night" as day moment', () => {
+   test('it should return "night" as day moment on sending a text parameter', () => {
      const time = Today.timeToString(dateTime);
      const sut = Today.getDayMoment(time);
      expect(sut).toBe("night");
    })
+   test('it should return "night" as day moment on sending a date parameter', () => {
+    const sut = Today.getDayMoment(dateTime);
+    expect(sut).toBe("night");
+  })
    test('it should display an error when sending invalid params to isBetween method', () => {
      const sut = () => Today.isBetween("00:11","2:23");
      expect(sut).toThrow("Invalid time format");
