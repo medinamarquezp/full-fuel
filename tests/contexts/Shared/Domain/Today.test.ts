@@ -1,0 +1,26 @@
+import { Today } from "@/sharedDomain/Today";
+
+describe('Today implementation test', () => {
+  let dateTime: Date;
+  beforeEach(() => {
+    dateTime = new Date(2020,10,14,22,0,0);
+  })
+   test('it should display the time in text format', () => {
+     const sut = Today.timeToString(dateTime);
+     expect(sut).toBe("22:00");
+   });
+   test('it should return "night" as day moment', () => {
+     const time = Today.timeToString(dateTime);
+     const sut = Today.getDayMoment(time);
+     expect(sut).toBe("night");
+   })
+   test('it should display an error when sending invalid params to isBetween method', () => {
+     const sut = () => Today.isBetween("00:11","2:23");
+     expect(sut).toThrow("Invalid time format");
+   })
+   test('it should validate if time is between a range', () => {
+     const time = Today.timeToString(dateTime);
+     const sut = Today.isBetween("14:00", "24:59", time);
+     expect(sut).toBeTruthy();
+   })
+})
