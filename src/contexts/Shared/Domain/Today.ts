@@ -30,7 +30,7 @@ export class Today extends Date {
     return `${time.getHours()}:${monutesFormated}`;
   }
 
-  static getDayMoment(time: string | Date): string {
+  static getDayMoment(time: string | Date): dayMoments {
     const parsedInputTime = (typeof time === "object") ? Today.timeToString(time) : time as string;
     const MORNING = { start: "6:00", end: "12:59" };
     const AFTERNOOM = { start: "13:00", end: "18:59" };
@@ -39,6 +39,11 @@ export class Today extends Date {
     if (Today.isBetween(AFTERNOOM.start, AFTERNOOM.end, parsedInputTime)) return dayMoments.AFTERNOOM;
     if (Today.isBetween(NIGHT.start, NIGHT.end, parsedInputTime)) return dayMoments.NIGHT;
     return dayMoments.EARLYMORNING;
+  }
+
+  static getMomentNow(): dayMoments {
+    const now = new Date();
+    return Today.getDayMoment(now);
   }
 
   static isBetween(startTime: string, endTime: string, time?: string): boolean {
@@ -72,7 +77,7 @@ export class Today extends Date {
   }
 }
 
-enum dayMoments {
+export enum dayMoments {
   MORNING = "morning",
   AFTERNOOM = "afternoon",
   NIGHT = "night",
