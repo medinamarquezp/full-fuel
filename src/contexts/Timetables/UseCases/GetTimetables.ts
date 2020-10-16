@@ -7,27 +7,29 @@ export class GetTimetables extends BaseUseCase
 
   async getAll(): Promise<Timetables[]>
   {
+    let timetables: Timetables[] = [];
+
     try
     {
-      return await this.repository.getAll();
+      timetables= await this.repository.getAll();
     } catch (err)
     {
-      const error = `Error on retrieving timetables list. ${err}`;
-      this.logger.error(error);
-      throw new Error(error);
+      this.handleError(`Error on retrieving timetables list. ${err}`);
     }
+    return timetables;
   }
 
   async getByFuelstationID(fuelstationID: number): Promise<Timetables[]>
   {
+    let timetables: Timetables[] = [];
+
     try
     {
-      return await this.repository.getByFuelstationID(fuelstationID);
+      timetables = await this.repository.getByFuelstationID(fuelstationID);
     } catch (err)
     {
-      const error = `Error on retrieving timetables by fuelstationID ${fuelstationID}. ${err}`;
-      this.logger.error(error);
-      throw new Error(error);
+      this.handleError(`Error on retrieving timetables by fuelstationID ${fuelstationID}. ${err}`);
     }
+    return timetables;
   }
 }

@@ -22,7 +22,7 @@ export class MysqlTimetablesRepo implements TimetablesRepo
       await TimetablesOrmEntity.bulkCreate(serializedData);
     } catch (error)
     {
-      throw new Error(`Error on saving timetables list. ${error}`);
+      throw new Error(error);
     }
   }
   public async getAll(): Promise<Timetables[]>
@@ -34,7 +34,7 @@ export class MysqlTimetablesRepo implements TimetablesRepo
       return serializedResult;
     } catch (error)
     {
-      throw new Error(`Error on getting timetables list from DB. ${error}`);
+      throw new Error(error);
     }
   }
 
@@ -51,7 +51,7 @@ export class MysqlTimetablesRepo implements TimetablesRepo
       return serializedResult;
     } catch (error)
     {
-      throw new Error(`Error on getting timetables by fuelstationID ${fuelstationID}. ${error}`);
+      throw new Error(error);
     }
   }
 

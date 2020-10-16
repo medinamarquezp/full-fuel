@@ -11,10 +11,9 @@ export class PersistTimetables extends BaseUseCase
     {
       await this.repository.save(timetables);
       this.logger.info("All timetables has been persisted correctly");
-      return;
     } catch (err)
     {
-      this.logger.error(err);
+      this.handleError(`Error on persisting timetables. ${err}`);
     }
   }
 }
