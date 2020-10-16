@@ -1,5 +1,5 @@
 import { FuelTypes } from "./FuelTypes";
-import { PriceEvolution } from "./FuelPriceEvolution";
+import { FuelPriceEvolution } from "./FuelPriceEvolution";
 import { FuelPriceProperties } from "./FuelPriceProperties";
 import { Today, dayMoments } from "@/sharedDomain/Today";
 
@@ -15,7 +15,7 @@ export class FuelPrice implements FuelPriceProperties {
     readonly fuelstationID: number,
     readonly fuelType: FuelTypes,
     readonly price: number,
-    readonly evolution: PriceEvolution
+    readonly evolution: FuelPriceEvolution
   ) {
     this.month = Today.month();
     this.week = Today.week();

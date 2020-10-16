@@ -1,4 +1,4 @@
-export enum PriceEvolution {
+export enum FuelPriceEvolution {
   DOWN = "D",
   UP = "U",
   EQUALS = "E"

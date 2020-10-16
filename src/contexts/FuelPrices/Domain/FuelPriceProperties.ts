@@ -1,6 +1,6 @@
 import { dayMoments } from "@/sharedDomain/Today";
 import { FuelTypes } from "./FuelTypes";
-import { PriceEvolution } from "./FuelPriceEvolution";
+import { FuelPriceEvolution } from "./FuelPriceEvolution";
 
 export interface FuelPriceProperties {
   readonly fuelstationID: number,
@@ -12,5 +12,5 @@ export interface FuelPriceProperties {
   readonly moment: dayMoments,
   readonly fuelType: FuelTypes,
   readonly price: number,
-  readonly evolution: PriceEvolution
+  readonly evolution: FuelPriceEvolution
 }
