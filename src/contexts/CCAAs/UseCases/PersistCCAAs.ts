@@ -11,10 +11,9 @@ export class PersistCCAAs extends BaseUseCase
     {
       await this.repository.save(ccaas);
       this.logger.info("All CCAAs has been persisted correctly");
-      return;
     } catch (err)
     {
-      this.logger.error(err);
+      this.handleError(`Error on persisting CCAAs. ${err}`);
     }
   }
 }

@@ -22,7 +22,7 @@ export class MysqlCCAARepo implements CCAARepo
       });
     } catch (error)
     {
-      throw new Error(`Error on saving CCAAs list. ${error}`);
+      throw new Error(error);
     }
   }
   public async getAll(): Promise<CCAA[]>
@@ -34,7 +34,7 @@ export class MysqlCCAARepo implements CCAARepo
       return serializedResult;
     } catch (error)
     {
-      throw new Error(`Error on getting CCAA list from DB. ${error}`);
+      throw new Error(error);
     }
   }
 

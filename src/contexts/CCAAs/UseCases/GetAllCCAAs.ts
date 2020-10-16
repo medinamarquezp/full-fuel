@@ -7,14 +7,15 @@ export class GetAllCCAAs extends BaseUseCase
 
   async get(): Promise<CCAA[]>
   {
+    let CCAAList: CCAA[] = [];
+
     try
     {
-      return await this.repository.getAll();
+      CCAAList = await this.repository.getAll();
     } catch (err)
     {
-      const error = `Error on retrieving CCAAs list. ${err}`;
-      this.logger.error(error);
-      throw new Error(error);
+      this.handleError(`Error on retrieving CCAAs list. ${err}`);
     }
+    return CCAAList;
   }
 }

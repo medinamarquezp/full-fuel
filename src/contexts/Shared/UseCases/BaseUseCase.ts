@@ -10,4 +10,9 @@ export class BaseUseCase
     this.logger = FactoryLogger.getLoggerInstance(this.loggerType);
   }
 
+  handleError(errorMessage: string): void {
+    this.logger.error(errorMessage);
+    throw new Error(errorMessage);
+  }
+
 }

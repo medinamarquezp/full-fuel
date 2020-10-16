@@ -8,8 +8,15 @@ export class GetCCAAsfromRemote extends BaseUseCase
 
   async getCCAAs(): Promise<CCAA[]>
   {
-    const CCAAsfromMinetur = await this.remote.getAll();
-    this.logger.info("All CCAA from remote has been fetched correctly");
+    let CCAAsfromMinetur: CCAA[] = [];
+
+    try {
+      CCAAsfromMinetur = await this.remote.getAll();
+      this.logger.info("All CCAA from remote has been fetched correctly");
+      return CCAAsfromMinetur;
+    } catch (err) {
+      this.handleError(`Error on retrieving CCAAs list from remote. ${err}`);
+    }
     return CCAAsfromMinetur;
   }
 }

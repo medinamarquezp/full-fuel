@@ -12,8 +12,15 @@ export class RestCCAARemoteRepo implements CCAARemoteRepo
 
   async getAll(): Promise<CCAA[]>
   {
-    const CCAAsfromMinetur = await this.client.get<CCAARemoteProperties[]>(this.url);
-    return CCAARemoteSerializer.remoteToCCAA(CCAAsfromMinetur);
+    let allCCAAs: CCAA[] = [];
+
+    try {
+      const CCAAsfromMinetur = await this.client.get<CCAARemoteProperties[]>(this.url);
+      allCCAAs = CCAARemoteSerializer.remoteToCCAA(CCAAsfromMinetur);
+    } catch (err) {
+      throw new Error(err);
+    }
+    return allCCAAs;
   }
 
 }
