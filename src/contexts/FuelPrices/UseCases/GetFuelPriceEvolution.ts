@@ -12,7 +12,7 @@ export class GetFuelPriceEvolution extends BaseUseCase{
     try {
       priceEvolution = await this.repository.getEvolution(fuelstationID, fuelType, price);
     } catch (error) {
-      this.logger.error(`Error on retrieving price evolution for ${fuelType} on ${fuelstationID}`);
+      this.handleError(`Error on retrieving price evolution for ${fuelType} on ${fuelstationID}`);
     }
     return priceEvolution;
   }

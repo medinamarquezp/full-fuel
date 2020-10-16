@@ -10,7 +10,7 @@ export class PersistFuelPrice extends BaseUseCase{
       await this.repository.save(fuelPrice);
       this.logger.info(`Fuel price for ${fuelPrice.fuelType} on ${fuelPrice.fuelstationID} has been persisted correctly`);
     } catch (error) {
-      this.logger.error(`Error on persisting a fuel price. ${error}`);
+      this.handleError(`Error on persisting a fuel price. ${error}`);
     }
   }
 }

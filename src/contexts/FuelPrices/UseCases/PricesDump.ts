@@ -11,7 +11,7 @@ export class PricesDump extends BaseUseCase{
       await this.repository.pricesDump(fuelstationID, fuelType, priceStatistics);
       this.logger.info(`Price for ${FuelTypes} of fuelstation ${fuelstationID} has been dumping correctly`);
     } catch (error) {
-      this.logger.error(`Error when dumping ${FuelTypes} prices of fuel station ${fuelstationID}`);
+      this.handleError(`Error when dumping ${FuelTypes} prices of fuel station ${fuelstationID}`);
     }
   }
 }
