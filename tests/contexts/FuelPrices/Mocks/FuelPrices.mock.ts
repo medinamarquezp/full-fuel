@@ -15,7 +15,7 @@ export const FuelPricesMock = [
   new FuelPrice(2635, FuelTypes.G95, 1.245, FuelPriceEvolution.UP),
   new FuelPrice(2635, FuelTypes.G98, 1.385, FuelPriceEvolution.UP),
 
-  new FuelPrice(2604, FuelTypes.GASOIL, 1.110, FuelPriceEvolution.DOWN),
+  new FuelPrice(2604, FuelTypes.GASOIL, 1.111, FuelPriceEvolution.DOWN),
   new FuelPrice(2604, FuelTypes.G95, 1.230, FuelPriceEvolution.DOWN),
   new FuelPrice(2635, FuelTypes.GASOIL, 1.120, FuelPriceEvolution.DOWN),
   new FuelPrice(2635, FuelTypes.G95, 1.230, FuelPriceEvolution.DOWN),
