@@ -32,9 +32,10 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
     const fuelPrices = this.filterPricesByFFSSIDandFuelType(fuelstationID, fueltype);
     const prices = fuelPrices.map(fuelPrice => fuelPrice.price);
     const average = (arr: number[]) => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
-    const min = Math.min(...prices);
-    const max = Math.max(...prices);
-    const avg = average(prices);
+    const fixDecimals = (value: number) => parseFloat(value.toFixed(3));
+    const min = fixDecimals(Math.min(...prices));
+    const max = fixDecimals(Math.max(...prices));
+    const avg = fixDecimals(average(prices));
     return { min, max, avg };
   }
 
