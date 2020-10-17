@@ -9,6 +9,10 @@ export class Today extends Date {
     return new Date().getMonth() + 1;
   }
 
+  static year(): number {
+    return new Date().getUTCFullYear();
+  }
+
   static day(): number {
     return new Date().getUTCDate();
   }
