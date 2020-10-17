@@ -13,6 +13,10 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
     this.fuelPricesStore.push(price);
   }
 
+  async getAll(): Promise<FuelPrice[]>{
+    return this.fuelPricesStore;
+  }
+
   async getEvolution(fuelstationID: number, fueltype: FuelTypes, price: number): Promise<FuelPriceEvolution>
   {
     const fuelPrices = this.filterPricesByFFSSIDandFuelType(fuelstationID, fueltype);

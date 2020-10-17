@@ -29,6 +29,27 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     }
   }
 
+  async getAll(): Promise<FuelPrice[]>{
+    try
+    {
+      const queryResult = await FuelPriceOrmEntity.findAll();
+      const serializedResult = this.serializeRepoToEntity(queryResult);
+      return serializedResult;
+    } catch (error)
+    {
+      throw new Error(error);
+    }
+  }
+
+  private serializeRepoToEntity(queryResult: FuelPriceOrmEntity[])
+  {
+    return queryResult.map(fuelPrice =>
+    {
+      const { fuelstationID, fuelType, price, evolution } = fuelPrice;
+      return new FuelPrice(fuelstationID, fuelType, price, evolution );
+    });
+  }
+
   async getEvolution(fuelstationID: number, fuelType: FuelTypes, price: number): Promise<FuelPriceEvolution>
   {
     let priceEvolution = FuelPriceEvolution.EQUALS;
