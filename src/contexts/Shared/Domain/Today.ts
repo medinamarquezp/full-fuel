@@ -64,7 +64,7 @@ export class Today extends Date {
   }
 
   static isValidTimeFormat(time: string): boolean {
-    const timeFormatRegex = /^([1-9]|(1[0-9]|2[0-4])):([0-5][0-9])$/;
+    const timeFormatRegex = /^([0-9]|(1[0-9]|2[0-3])):([0-5][0-9])$/;
     return (time.match(timeFormatRegex)) ? true : false;
   }
 
