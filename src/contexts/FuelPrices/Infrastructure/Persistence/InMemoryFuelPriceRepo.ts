@@ -18,10 +18,9 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
     const fuelPrices = this.filterPricesByFFSSIDandFuelType(fuelstationID, fueltype);
     const lastPriceRegistered = fuelPrices[fuelPrices.length - 1];
     let priceEvolution = FuelPriceEvolution.EQUALS;
-     if (price > lastPriceRegistered.price) priceEvolution = FuelPriceEvolution.UP;
-     if (price < lastPriceRegistered.price) priceEvolution = FuelPriceEvolution.UP;
-     return priceEvolution;
-
+    if (price > lastPriceRegistered.price) priceEvolution = FuelPriceEvolution.UP;
+    if (price < lastPriceRegistered.price) priceEvolution = FuelPriceEvolution.DOWN;
+    return priceEvolution;
   }
 
   async getPriceStatistics(fuelstationID: number, fueltype: FuelTypes): Promise<FuelPriceStatisticsType>
