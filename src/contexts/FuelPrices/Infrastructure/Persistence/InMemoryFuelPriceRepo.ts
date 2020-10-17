@@ -45,6 +45,10 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
     this.pricesDumpStore.push(fuelPriceToDump);
   }
 
+  async getPricesDump(): Promise<FuelPricesDump[]>{
+    return this.pricesDumpStore;
+  }
+
   private filterPricesByFFSSIDandFuelType(fuelstationID: number, fueltype: FuelTypes): FuelPrice[] {
     return this.fuelPricesStore.filter(fuelPrice => {
       return fuelPrice.fuelstationID === fuelstationID && fuelPrice.fuelType === fueltype;

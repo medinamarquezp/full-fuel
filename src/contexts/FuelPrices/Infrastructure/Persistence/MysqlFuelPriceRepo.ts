@@ -33,7 +33,7 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     try
     {
       const queryResult = await FuelPriceOrmEntity.findAll();
-      const serializedResult = this.serializeRepoToEntity(queryResult);
+      const serializedResult = this.serializeFuelPriceToEntity(queryResult);
       return serializedResult;
     } catch (error)
     {
@@ -41,7 +41,7 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     }
   }
 
-  private serializeRepoToEntity(queryResult: FuelPriceOrmEntity[])
+  private serializeFuelPriceToEntity(queryResult: FuelPriceOrmEntity[])
   {
     return queryResult.map(fuelPrice =>
     {
@@ -102,6 +102,27 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     {
       throw new Error(error);
     }
+  }
+
+  async getPricesDump(): Promise<FuelPricesDump[]>{
+    try
+    {
+      const queryResult = await FuelPricesDumpOrmEntity.findAll();
+      const serializedResult = this.serializePricesDumpToEntity(queryResult);
+      return serializedResult;
+    } catch (error)
+    {
+      throw new Error(error);
+    }
+  }
+
+  private serializePricesDumpToEntity(queryResult: FuelPricesDumpOrmEntity[])
+  {
+    return queryResult.map(priceDump =>
+    {
+      const { fuelstationID, fuelType, min, max, avg  } = priceDump;
+      return new FuelPricesDump(fuelstationID, fuelType, { min, max, avg } );
+    });
   }
 
 }
