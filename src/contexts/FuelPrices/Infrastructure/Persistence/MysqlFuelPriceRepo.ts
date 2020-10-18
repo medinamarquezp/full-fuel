@@ -1,4 +1,5 @@
 import Sequelize from "sequelize";
+import { Today } from "@/sharedDomain/Today";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
 import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
@@ -83,7 +84,8 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
         where: { fuelType, fuelstationID },
         raw: true
       }) as unknown as FuelPriceStatisticsType;
-      priceEvolution = { min: fuelPrices.min, max: fuelPrices.max, avg: fuelPrices.avg };
+      const { min, max, avg } = fuelPrices;
+      priceEvolution = { min, max, avg };
     } catch (error) {
       throw new Error(error);
     }
@@ -92,14 +94,22 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
 
   async pricesDump(fuelstationID: number, fueltype: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void>
   {
-    const fuelPriceToDump = new FuelPricesDump(fuelstationID, fueltype, priceStatistics);
-    const serializedData = Serializer.classToObject<FuelPricesDump>(fuelPriceToDump);
+    try {
+      const fuelPriceToDump = new FuelPricesDump(fuelstationID, fueltype, priceStatistics);
+      const serializedData = Serializer.classToObject<FuelPricesDump>(fuelPriceToDump);
+      const isDayOne = Today.day() === 1;
+      const isPriceDumped = await FuelPricesDumpOrmEntity.count({ where: {fuelstationID, fueltype} });
 
-    try
-    {
-      await FuelPricesDumpOrmEntity.create(serializedData);
-    } catch (error)
-    {
+      if (!isPriceDumped || isDayOne) {
+        await FuelPricesDumpOrmEntity.create(serializedData);
+      } else {
+        const {min, max, avg} = priceStatistics;
+
+        FuelPricesDumpOrmEntity.update(
+          { min, max, avg }, {where: {fuelstationID, fueltype, year: Today.year(), month: Today.month()}
+        });
+      }
+    } catch (error) {
       throw new Error(error);
     }
   }

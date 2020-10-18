@@ -42,7 +42,14 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
   async pricesDump(fuelstationID: number, fueltype: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void>
   {
     const fuelPriceToDump = new FuelPricesDump(fuelstationID, fueltype, priceStatistics);
-    this.pricesDumpStore.push(fuelPriceToDump);
+    const priceIndex = this.priceDumpedIndex(fuelstationID, fueltype);
+    (priceIndex >= 0) ? this.pricesDumpStore[priceIndex] = fuelPriceToDump : this.pricesDumpStore.push(fuelPriceToDump);
+  }
+
+  private priceDumpedIndex(fuelstationID: number, fueltype: FuelTypes): number {
+    return this.pricesDumpStore.findIndex(priceDumped => {
+      return priceDumped.fuelstationID === fuelstationID && priceDumped.fuelType === fueltype;
+    });
   }
 
   async getPricesDump(): Promise<FuelPricesDump[]>{
