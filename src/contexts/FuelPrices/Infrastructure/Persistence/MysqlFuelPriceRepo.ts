@@ -77,15 +77,16 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     try {
       const fuelPrices = await FuelPriceOrmEntity.findOne({
         attributes: [
-          [Sequelize.fn("MAX", Sequelize.col("price")), "maxPrice"],
-          [Sequelize.fn("MIN", Sequelize.col("price")), "minPrice"],
-          [Sequelize.fn("AVG", Sequelize.col("price")), "avgPrice"]
+          [Sequelize.fn("MAX", Sequelize.col("price")), "max"],
+          [Sequelize.fn("MIN", Sequelize.col("price")), "min"],
+          [Sequelize.fn("AVG", Sequelize.col("price")), "avg"]
         ],
         where: { fuelType, fuelstationID },
         raw: true
-      }) as unknown as FuelPriceStatisticsType;
+      }) as unknown as { [key: string]: string };
+      const fixDecimals = (value: string) => parseFloat(parseFloat(value).toFixed(3));
       const { min, max, avg } = fuelPrices;
-      priceEvolution = { min, max, avg };
+      priceEvolution = { min: fixDecimals(min), max: fixDecimals(max), avg: fixDecimals(avg) };
     } catch (error) {
       throw new Error(error);
     }
