@@ -13,9 +13,9 @@ describe('Get fuel price evolution use case test', () => {
     repo = new InMemoryFuelPriceRepo();
     persistFuelPrice = new PersistFuelPrice(repo);
     fuelPriceEvolution = new GetFuelPriceEvolution(repo);
-    lastRegisteredPrice = 1.110;
+    lastRegisteredPrice = 1.111;
     for await (const fuelPrice of FuelPricesMock) {
-      persistFuelPrice.persist(fuelPrice);
+      await persistFuelPrice.persist(fuelPrice);
     }
   })
   test('it should display "E" as price evolution if prices are equals', async () => {
