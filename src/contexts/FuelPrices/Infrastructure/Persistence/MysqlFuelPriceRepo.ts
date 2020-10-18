@@ -84,14 +84,15 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
         where: { fuelType, fuelstationID },
         raw: true
       }) as unknown as { [key: string]: string };
-      const fixDecimals = (value: string) => parseFloat(parseFloat(value).toFixed(3));
       const { min, max, avg } = fuelPrices;
-      priceEvolution = { min: fixDecimals(min), max: fixDecimals(max), avg: fixDecimals(avg) };
+      priceEvolution = { min: this.fixDecimals(min), max: this.fixDecimals(max), avg: this.fixDecimals(avg) };
     } catch (error) {
       throw new Error(error);
     }
     return priceEvolution;
   }
+
+  private fixDecimals = (value: string) => parseFloat(parseFloat(value).toFixed(3));
 
   async pricesDump(fuelstationID: number, fueltype: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void>
   {
@@ -131,7 +132,10 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
   {
     return queryResult.map(priceDump =>
     {
-      const { fuelstationID, fuelType, min, max, avg  } = priceDump;
+      const { fuelstationID, fuelType } = priceDump;
+      const min = this.fixDecimals(priceDump.min.toString());
+      const max = this.fixDecimals(priceDump.max.toString());
+      const avg = this.fixDecimals(priceDump.avg.toString());
       return new FuelPricesDump(fuelstationID, fuelType, { min, max, avg } );
     });
   }
