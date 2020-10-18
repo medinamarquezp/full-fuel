@@ -12,9 +12,9 @@ describe('Persist and get fuel prices use case test', () => {
   })
    test('it should persist and retrieve a fuel prices list', async () => {
      for await (const fuelPrice of FuelPricesMock) {
-      persistFuelPrice.persist(fuelPrice);
+      await persistFuelPrice.persist(fuelPrice);
      }
-     const sut = await getAllFuelPrices.getAll()
+     const sut = await getAllFuelPrices.getAll();
      expect(sut.length).toBe(15);
      expect(sut[0].fuelstationID).toBe(2604);
    })
