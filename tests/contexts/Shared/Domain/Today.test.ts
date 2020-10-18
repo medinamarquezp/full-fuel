@@ -24,7 +24,7 @@ describe('Today implementation test', () => {
    })
    test('it should validate if time is between a range', () => {
      const time = Today.timeToString(dateTime);
-     const sut = Today.isBetween("14:00", "24:59", time);
+     const sut = Today.isBetween("14:00", "0:59", time);
      expect(sut).toBeTruthy();
    })
 })
