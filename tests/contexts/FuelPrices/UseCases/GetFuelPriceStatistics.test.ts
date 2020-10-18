@@ -13,7 +13,7 @@ describe('Get fuel price statistics use case test', () => {
     persistFuelPrice = new PersistFuelPrice(repo);
     fuelPriceStatistics = new GetFuelPriceStatistics(repo);
     for await (const fuelPrice of FuelPricesMock) {
-      persistFuelPrice.persist(fuelPrice);
+      await persistFuelPrice.persist(fuelPrice);
     }
   })
   test('it should display price statistics', async () => {
