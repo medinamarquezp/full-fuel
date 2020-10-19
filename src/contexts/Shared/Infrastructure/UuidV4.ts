@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { uuid, isUuid } from "uuidv4";
+import { v4, validate } from "uuid";
 import { Uuid } from "@/sharedDomain/Uuid";
 
 export let UuidV4: Uuid;
@@ -8,10 +8,10 @@ UuidV4 = class
 {
   static generate(): string
   {
-    return uuid();
+    return v4();
   }
   static isValid(uuid: string): boolean
   {
-    return isUuid(uuid);
+    return validate(uuid);
   }
 };
