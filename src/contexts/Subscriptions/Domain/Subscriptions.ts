@@ -3,17 +3,17 @@ import { FuelTypes } from "@/sharedDomain/FuelTypes";
 
 export class Subscriptions implements SubscriptionsProperties {
 
-  numSubscribers: number;
+  numSubscriptions: number;
 
   constructor(readonly fuelstationID: number, readonly fuelType: FuelTypes){
-    this.numSubscribers = 0;
+    this.numSubscriptions = 1;
   }
 
-  addSubscribers(): void {
-    this.numSubscribers++;
+  addSubscriptions(): void {
+    this.numSubscriptions++;
   }
 
-  removeSubscribers(): void {
-    this.numSubscribers--;
+  removeSubscriptions(): void {
+    this.numSubscriptions--;
   }
 }
