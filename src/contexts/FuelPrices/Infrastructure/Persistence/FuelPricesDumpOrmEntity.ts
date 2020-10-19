@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Table, Column, CreatedAt, UpdatedAt, Model, Unique, PrimaryKey, AutoIncrement } from "sequelize-typescript";
 import { FuelPricesDumpProperties } from "@/contexts/FuelPrices/Domain/FuelPricesDumpProperties";
-import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 
 @Table({ timestamps: true, tableName: "fuelpricesdump" })
 export class FuelPricesDumpOrmEntity extends Model<FuelPricesDumpOrmEntity> implements FuelPricesDumpProperties

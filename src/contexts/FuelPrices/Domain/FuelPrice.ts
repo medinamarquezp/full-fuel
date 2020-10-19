@@ -1,4 +1,4 @@
-import { FuelTypes } from "./FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "./FuelPriceEvolution";
 import { FuelPriceProperties } from "./FuelPriceProperties";
 import { Today, dayMoments } from "@/sharedDomain/Today";

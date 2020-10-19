@@ -1,5 +1,5 @@
 import { dayMoments } from "@/sharedDomain/Today";
-import { FuelTypes } from "./FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "./FuelPriceEvolution";
 
 export interface FuelPriceProperties {

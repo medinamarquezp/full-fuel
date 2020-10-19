@@ -1,5 +1,5 @@
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
-import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 
 export const FuelPricesMock = [

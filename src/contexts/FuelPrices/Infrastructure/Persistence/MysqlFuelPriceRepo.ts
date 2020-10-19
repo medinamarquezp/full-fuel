@@ -2,7 +2,7 @@ import Sequelize from "sequelize";
 import { Today } from "@/sharedDomain/Today";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
-import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 import { FuelPriceRepo } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";

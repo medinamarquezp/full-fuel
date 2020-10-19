@@ -1,5 +1,5 @@
 import { FuelPricesMock } from "../Mocks/FuelPrices.mock";
-import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { PersistFuelPrice } from "@/contexts/FuelPrices/UseCases/PersistFuelPrice";
 import { GetFuelPriceStatistics } from "@/contexts/FuelPrices/UseCases/GetFuelPriceStatistics";
 import { InMemoryFuelPriceRepo } from "@/contexts/FuelPrices/Infrastructure/Persistence/InMemoryFuelPriceRepo";

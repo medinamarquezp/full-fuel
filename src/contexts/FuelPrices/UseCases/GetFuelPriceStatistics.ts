@@ -1,6 +1,6 @@
 import { BaseUseCase } from "@/sharedUseCases/BaseUseCase";
 import { FuelPriceRepo } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
-import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
 
 export class GetFuelPriceStatistics extends BaseUseCase{

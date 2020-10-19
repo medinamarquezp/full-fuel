@@ -1,6 +1,6 @@
 import { FuelPrice } from "./FuelPrice";
 import { FuelPricesDump } from "./FuelPricesDump";
-import { FuelTypes } from "./FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "./FuelPriceEvolution";
 import { FuelPriceStatisticsType } from "./FuelPriceStatistics";
 

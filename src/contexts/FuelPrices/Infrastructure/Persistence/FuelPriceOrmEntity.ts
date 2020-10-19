@@ -3,7 +3,7 @@
 import { Table, Column, CreatedAt, UpdatedAt, Model, Unique, PrimaryKey, AutoIncrement } from "sequelize-typescript";
 import { FuelPriceProperties } from "@/contexts/FuelPrices/Domain/FuelPriceProperties";
 import { dayMoments } from "@/sharedDomain/Today";
-import { FuelTypes } from "@/contexts/FuelPrices/Domain/FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 
 @Table({ timestamps: true, tableName: "fuelprices" })

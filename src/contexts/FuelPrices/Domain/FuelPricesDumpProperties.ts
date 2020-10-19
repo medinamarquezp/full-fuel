@@ -1,4 +1,4 @@
-import { FuelTypes } from "./FuelTypes";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 
 export interface FuelPricesDumpProperties {
   readonly fuelstationID: number,
