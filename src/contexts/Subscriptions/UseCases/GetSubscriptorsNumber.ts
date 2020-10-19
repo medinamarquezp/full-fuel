@@ -2,7 +2,7 @@ import { BaseUseCase } from "@/sharedUseCases/BaseUseCase";
 import { SubscriptionsRepo } from "@/contexts/Subscriptions/Domain/SubscriptionsRepo";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 
-export class GetSubscriptions extends BaseUseCase {
+export class GetSubscriptorsNumber extends BaseUseCase {
 
   constructor(private repo: SubscriptionsRepo){ super(); }
 
@@ -10,7 +10,7 @@ export class GetSubscriptions extends BaseUseCase {
     let subscribers = 0;
 
     try {
-      subscribers = await this.repo.getSubscriptions(fuelstationID, fuelType);
+      subscribers = await this.repo.getSubscriptorsNumber(fuelstationID, fuelType);
     } catch (error) {
       this.handleError(error);
     }
