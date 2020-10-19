@@ -1,7 +1,9 @@
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 
 export interface SubscriptionsProperties {
-  fuelstationID: number,
-  fuelType: FuelTypes,
-  numSuscribers: number
+  readonly fuelstationID: number,
+  readonly fuelType: FuelTypes,
+  numSubscribers: number,
+  addSubscribers(): void;
+  removeSubscribers(): void;
 }
