@@ -9,6 +9,10 @@ export class Subscriptions implements SubscriptionsProperties {
     this.numSubscriptions = 1;
   }
 
+  setSubscriptions(subscriptions: number): void {
+    this.numSubscriptions = subscriptions;
+  }
+
   addSubscriptions(): void {
     this.numSubscriptions++;
   }
