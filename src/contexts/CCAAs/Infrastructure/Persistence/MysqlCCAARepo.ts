@@ -42,7 +42,7 @@ export class MysqlCCAARepo implements CCAARepo
   {
     return queryResult.map(ccaa =>
     {
-      return new CCAA(ccaa.externalID, ccaa.name);
+      return new CCAA(ccaa.ccaaID, ccaa.name);
     });
   }
 }

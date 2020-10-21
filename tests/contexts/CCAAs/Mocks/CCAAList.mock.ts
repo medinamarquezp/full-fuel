@@ -3,79 +3,79 @@ import { CCAA } from "@/contexts/CCAAs/Domain/CCAA";
 
 const CCAAListPlainObject = [
   {
-    "externalID": "01",
+    "ccaaID": "01",
     "name": "Andalucia"
   },
   {
-    "externalID": "02",
+    "ccaaID": "02",
     "name": "Aragón"
   },
   {
-    "externalID": "03",
+    "ccaaID": "03",
     "name": "Asturias"
   },
   {
-    "externalID": "04",
+    "ccaaID": "04",
     "name": "Baleares"
   },
   {
-    "externalID": "05",
+    "ccaaID": "05",
     "name": "Canarias"
   },
   {
-    "externalID": "06",
+    "ccaaID": "06",
     "name": "Cantabria"
   },
   {
-    "externalID": "07",
+    "ccaaID": "07",
     "name": "Castilla la Mancha"
   },
   {
-    "externalID": "08",
+    "ccaaID": "08",
     "name": "Castilla y León"
   },
   {
-    "externalID": "09",
+    "ccaaID": "09",
     "name": "Cataluña"
   },
   {
-    "externalID": "10",
+    "ccaaID": "10",
     "name": "Comunidad Valenciana"
   },
   {
-    "externalID": "11",
+    "ccaaID": "11",
     "name": "Extremadura"
   },
   {
-    "externalID": "12",
+    "ccaaID": "12",
     "name": "Galicia"
   },
   {
-    "externalID": "13",
+    "ccaaID": "13",
     "name": "Madrid"
   },
   {
-    "externalID": "14",
+    "ccaaID": "14",
     "name": "Murcia"
   },
   {
-    "externalID": "15",
+    "ccaaID": "15",
     "name": "Navarra"
   },
   {
-    "externalID": "16",
+    "ccaaID": "16",
     "name": "País Vasco"
   },
   {
-    "externalID": "17",
+    "ccaaID": "17",
     "name": "Rioja (La)"
   },
   {
-    "externalID": "18",
+    "ccaaID": "18",
     "name": "Ceuta"
   },
   {
-    "externalID": "19",
+    "ccaaID": "19",
     "name": "Melilla"
   }
 ]

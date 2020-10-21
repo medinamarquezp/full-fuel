@@ -2,7 +2,7 @@ import { CCAAProperties } from "./CCAAProperties";
 
 export class CCAA implements CCAAProperties
 {
-  externalID: string;
+  ccaaID: string;
   name: string;
 
   constructor(
@@ -10,13 +10,13 @@ export class CCAA implements CCAAProperties
     name: string
   )
   {
-    this.externalID = externalID;
+    this.ccaaID = externalID;
     this.name = name;
   }
 
   public getExternalID(): string
   {
-    return this.externalID;
+    return this.ccaaID;
   }
 
   public getName(): string

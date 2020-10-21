@@ -1,5 +1,5 @@
 export interface CCAAProperties
 {
-  externalID: string;
+  ccaaID: string;
   name: string;
 }

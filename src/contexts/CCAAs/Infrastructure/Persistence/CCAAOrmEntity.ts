@@ -9,7 +9,7 @@ export class CCAAOrmEntity extends Model<CCAAOrmEntity> implements CCAAPropertie
   @PrimaryKey
   @Unique
   @Column
-  externalID: string;
+  ccaaID: string;
 
   @Column
   name: string;
