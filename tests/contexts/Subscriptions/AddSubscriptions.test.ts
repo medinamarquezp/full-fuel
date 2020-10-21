@@ -1,11 +1,11 @@
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { AddSubscriptions } from "@/contexts/Subscriptions/UseCases/AddSubscriptions";
-import { InMemorySubscriptions } from "@/contexts/Subscriptions/Infrastructure/Persistence/InMemorySubscriptions";
+import { InMemorySubscriptionsRepo } from "@/contexts/Subscriptions/Infrastructure/Persistence/InMemorySubscriptionsRepo";
 
 describe('Add subscriptions use case test', () => {
-  let addSubscriptions: AddSubscriptions, repo: InMemorySubscriptions;
+  let addSubscriptions: AddSubscriptions, repo: InMemorySubscriptionsRepo;
   beforeAll(() => {
-    repo = new InMemorySubscriptions();
+    repo = new InMemorySubscriptionsRepo();
     addSubscriptions = new AddSubscriptions(repo);
   })
   test('it should add a new subscription to repository', async() => {

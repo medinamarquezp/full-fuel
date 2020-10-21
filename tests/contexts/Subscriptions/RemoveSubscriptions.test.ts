@@ -1,12 +1,12 @@
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { AddSubscriptions } from "@/contexts/Subscriptions/UseCases/AddSubscriptions";
 import { RemoveSubscriptions } from "@/contexts/Subscriptions/UseCases/RemoveSubscriptions";
-import { InMemorySubscriptions } from "@/contexts/Subscriptions/Infrastructure/Persistence/InMemorySubscriptions";
+import { InMemorySubscriptionsRepo } from "@/contexts/Subscriptions/Infrastructure/Persistence/InMemorySubscriptionsRepo";
 
 describe('Remove subscriptions use case test', () => {
-  let removeSubscriptions: RemoveSubscriptions, addSubscriptions: AddSubscriptions, repo: InMemorySubscriptions;
+  let removeSubscriptions: RemoveSubscriptions, addSubscriptions: AddSubscriptions, repo: InMemorySubscriptionsRepo;
   beforeEach(async () => {
-    repo = new InMemorySubscriptions();
+    repo = new InMemorySubscriptionsRepo();
     addSubscriptions = new AddSubscriptions(repo);
     removeSubscriptions = new RemoveSubscriptions(repo);
     await addSubscriptions.add(1234, FuelTypes.G95);

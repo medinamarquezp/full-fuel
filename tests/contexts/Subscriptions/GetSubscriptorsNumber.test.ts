@@ -1,12 +1,12 @@
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { AddSubscriptions } from "@/contexts/Subscriptions/UseCases/AddSubscriptions";
 import { GetSubscriptorsNumber } from "@/contexts/Subscriptions/UseCases/GetSubscriptorsNumber";
-import { InMemorySubscriptions } from "@/contexts/Subscriptions/Infrastructure/Persistence/InMemorySubscriptions";
+import { InMemorySubscriptionsRepo } from "@/contexts/Subscriptions/Infrastructure/Persistence/InMemorySubscriptionsRepo";
 
 describe('Get subscriptors number use case test', () => {
-  let getSubscription: GetSubscriptorsNumber, addSubscriptions: AddSubscriptions, repo: InMemorySubscriptions;
+  let getSubscription: GetSubscriptorsNumber, addSubscriptions: AddSubscriptions, repo: InMemorySubscriptionsRepo;
   beforeEach(async () => {
-    repo = new InMemorySubscriptions();
+    repo = new InMemorySubscriptionsRepo();
     addSubscriptions = new AddSubscriptions(repo);
     getSubscription = new GetSubscriptorsNumber(repo);
     await addSubscriptions.add(1234, FuelTypes.G95);

@@ -2,7 +2,7 @@ import { Subscriptions } from "@/contexts/Subscriptions/Domain/Subscriptions";
 import { SubscriptionsRepo } from "@/contexts/Subscriptions/Domain/SubscriptionsRepo";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 
-export class InMemorySubscriptions implements SubscriptionsRepo {
+export class InMemorySubscriptionsRepo implements SubscriptionsRepo {
 
   private subscriptions: Subscriptions[] = [];
 
