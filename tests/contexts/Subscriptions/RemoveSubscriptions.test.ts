@@ -5,7 +5,7 @@ import { InMemorySubscriptionsRepo } from "@/contexts/Subscriptions/Infrastructu
 
 describe('Remove subscriptions use case test', () => {
   let removeSubscriptions: RemoveSubscriptions, addSubscriptions: AddSubscriptions, repo: InMemorySubscriptionsRepo;
-  beforeEach(async () => {
+  beforeAll(async () => {
     repo = new InMemorySubscriptionsRepo();
     addSubscriptions = new AddSubscriptions(repo);
     removeSubscriptions = new RemoveSubscriptions(repo);
@@ -28,8 +28,7 @@ describe('Remove subscriptions use case test', () => {
   test('it should do nothing when removing a non existing item', async() => {
     await removeSubscriptions.remove(1234, FuelTypes.G98);
     const sut = await repo.getSubscriptions();
-    expect(sut.length).toBe(2);
-    expect(sut[0].numSubscriptions).toBe(3);
-    expect(sut[1].numSubscriptions).toBe(1);
+    expect(sut.length).toBe(1);
+    expect(sut[0].numSubscriptions).toBe(2);
   })
 })
