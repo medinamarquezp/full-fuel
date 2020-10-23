@@ -12,5 +12,5 @@ export interface FuelPriceProperties {
   readonly moment: dayMoments,
   readonly fuelType: FuelTypes,
   readonly price: number,
-  readonly evolution: FuelPriceEvolution
+  evolution?: FuelPriceEvolution
 }

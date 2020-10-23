@@ -10,12 +10,13 @@ export class FuelPrice implements FuelPriceProperties {
   readonly weekDay: number;
   readonly hour: number;
   readonly moment: dayMoments;
+  public evolution: FuelPriceEvolution | undefined;
 
   constructor(
     readonly fuelstationID: number,
     readonly fuelType: FuelTypes,
     readonly price: number,
-    readonly evolution: FuelPriceEvolution
+    evolution?: FuelPriceEvolution | undefined
   ) {
     this.month = Today.month();
     this.week = Today.week();
@@ -23,6 +24,11 @@ export class FuelPrice implements FuelPriceProperties {
     this.weekDay = Today.weekDay();
     this.hour = Today.hour();
     this.moment = Today.getMomentNow();
+    this.evolution = evolution;
+  }
+
+  setEvolution(evolution: FuelPriceEvolution): void {
+    this.evolution = evolution;
   }
 
 }
