@@ -1,11 +1,10 @@
 import { FuelStationsProperties } from "./FuelStationProperties";
-import { CCAA } from "@/contexts/CCAAs/Domain/CCAA";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
 
 export class FuelStation implements FuelStationsProperties {
   fuelstationID: number;
-  ccaa: CCAA;
+  ccaa: string;
   name: string;
   address: string;
   postalCode: string;

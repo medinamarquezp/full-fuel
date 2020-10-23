@@ -1,10 +1,9 @@
-import { CCAA } from "@/contexts/CCAAs/Domain/CCAA";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
 
 export interface FuelStationsProperties {
   fuelstationID: number,
-  ccaa: CCAA,
+  ccaa: string,
   name: string,
   address: string,
   postalCode: string,
