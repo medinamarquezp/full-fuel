@@ -1,13 +1,16 @@
 import { FuelStation } from "@/contexts/FuelStations/Domain/FuelStation";
+import { FuelStationRemoteSerializer } from "./FuelStationRemoteSerializer";
 import { FuelStationRemoteRepo } from "@/contexts/FuelStations/Domain/FuelStationRemoteRepo";
+import { FuelStationRemoteProperties } from "@/contexts/FuelStations/Domain/FuelStationRemoteProperties";
 
 export class InMemoryFuelStationRemoteRepo implements FuelStationRemoteRepo
 {
-  constructor(private data: FuelStation[]) { }
+  constructor(private data: FuelStationRemoteProperties) { }
 
   async getFuelStationsByCCAA(ccaaID: string): Promise<FuelStation[]>
   {
     console.log(ccaaID);
-    return this.data;
+    const fuelStations = FuelStationRemoteSerializer.remoteToFuelStation(this.data);
+    return fuelStations;
   }
 }
