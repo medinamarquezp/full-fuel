@@ -16,9 +16,9 @@ export class FuelStation implements FuelStationsProperties {
   timetable: string;
   timetables: Timetables[];
   prices: FuelPrice[];
-  bestDay: number;
-  bestMoment: string;
-  brandImage: string;
+  bestDay: number | undefined;
+  bestMoment: string | undefined;
+  brandImage: string | undefined;
 
   constructor (fuelstation: FuelStationsProperties){
     this.fuelstationID = fuelstation.fuelstationID;
@@ -34,9 +34,21 @@ export class FuelStation implements FuelStationsProperties {
     this.timetable = fuelstation.timetable;
     this.timetables = fuelstation.timetables;
     this.prices = fuelstation.prices;
-    this.bestDay = fuelstation.bestDay;
-    this.bestMoment = fuelstation.bestMoment;
-    this.brandImage = fuelstation.brandImage;
+    this.bestDay = (fuelstation.bestDay) ? fuelstation.bestDay : undefined;
+    this.bestMoment = (fuelstation.bestMoment) ? fuelstation.bestMoment : undefined;
+    this.brandImage = (fuelstation.brandImage) ? fuelstation.brandImage : undefined;
+  }
+
+  setBestDay(bestDay: number): void {
+    this.bestDay = bestDay;
+  }
+
+  setBestMoment(bestMoment: string): void {
+    this.bestMoment = bestMoment;
+  }
+
+  setBrandimage(brandImage: string): void {
+    this.brandImage = brandImage;
   }
 
 }

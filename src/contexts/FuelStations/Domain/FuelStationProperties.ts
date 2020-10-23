@@ -1,7 +1,7 @@
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
 
-export interface FuelStationsProperties {
+export interface FuelStationProperties {
   fuelstationID: number,
   ccaa: string,
   name: string,
@@ -15,7 +15,7 @@ export interface FuelStationsProperties {
   timetable: string,
   timetables: Timetables[],
   prices: FuelPrice[],
-  bestDay: number,
-  bestMoment: string,
-  brandImage: string
+  bestDay?: number,
+  bestMoment?: string,
+  brandImage?: string
 }
