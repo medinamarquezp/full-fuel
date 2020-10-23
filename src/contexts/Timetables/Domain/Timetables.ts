@@ -20,6 +20,11 @@ export class Timetables implements TimetablesProperties {
     return timetable === alwaysOpenString;
   }
 
+  static alwaysOpenTimetable(fuelstationID: number): Timetables[] {
+    const Timetable = new this({fuelstationID, weekDay: 999, alwaysOpen: true, opening: "", closing: ""});
+    return [Timetable];
+  }
+
   static timetablesInstancesFromString(timetable: string, fuelstationID: number): Timetables[]
   {
     const timetables = Timetables.timeTableFromString(timetable);
