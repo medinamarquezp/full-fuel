@@ -1,5 +1,7 @@
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
+import { FuelPriceOrmEntity } from "@/contexts/FuelPrices/Infrastructure/Persistence/FuelPriceOrmEntity";
+import { TimetablesOrmEntity } from "@/contexts/Timetables/Infrastructure/Persistence/TimetablesOrmEntity";
 
 export interface FuelStationProperties {
   fuelstationID: number,
@@ -14,8 +16,8 @@ export interface FuelStationProperties {
   longitude: number,
   isAlwaysOpen: boolean,
   timetable: string,
-  timetables: Timetables[],
-  prices: FuelPrice[],
+  timetables: Timetables[] | TimetablesOrmEntity[],
+  prices: FuelPrice[] | FuelPriceOrmEntity[],
   bestDay?: number,
   bestMoment?: string,
   brandImage?: string
