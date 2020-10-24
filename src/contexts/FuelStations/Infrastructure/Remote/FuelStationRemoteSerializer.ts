@@ -26,9 +26,10 @@ export class FuelStationRemoteSerializer
   }
 
   private static getFuelPrices(fuelstationID: number, g95: string, g98: string, gasoil: string): FuelPrice[] {
-    const g95Price = parseFloat(g95);
-    const g98Price = parseFloat(g98);
-    const gasoilPrice = parseFloat(gasoil);
+    const fixDecimals = (value: string) => parseFloat(parseFloat(value.replace(",",".")).toFixed(3));
+    const g95Price = fixDecimals(g95);
+    const g98Price = fixDecimals(g98);
+    const gasoilPrice = fixDecimals(gasoil);
     const g95FuelPriceInstance = new FuelPrice(fuelstationID, FuelTypes.G95, g95Price);
     const g98FuelPriceInstance = new FuelPrice(fuelstationID, FuelTypes.G98, g98Price);
     const gasoilFuelPriceInstance = new FuelPrice(fuelstationID, FuelTypes.GASOIL, gasoilPrice);
@@ -47,6 +48,7 @@ export class FuelStationRemoteSerializer
       town: fs.Municipio,
       latitude: parseFloat(fs.Latitud),
       longitude: parseFloat(fs["Longitud (WGS84)"]),
+      isAlwaysOpen: Timetables.isAlwaysOpen(fs.Horario),
       timetable: fs.Horario,
       timetables,
       prices
