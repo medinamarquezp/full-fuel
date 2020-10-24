@@ -1,3 +1,5 @@
+import { FuelStationRemoteSerializer } from "@/contexts/FuelStations/Infrastructure/Remote/FuelStationRemoteSerializer";
+
 export const RemoteFuelStationsMock = {
   "Fecha": "17\/10\/2020 18:49:21",
   "ListaEESSPrecio": [
@@ -107,3 +109,6 @@ export const RemoteFuelStationsMock = {
   "Nota": "Archivo de todos los productos en todas las estaciones de servicio. La actualización de precios se realiza cada media hora, con los precios en vigor en ese momento.",
   "ResultadoConsulta": "OK"
 };
+
+
+export const FuelStationsMock = FuelStationRemoteSerializer.remoteToFuelStation(RemoteFuelStationsMock);
