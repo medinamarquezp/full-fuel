@@ -12,6 +12,7 @@ export interface FuelStationProperties {
   town: string,
   latitude: number,
   longitude: number,
+  isAlwaysOpen: boolean,
   timetable: string,
   timetables: Timetables[],
   prices: FuelPrice[],

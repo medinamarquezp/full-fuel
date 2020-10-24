@@ -1,8 +1,8 @@
-import { FuelStationsProperties } from "./FuelStationProperties";
+import { FuelStationProperties } from "./FuelStationProperties";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
 
-export class FuelStation implements FuelStationsProperties {
+export class FuelStation implements FuelStationProperties {
   fuelstationID: number;
   ccaa: string;
   name: string;
@@ -13,6 +13,7 @@ export class FuelStation implements FuelStationsProperties {
   town: string;
   latitude: number;
   longitude: number;
+  isAlwaysOpen: boolean;
   timetable: string;
   timetables: Timetables[];
   prices: FuelPrice[];
@@ -20,7 +21,7 @@ export class FuelStation implements FuelStationsProperties {
   bestMoment: string | undefined;
   brandImage: string | undefined;
 
-  constructor (fuelstation: FuelStationsProperties){
+  constructor (fuelstation: FuelStationProperties){
     this.fuelstationID = fuelstation.fuelstationID;
     this.ccaa = fuelstation.ccaa;
     this.name = fuelstation.name;
@@ -31,6 +32,7 @@ export class FuelStation implements FuelStationsProperties {
     this.town = fuelstation.town;
     this.latitude = fuelstation.latitude;
     this.longitude = fuelstation.longitude;
+    this.isAlwaysOpen = fuelstation.isAlwaysOpen;
     this.timetable = fuelstation.timetable;
     this.timetables = fuelstation.timetables;
     this.prices = fuelstation.prices;
