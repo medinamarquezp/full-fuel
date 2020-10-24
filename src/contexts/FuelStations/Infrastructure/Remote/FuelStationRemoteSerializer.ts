@@ -25,11 +25,12 @@ export class FuelStationRemoteSerializer
                         Timetables.alwaysOpenTimetable(fuelstationID);
   }
 
+  private static fixDecimals = (value: string, decimals: number) => parseFloat(parseFloat(value.replace(",",".")).toFixed(decimals));
+
   private static getFuelPrices(fuelstationID: number, g95: string, g98: string, gasoil: string): FuelPrice[] {
-    const fixDecimals = (value: string) => parseFloat(parseFloat(value.replace(",",".")).toFixed(3));
-    const g95Price = fixDecimals(g95);
-    const g98Price = fixDecimals(g98);
-    const gasoilPrice = fixDecimals(gasoil);
+    const g95Price = this.fixDecimals(g95, 3);
+    const g98Price = this.fixDecimals(g98, 3);
+    const gasoilPrice = this.fixDecimals(gasoil,3);
     const g95FuelPriceInstance = new FuelPrice(fuelstationID, FuelTypes.G95, g95Price);
     const g98FuelPriceInstance = new FuelPrice(fuelstationID, FuelTypes.G98, g98Price);
     const gasoilFuelPriceInstance = new FuelPrice(fuelstationID, FuelTypes.GASOIL, gasoilPrice);
@@ -46,8 +47,8 @@ export class FuelStationRemoteSerializer
       province: fs.Provincia,
       city: fs.Localidad,
       town: fs.Municipio,
-      latitude: parseFloat(fs.Latitud),
-      longitude: parseFloat(fs["Longitud (WGS84)"]),
+      latitude: this.fixDecimals(fs.Latitud, 6),
+      longitude: this.fixDecimals(fs["Longitud (WGS84)"], 6),
       isAlwaysOpen: Timetables.isAlwaysOpen(fs.Horario),
       timetable: fs.Horario,
       timetables,
