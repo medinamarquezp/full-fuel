@@ -40,7 +40,7 @@ export class FuelStationRemoteSerializer
   private static createFuelStation(fuelstationID: number, fs: ListaEESSPrecio, timetables: Timetables[], prices: FuelPrice[]): FuelStation {
     return new FuelStation({
       fuelstationID,
-      ccaa: fs.IDCCAA,
+      ccaaID: fs.IDCCAA,
       name: fs["Rótulo"],
       address: fs["Dirección"],
       postalCode: fs["C.P."],

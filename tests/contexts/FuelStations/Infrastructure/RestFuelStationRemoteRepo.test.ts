@@ -14,7 +14,7 @@ describe('Fetch fuel stations from Minetur test', () =>
   test('it should return fuel stations from baleares', async () =>
   {
     const firstFuelStation = sut[0];
-    expect(firstFuelStation.ccaa).toBe("04");
+    expect(firstFuelStation.ccaaID).toBe("04");
     expect(firstFuelStation.province).toBe("BALEARS (ILLES)");
   })
 })

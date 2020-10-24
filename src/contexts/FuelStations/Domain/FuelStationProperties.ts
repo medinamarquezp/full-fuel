@@ -5,7 +5,7 @@ import { TimetablesOrmEntity } from "@/contexts/Timetables/Infrastructure/Persis
 
 export interface FuelStationProperties {
   fuelstationID: number,
-  ccaa: string,
+  ccaaID: string,
   name: string,
   address: string,
   postalCode: string,

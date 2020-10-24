@@ -4,7 +4,7 @@ import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
 
 export class FuelStation implements FuelStationProperties {
   fuelstationID: number;
-  ccaa: string;
+  ccaaID: string;
   name: string;
   address: string;
   postalCode: string;
@@ -23,7 +23,7 @@ export class FuelStation implements FuelStationProperties {
 
   constructor (fuelstation: FuelStationProperties){
     this.fuelstationID = fuelstation.fuelstationID;
-    this.ccaa = fuelstation.ccaa;
+    this.ccaaID = fuelstation.ccaaID;
     this.name = fuelstation.name;
     this.address = fuelstation.address;
     this.postalCode = fuelstation.postalCode;
@@ -34,8 +34,8 @@ export class FuelStation implements FuelStationProperties {
     this.longitude = fuelstation.longitude;
     this.isAlwaysOpen = fuelstation.isAlwaysOpen;
     this.timetable = fuelstation.timetable;
-    this.timetables = fuelstation.timetables;
-    this.prices = fuelstation.prices;
+    this.timetables = fuelstation.timetables as Timetables[];
+    this.prices = fuelstation.prices as FuelPrice[];
     this.bestDay = (fuelstation.bestDay) ? fuelstation.bestDay : undefined;
     this.bestMoment = (fuelstation.bestMoment) ? fuelstation.bestMoment : undefined;
     this.brandImage = (fuelstation.brandImage) ? fuelstation.brandImage : undefined;
