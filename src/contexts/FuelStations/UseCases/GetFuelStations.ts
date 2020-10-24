@@ -1,5 +1,5 @@
 import { FuelStation } from "@/contexts/FuelStations/Domain/FuelStation";
-import { FuelStationRepo } from "@/contexts/FuelStations/Domain/FuelStationRepo";
+import { FuelStationRepo, Criteria } from "@/contexts/FuelStations/Domain/FuelStationRepo";
 import { BaseUseCase } from "@/sharedUseCases/BaseUseCase";
 export class GetFuelStations extends BaseUseCase
 {
@@ -18,12 +18,22 @@ export class GetFuelStations extends BaseUseCase
     }
     return fuelStations;
   }
+  async getByCriteria(criteria: Criteria): Promise<FuelStation[]> {
+    let fuelStations: FuelStation[] | undefined;
+
+    try {
+      fuelStations = await this.repository.findByCriteria(criteria);
+    } catch (err) {
+      this.handleError(`Error on retrieving fuel station by criteria ${criteria}. ${err}`);
+    }
+    return fuelStations as FuelStation[];
+  }
 
   async getByID(fuelstationID: number): Promise<FuelStation> {
     let fuelStation: FuelStation | undefined;
 
     try {
-      fuelStation = await this.repository.getByID(fuelstationID);
+      fuelStation = await this.repository.findByID(fuelstationID);
     } catch (err) {
       this.handleError(`Error on retrieving fuel station by ID ${fuelstationID}. ${err}`);
     }

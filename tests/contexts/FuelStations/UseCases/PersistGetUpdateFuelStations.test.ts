@@ -1,4 +1,5 @@
 import { FuelStationsMock } from "../Mocks/RemoteFuelStations.mock";
+import { Criteria } from "@/contexts/FuelStations/Domain/FuelStationRepo";
 import { PersistFuelStations } from "@/contexts/FuelStations/UseCases/PersistFuelStations";
 import { GetFuelStations } from "@/contexts/FuelStations/UseCases/GetFuelStations";
 import { UpdateFuelStation } from "@/contexts/FuelStations/UseCases/UpdateFuelStation";
@@ -20,6 +21,13 @@ describe('Persist, get and update fuel stations use case test', () => {
     const fuelStations = await getFuelStations.getAll();
     expect(fuelStations.length).toBe(3);
     expect(fuelStations[2].fuelstationID).toBe(13041);
+  })
+
+  test('it should get a fuel station by criteria', async () => {
+    const fuelStations = await getFuelStations.getByCriteria({postalCode: "07760"} as Criteria);
+    expect(fuelStations.length).toBe(2);
+    expect(fuelStations[0].fuelstationID).toBe(13088);
+    expect(fuelStations[1].fuelstationID).toBe(13041);
   })
 
   test('it should get a fuel station by id', async () => {

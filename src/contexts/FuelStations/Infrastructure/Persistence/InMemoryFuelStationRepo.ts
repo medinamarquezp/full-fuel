@@ -1,5 +1,5 @@
 import { FuelStation } from "@/contexts/FuelStations/Domain/FuelStation";
-import { FuelStationRepo } from "@/contexts/FuelStations/Domain/FuelStationRepo";
+import { FuelStationRepo, Criteria } from "@/contexts/FuelStations/Domain/FuelStationRepo";
 
 export class InMemoryFuelStationRepo implements FuelStationRepo {
 
@@ -23,9 +23,18 @@ export class InMemoryFuelStationRepo implements FuelStationRepo {
     return this.fuelStationsStore;
   }
 
-  async getByID(fuelstationID: number): Promise<FuelStation> {
+  async findByID(fuelstationID: number): Promise<FuelStation> {
     const fuelStationIndex = this.findFuelStationIndex(fuelstationID);
     return this.fuelStationsStore[fuelStationIndex];
+  }
+
+  async findByCriteria(criteria: Criteria): Promise<FuelStation[]> {
+    const paramName = Object.keys(criteria)[0];
+    const paramValue = Object.values(criteria)[0];
+    return this.fuelStationsStore.filter(fuelStation => {
+      const fs = fuelStation as unknown as { [key: string]: string };
+      return fs[paramName] === paramValue;
+    });
   }
 
   private findFuelStationIndex(fuelstationID: number): number {
