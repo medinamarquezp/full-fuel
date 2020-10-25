@@ -3,17 +3,17 @@
     "target": "es6",
     "module": "commonjs",
     "sourceMap": true,
-    "outDir": "./build/src",
+    "outDir": "./build",
     "removeComments": true,
     "strict": true,
     "moduleResolution": "node",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/sharedDomain/*": ["contexts/Shared/Domain/*"],
-      "@/sharedUseCases/*": ["contexts/Shared/UseCases/*"],
-      "@/sharedExceptions/*": ["contexts/Shared/Domain/Exceptions/*"],
-      "@/sharedInfrastructure/*": ["contexts/Shared/Infrastructure/*"],
-      "@/*": ["*"]
+      "@/sharedDomain/*": ["src/contexts/Shared/Domain/*"],
+      "@/sharedUseCases/*": ["src/contexts/Shared/UseCases/*"],
+      "@/sharedExceptions/*": ["src/contexts/Shared/Domain/Exceptions/*"],
+      "@/sharedInfrastructure/*": ["src/contexts/Shared/Infrastructure/*"],
+      "@/*": ["src/*"]
     },
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
@@ -22,6 +22,6 @@
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src/**/**.ts", "tests/**/**.ts", "package*.json"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/**.ts", "apps/**/**.ts", "tests/**/**.ts", "package*.json"],
+  "exclude": ["node_modules", "dbdata", "tests", "logs"]
 }
