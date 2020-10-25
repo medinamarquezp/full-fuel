@@ -21,7 +21,7 @@ export class Timetables implements TimetablesProperties {
   }
 
   static alwaysOpenTimetable(fuelstationID: number): Timetables[] {
-    const Timetable = new this({fuelstationID, weekDay: 999, alwaysOpen: true, opening: "", closing: ""});
+    const Timetable = new this({fuelstationID, weekDay: -1, alwaysOpen: true, opening: "n/a", closing: "n/a"});
     return [Timetable];
   }
 
