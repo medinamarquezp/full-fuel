@@ -15,6 +15,7 @@ export class TimetablesOrmEntity extends Model<TimetablesOrmEntity> implements T
   @Column
   fuelstationID: number;
 
+  @PrimaryKey
   @Column
   weekDay: number;
 

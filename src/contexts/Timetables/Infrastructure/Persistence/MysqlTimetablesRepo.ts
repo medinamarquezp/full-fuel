@@ -11,15 +11,16 @@ export class MysqlTimetablesRepo implements TimetablesRepo
   {
     DBConnection.getInstance().addModels([TimetablesOrmEntity]);
   }
+
   public async save(timetables: Timetables[]): Promise<void>
   {
     const serializedData = Serializer.classToObject<Timetables[]>(timetables);
 
     try
     {
-      await TimetablesOrmEntity.destroy({ where: {}, truncate: true });
-
-      await TimetablesOrmEntity.bulkCreate(serializedData);
+      await TimetablesOrmEntity.bulkCreate(serializedData, {
+        updateOnDuplicate: ["alwaysOpen", "opening", "closing", "updatedAt"]
+      });
     } catch (error)
     {
       throw new Error(error);
