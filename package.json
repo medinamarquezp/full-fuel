@@ -7,8 +7,11 @@
     "clean": "rm -r ./build",
     "lint": "eslint \"./src/**/*.{ts,tsx}\" --quiet --fix",
     "build": "npm run lint && tsc",
+    "postbuild": "ef-tspm",
     "test": "jest",
-    "dev": "env-cmd -f ./src/config/dev.env nodemon -L"
+    "dev": "env-cmd -f ./src/config/dev.env nodemon -L",
+    "ccaaJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/CCAAJob.js",
+    "fuelStationsJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/FuelStationsJob.js"
   },
   "keywords": [
     "nodejs",
@@ -28,6 +31,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@ef-carbon/tspm": "^2.2.5",
     "@types/bluebird": "^3.5.32",
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.8",
