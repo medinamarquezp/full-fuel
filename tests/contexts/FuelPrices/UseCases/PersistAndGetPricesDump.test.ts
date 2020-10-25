@@ -29,7 +29,7 @@ describe('Persist and get fuel prices use case test', () => {
      }
      const sut = await getPricesDump.getAll()
      expect(sut.length).toBe(5);
-     expect(sut[0].fuelstationID).toBe(2604);
+     expect(sut[0].fuelstationID).toBe(2590);
      expect(sut[0].min).toBe(1.111);
      expect(sut[0].max).toBe(1.118);
      expect(sut[0].avg).toBe(1.115);

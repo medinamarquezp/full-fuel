@@ -17,7 +17,7 @@ describe('Get fuel price statistics use case test', () => {
     }
   })
   test('it should display price statistics', async () => {
-    const sut = await fuelPriceStatistics.getStatistics(2604, FuelTypes.GASOIL);
+    const sut = await fuelPriceStatistics.getStatistics(2590, FuelTypes.GASOIL);
     expect(sut.min).toBe(1.111);
     expect(sut.max).toBe(1.118);
     expect(sut.avg).toBe(1.115);
