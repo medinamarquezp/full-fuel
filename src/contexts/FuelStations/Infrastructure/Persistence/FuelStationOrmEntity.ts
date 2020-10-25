@@ -19,6 +19,7 @@ export class FuelStationOrmEntity extends Model<FuelStationOrmEntity> implements
   fuelstationID: number;
 
   @ForeignKey(() => CCAAOrmEntity)
+  @Column
   ccaaID: string;
 
   @Column

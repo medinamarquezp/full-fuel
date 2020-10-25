@@ -1,6 +1,9 @@
 import { CCAA } from "@/contexts/CCAAs/Domain/CCAA";
 import { CCAARepo } from "@/contexts/CCAAs/Domain/CCAARepo";
 import { CCAAOrmEntity } from "./CCAAOrmEntity";
+import { FuelPriceOrmEntity } from "@/contexts/FuelPrices/Infrastructure/Persistence/FuelPriceOrmEntity";
+import { TimetablesOrmEntity } from "@/contexts/Timetables/Infrastructure/Persistence/TimetablesOrmEntity";
+import { FuelStationOrmEntity } from "@/contexts/FuelStations/Infrastructure/Persistence/FuelStationOrmEntity";
 import { Serializer } from "@/sharedInfrastructure/Serializer";
 import { DBConnection } from "@/sharedInfrastructure/Persistence/ORM/DBconnection";
 
@@ -9,7 +12,7 @@ export class MysqlCCAARepo implements CCAARepo
 
   constructor()
   {
-    DBConnection.getInstance().addModels([CCAAOrmEntity]);
+    DBConnection.getInstance().addModels([CCAAOrmEntity, FuelStationOrmEntity, TimetablesOrmEntity, FuelPriceOrmEntity]);
   }
   public async save(ccaas: CCAA[]): Promise<void>
   {
