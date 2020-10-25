@@ -23,7 +23,6 @@ export class DBConnection
     try
     {
       this.dbConection = new Sequelize(this.options);
-      this.log.info("MySQL connection created");
       return this.dbConection;
     } catch (err)
     {
