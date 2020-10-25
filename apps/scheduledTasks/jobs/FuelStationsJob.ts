@@ -4,4 +4,6 @@ const processFile = "build/apps/scheduledTasks/controller/FuelStationJobControll
 
 (async () => {
   await processByCCAA(processFile);
+  console.log("Fuel stations process finished correctly");
+  process.exit();
 })();
