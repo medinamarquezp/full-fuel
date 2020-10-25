@@ -34,7 +34,6 @@ describe('Persist, get and update fuel stations use case test', () => {
     const fuelStation = await getFuelStations.getByID(13088);
     expect(fuelStation.fuelstationID).toBe(13088);
     expect(fuelStation.name).toBe("AUTONET&OIL");
-    expect(fuelStation.prices[1].price).toBe(1.209);
   })
 
   test('it should update a fuel station', async () => {
