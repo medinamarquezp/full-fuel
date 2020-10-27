@@ -19,6 +19,7 @@ import { GetFuelPriceEvolution } from "@/contexts/FuelPrices/UseCases/GetFuelPri
 import { GetFuelPriceStatistics } from "@/contexts/FuelPrices/UseCases/GetFuelPriceStatistics";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { PricesDump } from "@/contexts/FuelPrices/UseCases/PricesDump";
+import { GetBestMoments } from "@/contexts/FuelPrices/UseCases/GetBestMoments";
 
 export class FuelStationJobController {
   static fuelStationRemoteRepo = new RestFuelStationRemoteRepo(MineturEndpoints.FuelStatinsByIdCCAA, FecthRestClient);
@@ -34,8 +35,9 @@ export class FuelStationJobController {
 
   static async persistFuelStations(fuelStations: FuelStation[]): Promise<void> {
     for await (const [index, fuelStation] of fuelStations.entries()) {
-      const fuelStationWithBrandImage = await this.setFuelStationBrandImage(fuelStation);
-      fuelStations[index] = fuelStationWithBrandImage;
+      let updatedFuelStation = await this.setFuelStationBrandImage(fuelStation);
+      updatedFuelStation = await this.setBestMoments(fuelStation);
+      fuelStations[index] = updatedFuelStation;
     }
     const fuelStationDB = new PersistFuelStations(this.fuelStationDBRepo);
     await fuelStationDB.persist(fuelStations);
@@ -44,6 +46,14 @@ export class FuelStationJobController {
   static async setFuelStationBrandImage(fuelStation: FuelStation): Promise<FuelStation> {
     const brandImage = await FuelStation.getBrandimage(fuelStation);
     fuelStation.setBrandImage(brandImage);
+    return fuelStation;
+  }
+
+  static async setBestMoments(fuelStation: FuelStation): Promise<FuelStation> {
+    const moments = new GetBestMoments(this.pricesDBRepo);
+    const bestMoments = await moments.getMoments(fuelStation.fuelstationID);
+    fuelStation.setBestDay(bestMoments.bestDay);
+    fuelStation.setBestMoment(bestMoments.bestMoment);
     return fuelStation;
   }
 
