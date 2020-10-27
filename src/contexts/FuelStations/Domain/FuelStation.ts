@@ -1,6 +1,7 @@
 import { FuelStationProperties } from "./FuelStationProperties";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
+import { BrandLogos } from "@/sharedDomain/BrandLogos";
 
 export class FuelStation implements FuelStationProperties {
   fuelstationID: number;
@@ -49,8 +50,23 @@ export class FuelStation implements FuelStationProperties {
     this.bestMoment = bestMoment;
   }
 
-  setBrandimage(brandImage: string): void {
+  setBrandImage(brandImage: string): void {
     this.brandImage = brandImage;
+  }
+
+  static async getBrandimage(fuelStation: FuelStation): Promise<string> {
+    let brandImage = "";
+    const brandLogos = await BrandLogos.getBrandLogos();
+
+    for (const brandLogo of brandLogos) {
+      const brandLogoNormalizedName = brandLogo.names.toString().toLowerCase();
+      const fuelstationNameNormalized = fuelStation.name.toLowerCase();
+
+      if (brandLogoNormalizedName.indexOf(fuelstationNameNormalized) >= 0){
+        brandImage = brandLogo.brandImage;
+      }
+    }
+    return brandImage;
   }
 
 }

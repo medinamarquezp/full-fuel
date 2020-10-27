@@ -33,8 +33,18 @@ export class FuelStationJobController {
   }
 
   static async persistFuelStations(fuelStations: FuelStation[]): Promise<void> {
+    for await (const [index, fuelStation] of fuelStations.entries()) {
+      const fuelStationWithBrandImage = await this.setFuelStationBrandImage(fuelStation);
+      fuelStations[index] = fuelStationWithBrandImage;
+    }
     const fuelStationDB = new PersistFuelStations(this.fuelStationDBRepo);
     await fuelStationDB.persist(fuelStations);
+  }
+
+  static async setFuelStationBrandImage(fuelStation: FuelStation): Promise<FuelStation> {
+    const brandImage = await FuelStation.getBrandimage(fuelStation);
+    fuelStation.setBrandImage(brandImage);
+    return fuelStation;
   }
 
   static async persistTimetables(timetables: Timetables[]): Promise<void> {

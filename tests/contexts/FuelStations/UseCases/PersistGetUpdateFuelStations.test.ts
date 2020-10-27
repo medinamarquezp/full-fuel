@@ -40,7 +40,7 @@ describe('Persist, get and update fuel stations use case test', () => {
     const fuelStation = await getFuelStations.getByID(13088);
     fuelStation.setBestDay(5);
     fuelStation.setBestMoment("morning");
-    fuelStation.setBrandimage("http://image.com");
+    fuelStation.setBrandImage("http://image.com");
     await updateFuelStation.update(fuelStation);
     const sut = await getFuelStations.getByID(13088);
     expect(sut.bestDay).toBe(5);
