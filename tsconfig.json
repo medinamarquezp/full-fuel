@@ -23,5 +23,5 @@
     "strictPropertyInitialization": false
   },
   "include": ["src/**/**.ts", "apps/**/**.ts", "tests/**/**.ts", "package*.json"],
-  "exclude": ["node_modules", "dbdata", "tests", "logs"]
+  "exclude": ["node_modules", "dbdata", "logs"]
 }
