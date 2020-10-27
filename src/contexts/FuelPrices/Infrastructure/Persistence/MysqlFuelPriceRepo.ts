@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import { Today } from "@/sharedDomain/Today";
+import { Today, dayMoments } from "@/sharedDomain/Today";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
@@ -10,6 +10,7 @@ import { FuelPriceOrmEntity } from "./FuelPriceOrmEntity";
 import { FuelPricesDumpOrmEntity } from "./FuelPricesDumpOrmEntity";
 import { Serializer } from "@/sharedInfrastructure/Serializer";
 import { DBConnection } from "@/sharedInfrastructure/Persistence/ORM/DBconnection";
+import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
 
 export class MysqlFuelPriceRepo implements FuelPriceRepo
 {
@@ -124,6 +125,39 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
       return serializedResult;
     } catch (error)
     {
+      throw new Error(error);
+    }
+  }
+
+  async getBestMoments(fuelstationID: number): Promise<FuelPricesBestMoments> {
+    try {
+      const frequentDay = await this.getFrequentMoment(fuelstationID, "weekDay");
+      const bestDay = (frequentDay && frequentDay.weekDay) ? frequentDay.weekDay : 1;
+      const frequentMoment = await this.getFrequentMoment(fuelstationID, "moment");
+      const bestMoment = (frequentMoment && frequentMoment.moment) ? frequentMoment.moment : dayMoments.MORNING;
+      return {
+        fuelstationID,
+        bestDay,
+        bestMoment
+      };
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  private async getFrequentMoment(fuelstationID:number, column:string) : Promise<FuelPriceOrmEntity>{
+    try{
+      const frequentMoment =  await FuelPriceOrmEntity.findOne({
+        attributes: [column],
+        where: {
+          fuelstationID,
+          "evolution": "D"
+        },
+        group: column,
+        order: [[Sequelize.fn("COUNT", Sequelize.col(column)), "DESC"]],
+      });
+      return frequentMoment as FuelPriceOrmEntity;
+    } catch (error) {
       throw new Error(error);
     }
   }

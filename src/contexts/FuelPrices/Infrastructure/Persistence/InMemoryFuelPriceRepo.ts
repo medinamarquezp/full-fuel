@@ -1,9 +1,11 @@
+import { dayMoments } from "@/sharedDomain/Today";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
 import { FuelPriceRepo } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
-import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
+import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
 
 export class InMemoryFuelPriceRepo implements FuelPriceRepo {
   private fuelPricesStore: FuelPrice[] = [];
@@ -54,6 +56,14 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
 
   async getPricesDump(): Promise<FuelPricesDump[]>{
     return this.pricesDumpStore;
+  }
+
+  async getBestMoments(fuelstationID: number): Promise<FuelPricesBestMoments>{
+    return {
+      fuelstationID,
+      bestDay: 5,
+      bestMoment: dayMoments.AFTERNOOM
+    };
   }
 
   private filterPricesByFFSSIDandFuelType(fuelstationID: number, fueltype: FuelTypes): FuelPrice[] {
