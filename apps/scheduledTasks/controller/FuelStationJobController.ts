@@ -7,6 +7,7 @@ import { MysqlFuelStationRepo } from "@/contexts/FuelStations/Infrastructure/Per
 import { FuelStation } from "@/contexts/FuelStations/Domain/FuelStation";
 import { GetFuelStationsFromRemote } from "@/contexts/FuelStations/UseCases/GetFuelStationsFromRemote";
 import { PersistFuelStations } from "@/contexts/FuelStations/UseCases/PersistFuelStations";
+import { UpdateFuelStation } from "@/contexts/FuelStations/UseCases/UpdateFuelStation";
 // Timetables
 import { MysqlTimetablesRepo } from "@/contexts/Timetables/Infrastructure/Persistence/MysqlTimetablesRepo";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
@@ -34,11 +35,6 @@ export class FuelStationJobController {
   }
 
   static async persistFuelStations(fuelStations: FuelStation[]): Promise<void> {
-    for await (const [index, fuelStation] of fuelStations.entries()) {
-      let updatedFuelStation = await this.setFuelStationBrandImage(fuelStation);
-      updatedFuelStation = await this.setBestMoments(fuelStation);
-      fuelStations[index] = updatedFuelStation;
-    }
     const fuelStationDB = new PersistFuelStations(this.fuelStationDBRepo);
     await fuelStationDB.persist(fuelStations);
   }
@@ -55,6 +51,13 @@ export class FuelStationJobController {
     fuelStation.setBestDay(bestMoments.bestDay);
     fuelStation.setBestMoment(bestMoments.bestMoment);
     return fuelStation;
+  }
+
+  static async setBrandAndMoments(fuelStation: FuelStation): Promise<void>{
+    const updateFuelStation = new UpdateFuelStation(this.fuelStationDBRepo);
+    let updatedFuelStation = await this.setFuelStationBrandImage(fuelStation);
+    updatedFuelStation = await this.setBestMoments(fuelStation);
+    await updateFuelStation.update(updatedFuelStation);
   }
 
   static async persistTimetables(timetables: Timetables[]): Promise<void> {
@@ -90,6 +93,7 @@ export class FuelStationJobController {
     for await (const fuelStation of remoteFuelStations) {
       await this.persistTimetables(fuelStation.timetables);
       await this.persistPrices(fuelStation.prices);
+      await this.setBrandAndMoments(fuelStation);
     }
     return `Fuel stations of CCAA ${ccaaID} has been persisted correctly`;
   }
