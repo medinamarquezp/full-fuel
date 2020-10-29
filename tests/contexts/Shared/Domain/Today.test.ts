@@ -5,10 +5,15 @@ describe('Today implementation test', () => {
   beforeEach(() => {
     dateTime = new Date(2020,10,14,22,0,0);
   })
-   test('it should display the time in text format', () => {
-     const sut = Today.timeToString(dateTime);
-     expect(sut).toBe("22:00");
-   });
+  test("it should display correct day is hour is equal or greater than 0 AM", () => {
+    const date = new Date("2020-10-29 0:00");
+    const sut = Today.day(date);
+    expect(sut).toBe(29);
+  });
+  test('it should display the time in text format', () => {
+    const sut = Today.timeToString(dateTime);
+    expect(sut).toBe("22:00");
+  });
    test('it should return "night" as day moment on sending a text parameter', () => {
      const time = Today.timeToString(dateTime);
      const sut = Today.getDayMoment(time);

@@ -13,8 +13,8 @@ export class Today extends Date {
     return new Date().getUTCFullYear();
   }
 
-  static day(): number {
-    return new Date().getUTCDate();
+  static day(date?: Date): number {
+    return (date) ? date.getDate() : new Date().getDate();
   }
 
   static weekDay(): number {
