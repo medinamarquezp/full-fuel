@@ -9,7 +9,7 @@ export class Client{
     if (this.instance === null) {
       try {
         this.instance = redis.createClient();
-        this.instance.on("connect", () => console.log("Redis connected"));
+        this.instance.on("connect", () => console.log("Redis connected!"));
         return this.instance;
       } catch (err) {
         const error = `Error on creating a Redis Cache connection: ${err}`;
