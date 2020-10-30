@@ -17,24 +17,28 @@ export class DBConnection
     }
   };
 
-  private static dbConection: Sequelize;
+  private static dbConection: Sequelize | null = null;
   public static getInstance(): Sequelize
   {
-    try
-    {
-      this.dbConection = new Sequelize(this.options);
-      return this.dbConection;
-    } catch (err)
-    {
-      const error = `Error on creating a MYSQL DB connection: ${err}`;
-      this.log.error(error);
-      throw new Error(error);
+    if(this.dbConection === null) {
+      try
+      {
+        this.dbConection = new Sequelize(this.options);
+        this.log.info("Database connected!");
+        return this.dbConection;
+      } catch (err)
+      {
+        const error = `Error on creating a MYSQL DB connection: ${err}`;
+        this.log.error(error);
+        throw new Error(error);
+      }
     }
+    return this.dbConection;
   }
 
   public static async closeConnection(): Promise<void>
   {
-    await this.dbConection.close();
+    if (this.dbConection) await this.dbConection.close();
   }
 
 }

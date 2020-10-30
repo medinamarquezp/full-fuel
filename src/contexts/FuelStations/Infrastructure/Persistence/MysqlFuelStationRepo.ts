@@ -15,7 +15,6 @@ export class MysqlFuelStationRepo implements FuelStationRepo {
 
   async save(fuelstations: FuelStation[]): Promise<void> {
     try {
-      await DBConnection.getInstance().sync({force: true});
       const serializedData = Serializer.classToObject<FuelStation[]>(fuelstations);
 
       await FuelStationOrmEntity.bulkCreate(serializedData, {
