@@ -10,7 +10,7 @@ export class GetFuelStationGeo extends BaseUseCase
 
     try
     {
-      geoPoints = await this.repository.getGeoPoints(longitude, latitude, radius);
+      geoPoints = await this.repository.getGeoPoints(longitude, latitude, radius) as string[];
     } catch (err)
     {
       this.handleError(`Error on getting geo points. ${err}`);
