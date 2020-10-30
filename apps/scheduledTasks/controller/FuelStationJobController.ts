@@ -8,6 +8,8 @@ import { FuelStation } from "@/contexts/FuelStations/Domain/FuelStation";
 import { GetFuelStationsFromRemote } from "@/contexts/FuelStations/UseCases/GetFuelStationsFromRemote";
 import { PersistFuelStations } from "@/contexts/FuelStations/UseCases/PersistFuelStations";
 import { UpdateFuelStation } from "@/contexts/FuelStations/UseCases/UpdateFuelStation";
+import { SetFuelStationGeo } from "@/contexts/FuelStations/UseCases/SetFuelStationGeo";
+import { CacheFuelStationRepo } from "@/contexts/FuelStations/Infrastructure/Persistence/CacheFuelStationRepo";
 // Timetables
 import { MysqlTimetablesRepo } from "@/contexts/Timetables/Infrastructure/Persistence/MysqlTimetablesRepo";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
@@ -21,10 +23,12 @@ import { GetFuelPriceStatistics } from "@/contexts/FuelPrices/UseCases/GetFuelPr
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { PricesDump } from "@/contexts/FuelPrices/UseCases/PricesDump";
 import { GetBestMoments } from "@/contexts/FuelPrices/UseCases/GetBestMoments";
+import { AddFuelStationToCache } from "@/contexts/FuelStations/UseCases/AddFuelStationToCache";
 
 export class FuelStationJobController {
   static fuelStationRemoteRepo = new RestFuelStationRemoteRepo(MineturEndpoints.FuelStatinsByIdCCAA, FecthRestClient);
   static fuelStationDBRepo = new MysqlFuelStationRepo();
+  static fuelStationCacheRepo = new CacheFuelStationRepo();
   static timetablesDBRepo = new MysqlTimetablesRepo();
   static pricesDBRepo = new MysqlFuelPriceRepo();
 
@@ -53,11 +57,12 @@ export class FuelStationJobController {
     return fuelStation;
   }
 
-  static async setBrandAndMoments(fuelStation: FuelStation): Promise<void>{
+  static async setBrandAndMoments(fuelStation: FuelStation): Promise<FuelStation>{
     const updateFuelStation = new UpdateFuelStation(this.fuelStationDBRepo);
     let updatedFuelStation = await this.setFuelStationBrandImage(fuelStation);
     updatedFuelStation = await this.setBestMoments(fuelStation);
     await updateFuelStation.update(updatedFuelStation);
+    return updatedFuelStation;
   }
 
   static async persistTimetables(timetables: Timetables[]): Promise<void> {
@@ -72,9 +77,10 @@ export class FuelStationJobController {
     await pricesDump.dump(fuelstationID, fuelType, priceStatistics);
   }
 
-  static async persistPrices(prices: FuelPrice[]): Promise<void> {
+  static async persistPrices(prices: FuelPrice[]): Promise<FuelPrice[]> {
     const pricesDB = new PersistFuelPrice(this.pricesDBRepo);
     const priceEvolution = new GetFuelPriceEvolution(this.pricesDBRepo);
+    const updatedPrices: FuelPrice[] = [];
 
     for await (const fuelPrice of prices) {
       if (fuelPrice.price) {
@@ -82,8 +88,20 @@ export class FuelStationJobController {
         fuelPrice.setEvolution(evolution);
         await pricesDB.persist(fuelPrice);
         await this.pricesDump(fuelPrice.fuelstationID, fuelPrice.fuelType);
+        updatedPrices.push(fuelPrice);
       }
     }
+    return updatedPrices;
+  }
+
+  static async cacheGeoData(longitude: number, latitude: number, fuelstationID: number): Promise<void> {
+    const fuelStationGeo = new SetFuelStationGeo(this.fuelStationCacheRepo);
+    await fuelStationGeo.setGeoPoint(longitude, latitude, fuelstationID);
+  }
+
+  static async cacheFuelStation(fuelstationID: number, fuelstation: FuelStation): Promise<void> {
+    const fuelStationCache = new AddFuelStationToCache(this.fuelStationCacheRepo);
+    await fuelStationCache.addToCache(fuelstationID, fuelstation);
   }
 
   static async run(ccaaID: string): Promise<string> {
@@ -92,8 +110,11 @@ export class FuelStationJobController {
 
     for await (const fuelStation of remoteFuelStations) {
       await this.persistTimetables(fuelStation.timetables);
-      await this.persistPrices(fuelStation.prices);
-      await this.setBrandAndMoments(fuelStation);
+      const updatedPrices = await this.persistPrices(fuelStation.prices);
+      const updatedFuelStation = await this.setBrandAndMoments(fuelStation);
+      updatedFuelStation.prices = updatedPrices;
+      await this.cacheGeoData(updatedFuelStation.longitude, updatedFuelStation.latitude, updatedFuelStation.fuelstationID);
+      await this.cacheFuelStation(updatedFuelStation.fuelstationID, updatedFuelStation);
     }
     return `Fuel stations of CCAA ${ccaaID} has been persisted correctly`;
   }
