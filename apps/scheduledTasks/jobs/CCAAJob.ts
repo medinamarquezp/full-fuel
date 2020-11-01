@@ -1,4 +1,4 @@
-import { CCAAJobController } from "../controller/CCAAJobController";
+import { CCAAJobController } from "../controllers/CCAAJobController";
 
 (async () => {
   await CCAAJobController.run();
