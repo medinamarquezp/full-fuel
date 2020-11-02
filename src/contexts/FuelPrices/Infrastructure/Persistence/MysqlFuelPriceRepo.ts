@@ -101,7 +101,8 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
       const fuelPriceToDump = new FuelPricesDump(fuelstationID, fueltype, priceStatistics);
       const serializedData = Serializer.classToObject<FuelPricesDump>(fuelPriceToDump);
       const isDayOne = Today.day() === 1;
-      const isPriceDumped = await FuelPricesDumpOrmEntity.count({ where: {fuelstationID, fueltype} });
+      const wherePricesDump = {fuelstationID, fueltype, year: Today.year(), month: Today.month()};
+      const isPriceDumped = await FuelPricesDumpOrmEntity.count({ where: wherePricesDump});
 
       if (!isPriceDumped || isDayOne) {
         await FuelPricesDumpOrmEntity.create(serializedData);
@@ -109,8 +110,7 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
         const {min, max, avg} = priceStatistics;
 
         FuelPricesDumpOrmEntity.update(
-          { min, max, avg }, {where: {fuelstationID, fueltype, year: Today.year(), month: Today.month()}
-        });
+          { min, max, avg }, {where: wherePricesDump });
       }
     } catch (error) {
       throw new Error(error);
