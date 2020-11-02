@@ -9,7 +9,7 @@ export class Client{
     if (this.instance === null) {
       try {
         this.instance = redis.createClient();
-        this.instance.on("connect", () => console.log("Redis connected!"));
+        this.instance.on("connect", () => console.log("Redis connected! "));
         return this.instance;
       } catch (err) {
         const error = `Error on creating a Redis Cache connection: ${err}`;
@@ -29,7 +29,7 @@ export class Client{
   Promise<(string | [string, string | [string, string]])[]> {
     const geoRadiusAsync = promisify(this.clientInstance().georadius).bind(this.clientInstance());
     const longitudeUnit = "km";
-    return await geoRadiusAsync(key, longitude, latitude, radius, longitudeUnit);
+    return await geoRadiusAsync(key, longitude, latitude, radius, longitudeUnit, "WITHDIST", "ASC");
   }
 
   public static async hSet(key: string, field: string, value: string): Promise<number>{
