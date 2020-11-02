@@ -17,4 +17,18 @@ export class FuelStationsController extends BaseController {
     }
     return response as Response;
   }
+
+  public static async getFuelStationsByIDs(req: Request, res: Response): Promise<Response>{
+    let response: Response | undefined;
+
+    try {
+      FuelStationsController.validationErrorHandler(req);
+      const { longitude, latitude, fuelstationsIDs } = req.body;
+      const fuelStationsList = await FuelStationsRepo.getFuelStationsByIDs(longitude, latitude, fuelstationsIDs);
+      FuelStationsController.responseHandler.response(res, fuelStationsList);
+    } catch (error) {
+      FuelStationsController.errorHandler.error(res, error);
+    }
+    return response as Response;
+  }
 }

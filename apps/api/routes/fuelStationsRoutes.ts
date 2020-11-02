@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { FuelStationsController } from "../controllers/FuelStationsController";
-import { getAllByGeoValidationRules } from "../validators/fuelStationsValidators";
+import { getListByGeoValidationRules, getListByIdsValidationRules } from "../validators/fuelStationsValidators";
 
 const router = Router();
 
-router.post("/geolist", getAllByGeoValidationRules(), FuelStationsController.getAllByGeo);
+router.post("/listbygeo", getListByGeoValidationRules(), FuelStationsController.getAllByGeo);
+router.post("/listbyids", getListByIdsValidationRules(), FuelStationsController.getFuelStationsByIDs);
 
 export default router;
