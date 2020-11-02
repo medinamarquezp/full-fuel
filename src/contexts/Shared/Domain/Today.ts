@@ -65,7 +65,8 @@ export class Today extends Date {
 
   static isValidTimeFormat(time: string): boolean {
     const timeFormatRegex = /^([0-9]|(1[0-9]|2[0-3])):([0-5][0-9])$/;
-    return (time.match(timeFormatRegex)) ? true : false;
+    const formattedTime = (time.startsWith("0") && !time.startsWith("0:")) ? time.slice(1, time.length) : time;
+    return (formattedTime.match(timeFormatRegex)) ? true : false;
   }
 
   private static getMinutesNow(): number {

@@ -24,7 +24,7 @@ describe('Today implementation test', () => {
     expect(sut).toBe("night");
   })
    test('it should display an error when sending invalid params to isBetween method', () => {
-     const sut = () => Today.isBetween("00:11","2:23");
+     const sut = () => Today.isBetween("24:11","2:23");
      expect(sut).toThrow("Invalid time format");
    })
    test('it should validate if time is between a range', () => {
