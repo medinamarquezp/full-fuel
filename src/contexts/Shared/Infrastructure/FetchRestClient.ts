@@ -1,7 +1,6 @@
 /* eslint-disable prefer-const */
 import client, { RequestInfo, RequestInit } from "node-fetch";
 import { RestClient } from "@/sharedDomain/RestClient";
-import { FetchRestClientException } from "@/sharedExceptions/FetchRestClientException";
 
 export let FecthRestClient: RestClient;
 
@@ -16,7 +15,7 @@ FecthRestClient = class
       return json;
     } catch (error)
     {
-      throw new FetchRestClientException(`Error on fetching data: ${error}`);
+      throw new Error(`Error on fetching data: ${error}`);
     }
   }
   static async get<T>(url: RequestInfo, options?: RequestInit): Promise<T>
