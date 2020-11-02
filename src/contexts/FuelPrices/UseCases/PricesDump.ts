@@ -9,7 +9,7 @@ export class PricesDump extends BaseUseCase{
   async dump(fuelstationID: number, fuelType: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void> {
     try {
       await this.repository.pricesDump(fuelstationID, fuelType, priceStatistics);
-      this.logger.info(`Price for ${FuelTypes} of fuelstation ${fuelstationID} has been dumping correctly`);
+      this.logger.info(`Price for ${fuelType} of fuelstation ${fuelstationID} has been dumping correctly`);
     } catch (error) {
       this.handleError(`Error when dumping ${FuelTypes} prices of fuel station ${fuelstationID}`);
     }
