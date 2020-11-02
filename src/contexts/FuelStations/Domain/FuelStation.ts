@@ -14,6 +14,7 @@ export class FuelStation implements FuelStationProperties {
   town: string;
   latitude: number;
   longitude: number;
+  isOpen: boolean;
   isAlwaysOpen: boolean;
   timetable: string;
   timetables: Timetables[];
@@ -33,6 +34,7 @@ export class FuelStation implements FuelStationProperties {
     this.town = fuelstation.town;
     this.latitude = fuelstation.latitude;
     this.longitude = fuelstation.longitude;
+    this.isOpen = false;
     this.isAlwaysOpen = fuelstation.isAlwaysOpen;
     this.timetable = fuelstation.timetable;
     this.timetables = fuelstation.timetables as Timetables[];

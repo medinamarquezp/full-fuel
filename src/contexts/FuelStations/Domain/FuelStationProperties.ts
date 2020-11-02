@@ -14,6 +14,7 @@ export interface FuelStationProperties {
   town: string,
   latitude: number,
   longitude: number,
+  isOpen: boolean,
   isAlwaysOpen: boolean,
   timetable: string,
   timetables: Timetables[] | TimetablesOrmEntity[],
