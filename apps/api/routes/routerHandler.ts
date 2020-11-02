@@ -1,0 +1,17 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Express, Request, Response, NextFunction } from "express";
+import { ErrorHandler } from "../handlers/ErrorHandler";
+import { DomainError } from "@/sharedDomain/DomainError";
+import { NotFoundException } from "@/sharedExceptions/NotFoundException";
+import fuelStationsRoutes from "./fuelStationsRoutes";
+
+export const routerHandler = (app: Express): Express => {
+  app.use("/api/fuelstations", fuelStationsRoutes);
+  app.use("*", () => { throw new NotFoundException(); });
+
+  app.use((err: DomainError, req: Request, res: Response, next: NextFunction) => {
+    ErrorHandler.error(res, err);
+  });
+  return app;
+};
