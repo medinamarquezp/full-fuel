@@ -4,7 +4,7 @@ import { getListByGeoValidationRules, getListByIdsValidationRules } from "../val
 
 const router = Router();
 
-router.post("/listbygeo", getListByGeoValidationRules(), FuelStationsController.getAllByGeo);
-router.post("/listbyids", getListByIdsValidationRules(), FuelStationsController.getFuelStationsByIDs);
+router.post("/listbygeo", getListByGeoValidationRules(), FuelStationsController.getListByGeo);
+router.post("/listbyids", getListByIdsValidationRules(), FuelStationsController.getListByIds);
 
 export default router;

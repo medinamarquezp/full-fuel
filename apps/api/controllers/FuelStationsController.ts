@@ -4,7 +4,7 @@ import { FuelStationsRepo } from "../repositories/FuelStationsRepo";
 
 export class FuelStationsController extends BaseController {
 
-  public static async getAllByGeo(req: Request, res: Response): Promise<Response>{
+  public static async getListByGeo(req: Request, res: Response): Promise<Response>{
     let response: Response | undefined;
 
     try {
@@ -18,7 +18,7 @@ export class FuelStationsController extends BaseController {
     return response as Response;
   }
 
-  public static async getFuelStationsByIDs(req: Request, res: Response): Promise<Response>{
+  public static async getListByIds(req: Request, res: Response): Promise<Response>{
     let response: Response | undefined;
 
     try {
