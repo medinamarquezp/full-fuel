@@ -1,16 +1,20 @@
 import { DomainError } from "@/sharedDomain/DomainError";
 import HttpStatusCode from "@/sharedDomain/HttpStatusCode";
 
-const errorMessage = "Not found";
+const errorTitle = "Not found";
 
 export class NotFoundException extends DomainError
 {
+  timestamp = new Date();
   statusCode = HttpStatusCode.NOT_FOUND;
-  message = errorMessage;
-  errors = "Resource not found";
+  error = errorTitle;
+  message: string;
+  detail?: unknown;
 
-  constructor()
+  constructor(message: string, detail?: unknown)
   {
-    super(errorMessage);
+    super(message);
+    this.message = message;
+    this.detail = detail;
   }
 }

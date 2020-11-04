@@ -1,8 +1,10 @@
 export abstract class DomainError extends Error
 {
+  abstract timestamp: Date;
   abstract statusCode: number;
+  abstract error: string;
   abstract message: string;
-  abstract errors: unknown;
+  abstract detail?: unknown;
 
   constructor(message: string)
   {

@@ -1,17 +1,20 @@
 import { DomainError } from "@/sharedDomain/DomainError";
 import HttpStatusCode from "@/sharedDomain/HttpStatusCode";
 
-const errorMessage = "Internal server error";
+const errorTitle = "Internal server error";
 
 export class InternalServerErrorException extends DomainError
 {
+  timestamp = new Date();
   statusCode = HttpStatusCode.INTERNAL_SERVER_ERROR;
-  message = errorMessage;
-  errors: unknown;
+  error = errorTitle;
+  message: string;
+  detail?: unknown;
 
-  constructor(errors: unknown)
+  constructor(message: string, detail?: unknown)
   {
-    super(errorMessage);
-    this.errors = errors;
+    super(message);
+    this.message = message;
+    this.detail = detail;
   }
 }
