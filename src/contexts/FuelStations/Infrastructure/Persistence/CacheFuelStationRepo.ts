@@ -38,7 +38,8 @@ export class CacheFuelStationRepo implements FuelStationCacheRepo {
     const idsToString = fuelstationIDs.map(fuelstationID => fuelstationID.toString());
 
     try {
-      const cachedFuelStations = await Client.hmGet(this.fuelstationsCachedKey, idsToString);
+      let cachedFuelStations = await Client.hmGet(this.fuelstationsCachedKey, idsToString);
+      cachedFuelStations = cachedFuelStations.filter(fuelStation => fuelStation !== null);
 
       fuelStations = cachedFuelStations.map(cachedFuelStation => {
         const fuelStationObject = JSON.parse(cachedFuelStation);
