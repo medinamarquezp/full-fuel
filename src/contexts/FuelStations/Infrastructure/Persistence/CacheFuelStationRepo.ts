@@ -33,9 +33,12 @@ export class CacheFuelStationRepo implements FuelStationCacheRepo {
     }
   }
 
-  async getFuelStationsFromCache(fuelstationIDs: number[]): Promise<FuelStation[]> {
+  async getFuelStationsFromCache(fuelstationIDs: number | number[]): Promise<FuelStation[]> {
     let fuelStations: FuelStation[] = [];
-    const idsToString = fuelstationIDs.map(fuelstationID => fuelstationID.toString());
+
+    const idsToString = (typeof fuelstationIDs === "number")
+                        ? [fuelstationIDs.toString()]
+                        : fuelstationIDs.map(fuelstationID => fuelstationID.toString());
 
     try {
       let cachedFuelStations = await Client.hmGet(this.fuelstationsCachedKey, idsToString);

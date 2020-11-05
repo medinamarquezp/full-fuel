@@ -5,7 +5,7 @@ export class GetFuelStationsFromCache extends BaseUseCase
 {
   constructor(private repository: FuelStationCacheRepo) { super(); }
 
-  async getMany(fuelstationIDs: number[]): Promise<FuelStation[]>
+  async getFuelStations(fuelstationIDs: number | number[]): Promise<FuelStation[]>
   {
     let fuelStations: FuelStation [] = [];
 
