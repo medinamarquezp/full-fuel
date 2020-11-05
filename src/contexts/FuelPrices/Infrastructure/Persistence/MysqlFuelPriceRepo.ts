@@ -11,6 +11,7 @@ import { FuelPricesDumpOrmEntity } from "./FuelPricesDumpOrmEntity";
 import { Serializer } from "@/sharedInfrastructure/Serializer";
 import { DBConnection } from "@/sharedInfrastructure/Persistence/ORM/DBconnection";
 import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
+import { FuelMonthlyPrices } from "@/contexts/FuelPrices/Domain/FuelMonthlyPrices";
 
 export class MysqlFuelPriceRepo implements FuelPriceRepo
 {
@@ -41,6 +42,31 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     {
       throw new Error(error);
     }
+  }
+
+  async getMonthlyPrices(fuelstationID: number): Promise<FuelMonthlyPrices[]>{
+    let monthlyPrices: FuelMonthlyPrices[] = [];
+
+    try {
+      const month = Today.month();
+
+      const queryResult = await FuelPriceOrmEntity.findAll({
+        attributes: ["month", "day", "fuelType", "price"],
+        where: { fuelstationID, month },
+        order: [["day", "ASC"]],
+        group: ["month", "day", "fuelType", "price"],
+        raw: true
+      }) as FuelPrice[];
+
+      monthlyPrices = queryResult.map(fuelPrice => {
+        const { month, day, fuelType, price } = fuelPrice;
+        return { month, day, fuelType, price };
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    return monthlyPrices;
   }
 
   private serializeFuelPriceToEntity(queryResult: FuelPriceOrmEntity[])

@@ -1,4 +1,4 @@
-import { dayMoments } from "@/sharedDomain/Today";
+import { dayMoments, Today } from "@/sharedDomain/Today";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
@@ -6,6 +6,7 @@ import { FuelPriceRepo } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
 import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
+import { FuelMonthlyPrices } from "@/contexts/FuelPrices/Domain/FuelMonthlyPrices";
 
 export class InMemoryFuelPriceRepo implements FuelPriceRepo {
   private fuelPricesStore: FuelPrice[] = [];
@@ -17,6 +18,20 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
 
   async getAll(): Promise<FuelPrice[]>{
     return this.fuelPricesStore;
+  }
+
+  async getMonthlyPrices(fuelstationID: number): Promise<FuelMonthlyPrices[]>{
+    const month = Today.month();
+
+    const monthlyPrices = this.fuelPricesStore
+        .filter(fuelPrice => {
+          return fuelPrice.fuelstationID === fuelstationID && fuelPrice.month === month;
+        })
+        .map(fuelPrice => {
+          const { month, day, fuelType, price } = fuelPrice;
+          return { month, day, fuelType, price };
+        });
+    return monthlyPrices;
   }
 
   async getEvolution(fuelstationID: number, fueltype: FuelTypes, price: number): Promise<FuelPriceEvolution>
