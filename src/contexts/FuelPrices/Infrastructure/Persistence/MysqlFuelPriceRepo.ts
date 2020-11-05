@@ -121,6 +121,18 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
 
   private fixDecimals = (value: string) => parseFloat(parseFloat(value).toFixed(3));
 
+  async isPriceAvailable(fuelstationID: number, fueltype: FuelTypes): Promise<boolean> {
+    let isPriceavailable = false;
+
+    try {
+      const totalPrices = await FuelPriceOrmEntity.count({where: {fuelstationID, fueltype}});
+      if (totalPrices > 0) isPriceavailable = true;
+    } catch (error) {
+      throw new Error(error);
+    }
+    return isPriceavailable;
+  }
+
   async pricesDump(fuelstationID: number, fueltype: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void>
   {
     try {

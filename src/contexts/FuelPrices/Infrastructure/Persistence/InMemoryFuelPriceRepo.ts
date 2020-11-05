@@ -56,6 +56,11 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
     return { min, max, avg };
   }
 
+  async isPriceAvailable(fuelstationID: number, fueltype: FuelTypes): Promise<boolean>{
+    const totalPrices = this.fuelPricesStore.filter(price => price.fuelstationID === fuelstationID && price.fuelType === fueltype);
+    return (totalPrices.length > 0) ? true : false;
+  }
+
   async pricesDump(fuelstationID: number, fueltype: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void>
   {
     const fuelPriceToDump = new FuelPricesDump(fuelstationID, fueltype, priceStatistics);

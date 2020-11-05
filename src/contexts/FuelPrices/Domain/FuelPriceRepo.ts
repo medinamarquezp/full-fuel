@@ -12,6 +12,7 @@ export interface FuelPriceRepo {
   getMonthlyPrices(fuelstationID: number): Promise<FuelMonthlyPrices[]>;
   getEvolution(fuelstationID: number, fueltype: FuelTypes, price: number): Promise<FuelPriceEvolution>;
   getPriceStatistics(fuelstationID: number, fueltype: FuelTypes): Promise<FuelPriceStatisticsType>;
+  isPriceAvailable(fuelstationID: number, fueltype: FuelTypes): Promise<boolean>;
   pricesDump(fuelstationID: number, fueltype: FuelTypes, priceStatistics: FuelPriceStatisticsType): Promise<void>;
   getPricesDump(): Promise<FuelPricesDump[]>;
   getBestMoments(fuelstationID: number): Promise<FuelPricesBestMoments>
