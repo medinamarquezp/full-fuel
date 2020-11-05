@@ -31,4 +31,18 @@ export class FuelStationsController extends BaseController {
     }
     return response as Response;
   }
+
+  public static async getById(req: Request, res: Response): Promise<Response>{
+    let response: Response | undefined;
+
+    try {
+      FuelStationsController.validationErrorHandler(req);
+      const { longitude, latitude, fuelstationID } = req.body;
+      const fuelStationsList = await FuelStationsRepo.getFuelStationByID(longitude, latitude, fuelstationID);
+      FuelStationsController.responseHandler.response(res, fuelStationsList);
+    } catch (error) {
+      FuelStationsController.errorHandler.error(res, error);
+    }
+    return response as Response;
+  }
 }

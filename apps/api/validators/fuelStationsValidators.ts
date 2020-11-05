@@ -48,3 +48,23 @@ export const getListByIdsValidationRules = (): ValidationChain[] => {
       .withMessage("fuelstationsIDs must be an array of numbers")
   ];
 };
+
+export const getByIdValidationRules = (): ValidationChain[] => {
+  return [
+    check("longitude")
+      .notEmpty()
+      .withMessage("longitude parameter is required")
+      .matches(/^(\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/)
+      .withMessage("Wrong longitude format"),
+    check("latitude")
+      .notEmpty()
+      .withMessage("latitude parameter is required")
+      .matches(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/)
+      .withMessage("Wrong latitude format"),
+    check("fuelstationID")
+      .notEmpty()
+      .withMessage("fuelstationID parameter is required")
+      .isNumeric()
+      .withMessage("fuelstationID must be a number")
+  ];
+};
