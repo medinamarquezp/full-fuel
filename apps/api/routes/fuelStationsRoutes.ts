@@ -4,8 +4,8 @@ import { getListByGeoValidationRules, getListByIdsValidationRules, getByIdValida
 
 const router = Router();
 
-router.post("/listbygeo", getListByGeoValidationRules(), FuelStationsController.getListByGeo);
-router.post("/listbyids", getListByIdsValidationRules(), FuelStationsController.getListByIds);
-router.post("/", getByIdValidationRules(), FuelStationsController.getById);
+router.get("/listbygeo", getListByGeoValidationRules(), FuelStationsController.getListByGeo);
+router.get("/listbyids", getListByIdsValidationRules(), FuelStationsController.getListByIds);
+router.get("/", getByIdValidationRules(), FuelStationsController.getById);
 
 export default router;
