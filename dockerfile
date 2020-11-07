@@ -4,10 +4,12 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+COPY ./patches ./patches
+
+RUN npm install --unsafe-perm
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["npm", "run", "dev"]

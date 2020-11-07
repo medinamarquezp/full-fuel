@@ -1,0 +1,52 @@
+diff --git a/node_modules/@types/redis/index.d.ts b/node_modules/@types/redis/index.d.ts
+index cba7afb..7311b2e 100644
+--- a/node_modules/@types/redis/index.d.ts
++++ b/node_modules/@types/redis/index.d.ts
+@@ -563,8 +563,10 @@ export interface Commands<R> {
+     /**
+      * Add one or more geospatial items in the geospatial index represented using a sorted set.
+      */
+-    geoadd: OverloadedKeyCommand<string | number, number, R>;
+-    GEOADD: OverloadedKeyCommand<string | number, number, R>;
++    //geoadd: OverloadedKeyCommand<string | number, number, R>;
++    //GEOADD: OverloadedKeyCommand<string | number, number, R>;
++    geoadd(key: string, arg1: string|number, arg2: string|number, arg3: string|number, cb?: Callback<number>): R;
++    GEOADD(key: string, arg1: string|number, arg2: string|number, arg3: string|number, cb?: Callback<number>): R;
+ 
+     /**
+      * Returns members of a geospatial index as standard geohash strings.
+@@ -587,8 +589,11 @@ export interface Commands<R> {
+     /**
+      * Query a sorted set representing a geospatial index to fetch members matching a given maximum distance from a point.
+      */
+-    georadius: OverloadedKeyCommand<string | number, Array<string | [string, string | [string, string]]>, R>;
+-    GEORADIUS: OverloadedKeyCommand<string | number, Array<string | [string, string | [string, string]]>, R>;
++    //georadius: OverloadedKeyCommand<string | number, Array<string | [string, string | [string, string]]>, R>;
++    //GEORADIUS: OverloadedKeyCommand<string | number, Array<string | [string, string | [string, string]]>, R>;
++    georadius(key: string, arg1: string | number, arg2: string | number, arg3: string | number, arg4: string | number, arg5: string, cb?: Callback<Array<string | [string, string | [string, string]]>>): R;
++    GEORADIUS(key: string, arg1: string | number, arg2: string | number, arg3: string | number, arg4: string | number, arg5: string, cb?: Callback<Array<string | [string, string | [string, string]]>>): R;
++
+ 
+     /**
+      * Query a sorted set representing a geospatial index to fetch members matching a given maximum distance from a member.
+@@ -671,14 +676,16 @@ export interface Commands<R> {
+     /**
+      * Get the values of all the given hash fields.
+      */
+-    hmget: OverloadedKeyCommand<string, string[], R>;
+-    HMGET: OverloadedKeyCommand<string, string[], R>;
++    //hmget: OverloadedKeyCommand<string, string[], R>;
++    //HMGET: OverloadedKeyCommand<string, string[], R>;
++    hmget(key: string, arg1: string | string[], cb?: Callback<string[]>): R;
++    HMGET(key: string, arg1: string | string[], cb?: Callback<string[]>): R;
+ 
+     /**
+      * Set the string value of a hash field.
+      */
+-    hset: OverloadedSetCommand<string, number, R>;
+-    HSET: OverloadedSetCommand<string, number, R>;
++    hset(key: string, field: string, value: string, cb?: Callback<number>): R;
++    HSET(key: string, field: string, value: string, cb?: Callback<number>): R;
+ 
+     /**
+      * Set the value of a hash field, only if the field does not exist.
