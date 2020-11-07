@@ -7,10 +7,10 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
-    environment:
-      - NODE_ENV=development
+    env_file:
+      - ./src/config/docker.env
     ports:
-      - '8080:8080'
+      - '8000:8000'
     depends_on:
       - mysql
       - redis
