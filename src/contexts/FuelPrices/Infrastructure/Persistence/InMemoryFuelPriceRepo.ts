@@ -7,6 +7,7 @@ import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolut
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
 import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
 import { FuelMonthlyPrices } from "@/contexts/FuelPrices/Domain/FuelMonthlyPrices";
+import { FuelPriceUpdate } from "@/contexts/FuelPrices/Domain/FuelPriceUpdate";
 
 export class InMemoryFuelPriceRepo implements FuelPriceRepo {
   private fuelPricesStore: FuelPrice[] = [];
@@ -54,6 +55,17 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
     const max = fixDecimals(Math.max(...prices));
     const avg = fixDecimals(average(prices));
     return { min, max, avg };
+  }
+
+  async getLastPriceUpdate(fuelstationID: number, fueltype: FuelTypes): Promise<FuelPriceUpdate[]>{
+    return this.fuelPricesStore
+               .filter(fuelprice => fuelprice.fuelstationID === fuelstationID && fuelprice.fuelType === fueltype)
+               .sort((p1, p2) => p2.fuelstationID > p1.fuelstationID ? 1 : -1)
+               .slice(0,2)
+               .map(fuelprice => {
+                 const {fuelstationID, fuelType, evolution, price} = fuelprice;
+                 return {fuelstationID, fuelType, evolution, price};
+               });
   }
 
   async isPriceAvailable(fuelstationID: number, fueltype: FuelTypes): Promise<boolean>{

@@ -12,6 +12,7 @@ import { Serializer } from "@/sharedInfrastructure/Serializer";
 import { DBConnection } from "@/sharedInfrastructure/Persistence/ORM/DBconnection";
 import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
 import { FuelMonthlyPrices } from "@/contexts/FuelPrices/Domain/FuelMonthlyPrices";
+import { FuelPriceUpdate } from "@/contexts/FuelPrices/Domain/FuelPriceUpdate";
 
 export class MysqlFuelPriceRepo implements FuelPriceRepo
 {
@@ -117,6 +118,29 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
       throw new Error(error);
     }
     return priceEvolution;
+  }
+
+  async getLastPriceUpdate(fuelstationID: number, fueltype: FuelTypes): Promise<FuelPriceUpdate[]>{
+    let pricesUpdate: FuelPriceUpdate[] = [];
+
+    try {
+      const queryResult = await FuelPriceOrmEntity.findAll({
+        attributes: ["fuelstationID", "fuelType", "evolution", "price"],
+        where: {fuelstationID, fueltype},
+        order: [["id", "DESC"]],
+        limit: 2,
+        raw: true
+      });
+
+      pricesUpdate = queryResult.map((result: FuelPrice) => {
+        const {fuelstationID, fuelType, evolution, price} = result;
+        return {fuelstationID, fuelType, evolution, price};
+      });
+
+    } catch (error) {
+      throw new Error(error);
+    }
+    return pricesUpdate;
   }
 
   private fixDecimals = (value: string) => parseFloat(parseFloat(value).toFixed(3));
