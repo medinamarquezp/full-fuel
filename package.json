@@ -8,12 +8,13 @@
     "build": "npm run lint && tsc",
     "postbuild": "ef-tspm",
     "postinstall": "patch-package",
+    "start": "node build/apps/api/app.js",
     "test": "jest --detectOpenHandles --forceExit --silent",
     "dev": "nodemon -L",
-    "executeTasks": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/scheduledTasks.js",
-    "ccaaJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/CCAAJob.js",
-    "fuelStationsJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/FuelStationsJob.js",
-    "notificationsJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/NotificationsJob.js"
+    "executeTasks": "node build/apps/scheduledTasks/scheduledTasks.js",
+    "ccaaJob": "node build/apps/scheduledTasks/Jobs/CCAAJob.js",
+    "fuelStationsJob": "node build/apps/scheduledTasks/Jobs/FuelStationsJob.js",
+    "notificationsJob": "node build/apps/scheduledTasks/Jobs/NotificationsJob.js"
   },
   "keywords": [
     "nodejs",
