@@ -10,7 +10,7 @@ services:
 before_script:
   - docker-compose -f docker-compose.travis.yml up --build -d
   - docker ps -a
-  - sleep 30  # wait for Mysql and Redis to start
+  - sleep 10  # wait for Mysql and Redis to start
 
 script:
   - npm run test
