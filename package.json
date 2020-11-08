@@ -12,7 +12,8 @@
     "dev": "nodemon -L",
     "executeTasks": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/scheduledTasks.js",
     "ccaaJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/CCAAJob.js",
-    "fuelStationsJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/FuelStationsJob.js"
+    "fuelStationsJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/FuelStationsJob.js",
+    "notificationsJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/NotificationsJob.js"
   },
   "keywords": [
     "nodejs",
