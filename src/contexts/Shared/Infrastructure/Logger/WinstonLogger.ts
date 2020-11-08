@@ -1,5 +1,6 @@
 import { TransformableInfo } from "logform";
-import { createLogger, format, transports, Logger } from "winston";
+import { createLogger, format, Logger } from "winston";
+import DailyRotateFile from "winston-daily-rotate-file";
 const { combine, timestamp, simple, printf } = format;
 
 export class WinstonLogger
@@ -24,14 +25,24 @@ export class WinstonLogger
     });
   }
 
-  private createTransportFile(level: string): transports.FileTransportInstance
+  private createTransportFile(level: string): DailyRotateFile
   {
-    return new transports.File({ filename: `${this.logsFolderPath}/${level}.log`, level: `${level}` });
+    const transport = new DailyRotateFile({
+      level,
+      frequency: "24h",
+      filename: `${this.logsFolderPath}/${level}-%DATE%.log`,
+      datePattern: "YYYY-MM-DD-HH",
+      zippedArchive: true,
+      maxSize: "20m",
+      maxFiles: "5d",
+      options: { flags: "a", mode: 0o777 }
+    });
+    return transport;
   }
 
-  private createTransportList(levels: string[]): transports.FileTransportInstance[]
+  private createTransportList(levels: string[]): DailyRotateFile[]
   {
-    const transports: transports.FileTransportInstance[] = [];
+    const transports: DailyRotateFile[] = [];
 
     for (const level of levels)
     {
@@ -43,7 +54,7 @@ export class WinstonLogger
 
   private logContent(info: TransformableInfo): string
   {
-    return `[${info.timestamp}] (${__filename.split(/[\\/]/).pop()}) - ${info.level.toUpperCase()} - ${info.message}`;
+    return `[${info.timestamp}] - ${info.level.toUpperCase()} - ${info.message}`;
   }
 
 }
