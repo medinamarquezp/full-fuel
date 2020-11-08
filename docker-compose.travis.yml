@@ -19,8 +19,6 @@ services:
   mysql:
     image: mysql:5.7.31
     restart: always
-    env_file:
-      - ./src/config/dev.env
     ports:
       - '3306:3306'
     volumes:
