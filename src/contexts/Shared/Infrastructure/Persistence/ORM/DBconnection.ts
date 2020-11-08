@@ -8,7 +8,7 @@ export class DBConnection
     username: process.env.MYSQL_USER || "",
     password: process.env.MYSQL_PASSWORD || "",
     host: process.env.MYSQL_HOST || "localhost",
-    port: 3306,
+    port: parseInt(process.env.MYSQL_PORT as string) || 3306,
     dialect: "mysql",
     logging: false,
     define: {
