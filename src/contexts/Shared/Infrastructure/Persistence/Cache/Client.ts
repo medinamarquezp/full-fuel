@@ -7,7 +7,8 @@ export class Client{
   private static log = FactoryLogger.getLoggerInstance(process.env.LOGGER);
   private static ops = {
     host: process.env.REDIS_HOST || "127.0.0.1",
-    port: parseInt(process.env.REDIS_PORT as string) || 6379
+    port: parseInt(process.env.REDIS_PORT as string) || 6379,
+    password: process.env.REDIS_PASSWORD
   }
   public static clientInstance(ops?: ClientOpts): RedisClient {
     if (this.instance === null) {

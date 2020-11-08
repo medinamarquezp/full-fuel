@@ -7,7 +7,8 @@ import { ErrorHandler } from "../handlers/ErrorHandler";
 export const rateLimiter = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const redisClient = Client.clientInstance({
     host: process.env.REDIS_HOST || "127.0.0.1",
-    port: parseInt(process.env.REDIS_PORT as string) || 6379
+    port: parseInt(process.env.REDIS_PORT as string) || 6379,
+    password: process.env.REDIS_PASSWORD
   });
 
   const opts = {
@@ -20,11 +21,7 @@ export const rateLimiter = async (req: Request, res: Response, next: NextFunctio
 
   try {
     const { remoteAddress } = req.connection;
-
-    if(remoteAddress) {
-      await rateLimiterRedis.consume(remoteAddress);
-      next();
-    }
+    if(remoteAddress) { await rateLimiterRedis.consume(remoteAddress); next();}
   } catch (error) {
     ErrorHandler.error(res, new TooManyRequestsException("Too many requests in a given amount of time", error));
   }
