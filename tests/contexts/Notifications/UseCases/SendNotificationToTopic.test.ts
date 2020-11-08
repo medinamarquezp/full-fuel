@@ -2,7 +2,7 @@ import { Notification } from "@/contexts/Notifications/Domain/Notification";
 import { SendNotificationToTopic } from "@/contexts/Notifications/UseCases/SendNotificationToTopic";
 import { FCMNotificationRepo } from "@/contexts/Notifications/Infrastructure/Push/FCMNotificationRepo";
 
-describe('Send notification to topic use case test', () => {
+describe.skip('Send notification to topic use case test', () => {
   let sendNotificationToTopic: SendNotificationToTopic, repo: FCMNotificationRepo, topic: string;
   beforeAll(async () => {
     repo = new FCMNotificationRepo();
