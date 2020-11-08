@@ -8,7 +8,7 @@
     "build": "npm run lint && tsc",
     "postbuild": "ef-tspm",
     "postinstall": "patch-package",
-    "test": "jest",
+    "test": "jest --detectOpenHandles --forceExit --silent",
     "dev": "nodemon -L",
     "executeTasks": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/scheduledTasks.js",
     "ccaaJob": "env-cmd -f ./src/config/dev.env node build/apps/scheduledTasks/Jobs/CCAAJob.js",
