@@ -5,11 +5,7 @@ import { TooManyRequestsException } from "@/sharedExceptions/TooManyRequestsExce
 import { ErrorHandler } from "../handlers/ErrorHandler";
 
 export const rateLimiter = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const redisClient = Client.clientInstance({
-    host: process.env.REDIS_HOST || "127.0.0.1",
-    port: parseInt(process.env.REDIS_PORT as string) || 6379,
-    password: process.env.REDIS_PASSWORD
-  });
+  const redisClient = Client.clientInstance();
 
   const opts = {
     storeClient: redisClient,
