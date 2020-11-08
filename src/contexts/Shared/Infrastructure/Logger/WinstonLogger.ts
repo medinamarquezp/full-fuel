@@ -28,11 +28,14 @@ export class WinstonLogger
   private createTransportFile(level: string): DailyRotateFile
   {
     const transport = new DailyRotateFile({
+      level,
+      frequency: "24h",
       filename: `${this.logsFolderPath}/${level}-%DATE%.log`,
       datePattern: "YYYY-MM-DD-HH",
       zippedArchive: true,
       maxSize: "20m",
-      maxFiles: "5d"
+      maxFiles: "5d",
+      options: { flags: "a", mode: 0o777 }
     });
     return transport;
   }

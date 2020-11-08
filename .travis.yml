@@ -1,5 +1,4 @@
 os: linux
-sudo: required
 language: node_js
 node_js:
   - '12'
@@ -10,7 +9,6 @@ services:
 before_script:
   - docker-compose -f docker-compose.travis.yml up --build -d
   - docker ps -a
-  - sleep 10  # wait for Mysql and Redis to start
 
 script:
   - npm run test

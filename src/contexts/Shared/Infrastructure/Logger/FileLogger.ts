@@ -1,6 +1,7 @@
 /* eslint-disable prefer-const */
 import { Logger } from "@/sharedDomain/Logger";
 import { WinstonLogger } from "./WinstonLogger";
+import { resolve, join } from "path";
 
 export let FileLogger: Logger;
 
@@ -8,9 +9,10 @@ FileLogger = class
 {
   private static logger()
   {
-    const logsFolderPath = `${process.cwd()}/logs`;
+    const rootDir = resolve(process.cwd());
+    const logsFolderPath = join(rootDir, "logs");
     const loggerInstance = new WinstonLogger(logsFolderPath);
-    return loggerInstance.winstonLogger(["info", "warn", "error"]);
+    return loggerInstance.winstonLogger(["info", "error"]);
   }
 
   static info(message: string): void
