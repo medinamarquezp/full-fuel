@@ -60,7 +60,7 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
   async getLastPriceUpdate(fuelstationID: number, fueltype: FuelTypes): Promise<FuelPriceUpdate[]>{
     return this.fuelPricesStore
                .filter(fuelprice => fuelprice.fuelstationID === fuelstationID && fuelprice.fuelType === fueltype)
-               .sort((p1, p2) => p2.fuelstationID > p1.fuelstationID ? 1 : -1)
+               .sort((p1, p2) => p1.fuelstationID > p2.fuelstationID ? 1 : -1)
                .slice(0,2)
                .map(fuelprice => {
                  const {fuelstationID, fuelType, evolution, price} = fuelprice;
