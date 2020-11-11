@@ -11,6 +11,22 @@ export class DBConnection
     port: parseInt(process.env.MYSQL_PORT as string) || 3306,
     dialect: "mysql",
     logging: false,
+    retry: {
+      match: [
+        /SequelizeConnectionError/,
+        /SequelizeConnectionRefusedError/,
+        /SequelizeHostNotFoundError/,
+        /SequelizeHostNotReachableError/,
+        /SequelizeInvalidConnectionError/,
+        /SequelizeConnectionTimedOutError/
+      ],
+      max: 20
+    },
+    pool: {
+      min: 0,
+      max: 10,
+      idle: 30000
+    },
     define: {
       charset: "utf8",
       collate: "utf8_general_ci"

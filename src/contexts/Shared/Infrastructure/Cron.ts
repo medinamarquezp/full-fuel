@@ -33,7 +33,8 @@ export class Cron {
     const maxBuffer = 1024 * 1024;
 
     try {
-      await this.execAsync(command, {maxBuffer});
+      const {stdout} = await this.execAsync(command, {maxBuffer});
+      console.log(stdout);
     } catch (error) {
       this.log.error(`Error al ejecutar el comando "${command}". ${error}`);
     }
