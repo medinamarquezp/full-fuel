@@ -19,7 +19,6 @@ describe('Get last price update use case test', () => {
   test('it should display price statistics', async () => {
     const sut = await lastPriceUpdate.getLastPriceUpdate(2590, FuelTypes.GASOIL);
     expect(sut.length).toBe(2);
-    expect(sut[0].evolution).toBe("D");
     expect(sut[1].price).toBe(1.118);
   })
 })
