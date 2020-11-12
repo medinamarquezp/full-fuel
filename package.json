@@ -12,9 +12,9 @@
     "test": "jest --detectOpenHandles --forceExit --silent",
     "dev": "nodemon -L",
     "executeTasks": "node build/apps/scheduledTasks/scheduledTasks.js",
-    "ccaaJob": "node build/apps/scheduledTasks/Jobs/CCAAJob.js",
-    "fuelStationsJob": "node build/apps/scheduledTasks/Jobs/FuelStationsJob.js",
-    "notificationsJob": "node build/apps/scheduledTasks/Jobs/NotificationsJob.js"
+    "ccaaJob": "node build/apps/scheduledTasks/jobs/CCAAJob.js",
+    "fuelStationsJob": "node build/apps/scheduledTasks/jobs/FuelStationsJob.js",
+    "notificationsJob": "node build/apps/scheduledTasks/jobs/NotificationsJob.js"
   },
   "keywords": [
     "nodejs",
