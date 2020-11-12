@@ -2,12 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Express, Request, Response, NextFunction } from "express";
 import { ErrorHandler } from "../handlers/ErrorHandler";
+import { ResponseHandler } from "../handlers/ResponseHandler";
 import { DomainError } from "@/sharedDomain/DomainError";
 import { NotFoundException } from "@/sharedExceptions/NotFoundException";
 import fuelStationsRoutes from "./fuelStationsRoutes";
 import subscriptionsRoutes from "./subscriptionsRoutes";
 
 export const routerHandler = (app: Express): Express => {
+  app.get("/", (req: Request, res: Response) => ResponseHandler.response(res, "Fullfuel app UP and running!"));
   app.use("/api/fuelstations", fuelStationsRoutes);
   app.use("/api/subscriptions", subscriptionsRoutes);
   app.use("*", () => { throw new NotFoundException("Resource not found"); });
