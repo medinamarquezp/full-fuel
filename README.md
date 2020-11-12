@@ -1,5 +1,5 @@
 # Full Fuel API
 
-[![Build Status](https://travis-ci.com/medinamarquezp/full-fuel.svg?branch=master)](https://travis-ci.com/github/medinamarquezp/full-fuel)
+![Fullfuel API CI](https://github.com/medinamarquezp/full-fuel/workflows/Fullfuel%20API%20CI/badge.svg)
 
 ⏰ Coming soon...
