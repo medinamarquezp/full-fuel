@@ -30,6 +30,6 @@ module.exports = {
     watch: true,
     ignore_watch : ["node_modules", "patches", "tests", "logs", "build"],
     autorestart: false,
-    cron_restart: "0 0 * * 7",
+    cron_restart: "0 0 * * 0",
   }]
 };
