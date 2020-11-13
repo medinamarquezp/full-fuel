@@ -11,7 +11,7 @@ export class FCMNotificationRepo implements NotificationRepo {
   private initApp(): void {
     const serviceAccount = {
       "projectId": process.env.FCM_PROJECT_ID as string,
-      "privateKey": process.env.FCM_PROJECT_KEY as string,
+      "privateKey": process.env.FCM_PROJECT_KEY?.replace(/\\n/g, "\n") as string,
       "clientEmail": process.env.FCM_CLIENT_EMAIL as string
     };
 
