@@ -9,34 +9,13 @@ module.exports = {
     ignore_watch : ["node_modules", "patches", "tests", "logs", "build"],
     autorestart: true
   }, {
-    name: "Fuel stations JOB",
-    script: "./build/apps/scheduledTasks/jobs/FuelStationsJob.js",
+    name: "JOBS",
+    script: "./build/apps/scheduledTasks/scheduledTasks.js",
     instances: 1,
     exec_mode: "cluster",
     time: true,
     watch: false,
     autorestart: false,
-    max_memory_restart: "1500M",
-    cron_restart: "0 6,13,19 * * *",
-  }, {
-    name: "Notifications JOB",
-    script: "./build/apps/scheduledTasks/jobs/NotificationsJob.js",
-    instances: 1,
-    exec_mode: "cluster",
-    time: true,
-    watch: false,
-    autorestart: false,
-    max_memory_restart: "1500M",
-    cron_restart: "30 6,13,19 * * *",
-  }, {
-    name: "CCAAs JOB",
-    script: "./build/apps/scheduledTasks/jobs/CCAAJob.js",
-    instances: 1,
-    exec_mode: "cluster",
-    time: true,
-    watch: false,
-    autorestart: false,
-    max_memory_restart: "1500M",
-    cron_restart: "0 0 * * 0",
+    max_memory_restart: "1500M"
   }]
 };
