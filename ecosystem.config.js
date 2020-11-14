@@ -13,6 +13,7 @@ module.exports = {
     exec_mode: "fork",
     watch: false,
     autorestart: false,
+    max_memory_restart: "1500M",
     cron_restart: "0 6,13,19 * * *",
   }, {
     name: "Notifications JOB",
@@ -20,6 +21,7 @@ module.exports = {
     exec_mode: "fork",
     watch: false,
     autorestart: false,
+    max_memory_restart: "1500M",
     cron_restart: "30 6,13,19 * * *",
   }, {
     name: "CCAAs JOB",
@@ -27,6 +29,7 @@ module.exports = {
     exec_mode: "fork",
     watch: false,
     autorestart: false,
+    max_memory_restart: "1500M",
     cron_restart: "0 0 * * 0",
   }]
 };
