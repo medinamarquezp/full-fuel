@@ -11,8 +11,7 @@ module.exports = {
   }, {
     name: "JOBS",
     script: "./build/apps/scheduledTasks/scheduledTasks.js",
-    instances: 1,
-    exec_mode: "cluster",
+    exec_mode: "fork",
     time: true,
     watch: false,
     autorestart: false,
