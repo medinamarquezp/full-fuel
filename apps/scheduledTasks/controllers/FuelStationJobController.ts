@@ -45,7 +45,7 @@ export class FuelStationJobController {
 
   static async setFuelStationBrandImage(fuelStation: FuelStation): Promise<FuelStation> {
     const brandImage = await FuelStation.getBrandimage(fuelStation);
-    fuelStation.setBrandImage(`/static/${brandImage}`);
+    fuelStation.setBrandImage(brandImage);
     return fuelStation;
   }
 
