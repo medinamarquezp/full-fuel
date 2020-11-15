@@ -14,7 +14,6 @@ module.exports = {
     exec_mode: "fork",
     time: true,
     watch: false,
-    autorestart: false,
-    max_memory_restart: "1500M"
+    autorestart: false
   }]
 };

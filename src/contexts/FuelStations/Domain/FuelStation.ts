@@ -65,7 +65,7 @@ export class FuelStation implements FuelStationProperties {
       const fuelstationNameNormalized = fuelStation.name.toLowerCase();
 
       if (brandLogoNormalizedName.indexOf(fuelstationNameNormalized) >= 0){
-        brandImage = brandLogo.brandImage;
+        brandImage = (brandLogo.brandImage) ? `/static/${brandLogo.brandImage}` : "";
       }
     }
     return brandImage;
