@@ -17,6 +17,9 @@ export class RestFuelStationRemoteRepo implements FuelStationRemoteRepo
     try {
       const remoteURL = this.url + ccaaID;
       const fuelStationsfromMinetur = await this.client.get<FuelStationRemoteProperties>(remoteURL);
+      console.log(`Response status: ${fuelStationsfromMinetur.ResultadoConsulta}`);
+      console.log(`Response content: ${JSON.stringify(fuelStationsfromMinetur.ListaEESSPrecio).substring(0, 15)}`);
+      console.log(`Total remote response: ${fuelStationsfromMinetur.ListaEESSPrecio.length}`);
       allFuelStations = FuelStationRemoteSerializer.remoteToFuelStation(fuelStationsfromMinetur);
     } catch (err) {
       throw new Error(err);

@@ -33,8 +33,17 @@ export class FuelStationJobController {
   static pricesDBRepo = new MysqlFuelPriceRepo();
 
   static async getRemoteFuelStations(ccaaID: string): Promise<FuelStation[]> {
+    let retries = 5;
+    let fuelStations = [];
     const fromRemote = new GetFuelStationsFromRemote(this.fuelStationRemoteRepo);
-    const fuelStations = await fromRemote.getAll(ccaaID);
+
+    do{
+      fuelStations = await fromRemote.getAll(ccaaID);
+      if(fuelStations.length) break;
+      retries--;
+      console.log(`${retries} retries pending for CCAA ${ccaaID}`);
+    } while(retries > 0);
+    if (!fuelStations.length) throw new Error(`Max retries reached with no results from remote server for CCAA ${ccaaID}`);
     return fuelStations;
   }
 
@@ -119,6 +128,11 @@ export class FuelStationJobController {
     return `Fuel stations of CCAA ${ccaaID} has been persisted correctly`;
   }
 }
+
+process.on("unhandledRejection", err => {
+  console.error(`Error: ${err}`);
+  process.exit(1);
+});
 
 process.on("message", async message => {
   const response = await FuelStationJobController.run(message.ccaa);
