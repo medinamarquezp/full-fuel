@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 module.exports = {
   apps : [{
     name: "API",
@@ -6,7 +7,7 @@ module.exports = {
     exec_mode: "cluster",
     time: true,
     watch: true,
-    ignore_watch : ["node_modules", "patches", "tests", "logs", "build"],
+    ignore_watch : ["node_modules", "patches", "tests", "logs", "build", "\.git"],
     autorestart: true
   }, {
     name: "FuelStationsJob",
