@@ -4,7 +4,7 @@ import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
-import { FuelPriceRepo } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
+import { FuelPriceRepo, Criteria } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
 import { FuelPriceOrmEntity } from "./FuelPriceOrmEntity";
 import { FuelPricesDumpOrmEntity } from "./FuelPricesDumpOrmEntity";
@@ -43,6 +43,18 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     {
       throw new Error(error);
     }
+  }
+
+  async findByCriteria(criteria: Criteria): Promise<FuelPrice[]>{
+    let fuelPrices: FuelPrice[] = [];
+
+    try {
+      const queryResult = await FuelPriceOrmEntity.findAll({where: {...criteria}, order: [["id", "ASC"]], raw: true});
+      fuelPrices = this.serializeFuelPriceToEntity(queryResult);
+    } catch (error) {
+      throw new Error(error);
+    }
+    return fuelPrices;
   }
 
   async getMonthlyPrices(fuelstationID: number): Promise<FuelMonthlyPrices[]>{

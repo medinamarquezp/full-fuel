@@ -2,7 +2,7 @@ import { dayMoments, Today } from "@/sharedDomain/Today";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { FuelPricesDump } from "@/contexts/FuelPrices/Domain/FuelPricesDump";
-import { FuelPriceRepo } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
+import { FuelPriceRepo, Criteria } from "@/contexts/FuelPrices/Domain/FuelPriceRepo";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
 import { FuelPricesBestMoments } from "@/contexts/FuelPrices/Domain/FuelPricesBestMoments";
@@ -19,6 +19,15 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
 
   async getAll(): Promise<FuelPrice[]>{
     return this.fuelPricesStore;
+  }
+
+  async findByCriteria(criteria: Criteria): Promise<FuelPrice[]>{
+    const paramName = Object.keys(criteria)[0];
+    const paramValue = Object.values(criteria)[0];
+    return this.fuelPricesStore.filter(fuelPrice => {
+      const price = fuelPrice as unknown as { [key: string]: string };
+      return price[paramName] === paramValue;
+    });
   }
 
   async getMonthlyPrices(fuelstationID: number): Promise<FuelMonthlyPrices[]>{
