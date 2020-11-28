@@ -1,5 +1,8 @@
+import { FactoryLogger } from "@/sharedInfrastructure/Logger/FactoryLogger";
 export class Today extends Date {
   constructor() { super(); }
+
+  static log = FactoryLogger.getLoggerInstance(process.env.LOGGER);
 
   static hour(): number {
     return new Date().getHours();
@@ -30,19 +33,34 @@ export class Today extends Date {
 
   static timeToString(time: Date): string {
     const minutes = time.getMinutes();
-    const monutesFormated = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    return `${time.getHours()}:${monutesFormated}`;
+    const minutesFormated = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    return `${time.getHours()}:${minutesFormated}`;
   }
 
   static getDayMoment(time: string | Date): dayMoments {
     const parsedInputTime = (typeof time === "object") ? Today.timeToString(time) : time as string;
-    const MORNING = { start: "6:00", end: "12:59" };
-    const AFTERNOOM = { start: "13:00", end: "18:59" };
-    const NIGHT = { start: "19:00", end: "23:59" };
-    if (Today.isBetween(MORNING.start, MORNING.end, parsedInputTime)) return dayMoments.MORNING;
-    if (Today.isBetween(AFTERNOOM.start, AFTERNOOM.end, parsedInputTime)) return dayMoments.AFTERNOOM;
-    if (Today.isBetween(NIGHT.start, NIGHT.end, parsedInputTime)) return dayMoments.NIGHT;
+    if (Today.isOnMorning(parsedInputTime)) return dayMoments.MORNING;
+    if (Today.isOnAfternoom(parsedInputTime)) return dayMoments.AFTERNOOM;
+    if (Today.isOnNight(parsedInputTime)) return dayMoments.NIGHT;
     return dayMoments.EARLYMORNING;
+  }
+
+  private static isOnMorning(parsedInputTime: string): boolean{
+    const MORNING = { start: "5:59", end: "12:59" };
+    const result = Today.isBetween(MORNING.start, MORNING.end, parsedInputTime);
+    return result;
+  }
+
+  private static isOnAfternoom(parsedInputTime: string): boolean{
+    const AFTERNOOM = { start: "12:59", end: "18:59" };
+    const result = Today.isBetween(AFTERNOOM.start, AFTERNOOM.end, parsedInputTime);
+    return result;
+  }
+
+  private static isOnNight(parsedInputTime: string): boolean{
+    const NIGHT = { start: "18:59", end: "23:59" };
+    const result = Today.isBetween(NIGHT.start, NIGHT.end, parsedInputTime);
+    return result;
   }
 
   static getMomentNow(): dayMoments {
