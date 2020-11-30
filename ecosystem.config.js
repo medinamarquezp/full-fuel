@@ -15,7 +15,7 @@ module.exports = {
     exec_mode: "fork",
     time: true,
     watch: false,
-    cron_restart: "*/15 * * * *",
+    cron_restart: "*/20 * * * *",
     autorestart: false
   }, {
     name: "NotificationsJob",
