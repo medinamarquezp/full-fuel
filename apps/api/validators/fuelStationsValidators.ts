@@ -1,23 +1,23 @@
-import { check, ValidationChain } from "express-validator";
+import { body, ValidationChain } from "express-validator";
 
 export const getListByGeoValidationRules  = (): ValidationChain[] => {
   return [
-    check("longitude")
+    body("longitude")
       .notEmpty()
       .withMessage("longitude parameter is required")
       .matches(/^(\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/)
       .withMessage("Wrong longitude format"),
-    check("latitude")
+    body("latitude")
       .notEmpty()
       .withMessage("latitude parameter is required")
       .matches(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/)
       .withMessage("Wrong latitude format"),
-    check("radius")
+    body("radius")
       .notEmpty()
       .withMessage("radius parameter is required")
       .isNumeric()
       .withMessage("radius must be a valid number"),
-    check("onlyOpen")
+    body("onlyOpen")
       .isBoolean()
       .withMessage("onlyOpen must be boolean")
       .optional()
@@ -26,22 +26,22 @@ export const getListByGeoValidationRules  = (): ValidationChain[] => {
 
 export const getListByIdsValidationRules = (): ValidationChain[] => {
   return [
-    check("longitude")
+    body("longitude")
       .notEmpty()
       .withMessage("longitude parameter is required")
       .matches(/^(\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/)
       .withMessage("Wrong longitude format"),
-    check("latitude")
+    body("latitude")
       .notEmpty()
       .withMessage("latitude parameter is required")
       .matches(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/)
       .withMessage("Wrong latitude format"),
-    check("fuelstationsIDs")
+    body("fuelstationsIDs")
       .notEmpty()
       .withMessage("fuelstationsIDs parameter is required")
       .isArray()
       .withMessage("fuelstationsIDs must be an array of numbers"),
-    check("fuelstationsIDs.*")
+    body("fuelstationsIDs.*")
       .notEmpty()
       .withMessage("fuelstationsIDs parameter is required")
       .isNumeric()
@@ -51,17 +51,17 @@ export const getListByIdsValidationRules = (): ValidationChain[] => {
 
 export const getByIdValidationRules = (): ValidationChain[] => {
   return [
-    check("longitude")
+    body("longitude")
       .notEmpty()
       .withMessage("longitude parameter is required")
       .matches(/^(\+|-)?(?:180(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,6})?))$/)
       .withMessage("Wrong longitude format"),
-    check("latitude")
+    body("latitude")
       .notEmpty()
       .withMessage("latitude parameter is required")
       .matches(/^(\+|-)?(?:90(?:(?:\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,6})?))$/)
       .withMessage("Wrong latitude format"),
-    check("fuelstationID")
+    body("fuelstationID")
       .notEmpty()
       .withMessage("fuelstationID parameter is required")
       .isNumeric()
