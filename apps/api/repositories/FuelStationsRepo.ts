@@ -76,12 +76,13 @@ export class FuelStationsRepo {
     const fuelStationsWithPrices = fuelStations.filter(fuelStation => fuelStation.prices.length !== 0);
 
     for await (const fuelStation of fuelStationsWithPrices) {
-      const { fuelstationID, name, brandImage, isAlwaysOpen, timetables, prices } = fuelStation;
+      const { fuelstationID, name, brandImage, latitude, longitude, isAlwaysOpen, timetables, prices } = fuelStation;
       const fullName = `${name} (${fuelstationID})`;
       const fuelPrices = await this.getFuelPrices(prices);
       const distance = this.getDistance(fuelStation, appCoordinates);
+      const coordinates = { latitude, longitude };
       const isNowOpen = isOpen(isAlwaysOpen, timetables);
-      const data: listData = { fuelstationID, name: fullName, brandImage, distance, isNowOpen, fuelPrices };
+      const data: listData = { fuelstationID, name: fullName, brandImage, distance, coordinates, isNowOpen, fuelPrices };
       listData.push(data);
     }
     if(listData.length === 0) throw new NotFoundException("No fuel stations found");
