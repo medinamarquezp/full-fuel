@@ -15,6 +15,7 @@ export interface listData {
   name: string,
   brandImage?: string | undefined,
   distance: number,
+  coordinates: coordinates,
   isNowOpen: boolean,
   fuelPrices: detailDataPrices[]
 }
