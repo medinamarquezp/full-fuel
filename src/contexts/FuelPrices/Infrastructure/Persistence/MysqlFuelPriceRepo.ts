@@ -121,7 +121,7 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
           [Sequelize.fn("MIN", Sequelize.col("price")), "min"],
           [Sequelize.fn("AVG", Sequelize.col("price")), "avg"]
         ],
-        where: { fuelType, fuelstationID },
+        where: { fuelType, fuelstationID, month: Today.month() },
         raw: true
       }) as unknown as { [key: string]: string };
       const { min, max, avg } = fuelPrices;

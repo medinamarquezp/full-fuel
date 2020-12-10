@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { headingDistanceTo } from "geolocation-utils";
 import { isOpen } from "../utils/isOpen";
-import { coordinates, geoPoint, listData, detailDataPrices, detailData } from "./FuelStationsRepoTypes";
+import { coordinates, geoPoint, listData, detailDataPrices, detailData, MonthlyPrice, MonthlyPriceEvolution } from "./FuelStationsRepoTypes";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { Serializer } from "@/sharedInfrastructure/Serializer";
 import { NotFoundException } from "@/sharedDomain/Exceptions/NotFoundException";
@@ -103,10 +103,19 @@ export class FuelStationsRepo {
              isNowOpen, fuelPrices, monthlyPriceEvolution, bestDay, bestMoment };
   }
 
-  private static async getMonthlyPrices(fuelstationID: number): Promise<FuelMonthlyPrices[]>{
-    const monthlyPrices = new GetMonthlyPrices(this.dbFuelPriceRepo);
-    const prices = await monthlyPrices.getPrices(fuelstationID);
-    return prices;
+  private static async getMonthlyPrices(fuelstationID: number): Promise<MonthlyPriceEvolution>{
+    const getMonthlyPrices = new GetMonthlyPrices(this.dbFuelPriceRepo);
+    const monthlyPrices = await getMonthlyPrices.getPrices(fuelstationID);
+    const month = monthlyPrices[0].month;
+    const g95: MonthlyPrice[] = [], g98: MonthlyPrice[] = [], gasoil: MonthlyPrice[] = [];
+
+    monthlyPrices.forEach(mp => {
+      if (mp.fuelType === FuelTypes.G95) g95.push({day: mp.day, price: mp.price});
+      if (mp.fuelType === FuelTypes.G98) g98.push({day: mp.day, price: mp.price});
+      if (mp.fuelType === FuelTypes.GASOIL) gasoil.push({day: mp.day, price: mp.price});
+    });
+
+    return { month, g95, g98, gasoil };
   }
 
   private static async getFuelPrices(prices: FuelPrice[], withStatistics = false): Promise<detailDataPrices[]> {
