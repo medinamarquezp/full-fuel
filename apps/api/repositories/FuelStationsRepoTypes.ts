@@ -1,5 +1,4 @@
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
-import { FuelMonthlyPrices } from "@/contexts/FuelPrices/Domain/FuelMonthlyPrices";
 import { FuelPriceEvolution } from "@/contexts/FuelPrices/Domain/FuelPriceEvolution";
 
 export interface coordinates {
@@ -29,6 +28,18 @@ export interface detailDataPrices {
   avg?: number
 }
 
+export interface MonthlyPrice {
+  day: number,
+  price: number
+}
+
+export interface MonthlyPriceEvolution {
+  month: number,
+  g95: MonthlyPrice[],
+  g98: MonthlyPrice[],
+  gasoil: MonthlyPrice[]
+}
+
 export interface detailData {
   fuelstationID: number,
   name: string,
@@ -39,7 +50,7 @@ export interface detailData {
   isNowOpen: boolean,
   timetable: string,
   fuelPrices: detailDataPrices[],
-  monthlyPriceEvolution: FuelMonthlyPrices[],
+  monthlyPriceEvolution: MonthlyPriceEvolution,
   bestDay: number | undefined,
   bestMoment: string | undefined
 }
