@@ -178,7 +178,7 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
       const wherePricesDump = {fuelstationID, fueltype, year: Today.year(), month: Today.month()};
       const isPriceDumped = await FuelPricesDumpOrmEntity.count({ where: wherePricesDump});
 
-      if (!isPriceDumped || isDayOne) {
+      if (!isPriceDumped && isDayOne) {
         await FuelPricesDumpOrmEntity.create(serializedData);
       } else {
         const {min, max, avg} = priceStatistics;
