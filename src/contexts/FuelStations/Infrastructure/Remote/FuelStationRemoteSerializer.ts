@@ -11,7 +11,7 @@ export class FuelStationRemoteSerializer
     const fuelStations = fuelStationsfromMinetur.ListaEESSPrecio.map(fs => {
       const fuelstationID = parseInt(fs.IDEESS);
       const timetables = this.getTimetables(fuelstationID, fs.Horario);
-      const prices = this.getFuelPrices(fuelstationID, fs["Precio Gasolina 95 E5"], fs["Precio Gasolina 95 E5"], fs["Precio Gasoleo A"]);
+      const prices = this.getFuelPrices(fuelstationID, fs["Precio Gasolina 95 E5"], fs["Precio Gasolina 98 E5"], fs["Precio Gasoleo A"]);
       const fuelStation = this.createFuelStation(fuelstationID, fs, timetables, prices);
       return fuelStation;
     });
