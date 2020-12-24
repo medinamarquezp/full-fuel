@@ -25,8 +25,7 @@ export class NotificationsJobController {
     const notifications = await this.getNotifications();
     const sendNotifications = new SendNotificationToTopic(this.notificationsPushRepo);
 
-    for await (const notification of notifications){
-      console.log(notification);
+    for (const notification of notifications){
       await sendNotifications.send(notification);
     }
     console.log(`It has been sended a total of ${notifications.length} notifications`);
@@ -36,7 +35,7 @@ export class NotificationsJobController {
     const notifications: Notification[] = [];
     const subscriptions = await this.getSubscriptions();
 
-    for await(const subscription of subscriptions){
+    for (const subscription of subscriptions){
       const { fuelstationID, fuelType } = subscription;
       const isPriceCheapest = await this.isPriceCheapest(fuelstationID, fuelType);
       const { isCheapest, priceUpdate } = isPriceCheapest;

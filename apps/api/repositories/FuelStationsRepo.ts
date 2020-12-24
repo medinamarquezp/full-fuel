@@ -75,7 +75,7 @@ export class FuelStationsRepo {
     const listData: listData[] = [];
     const fuelStationsWithPrices = fuelStations.filter(fuelStation => fuelStation.prices.length !== 0);
 
-    for await (const fuelStation of fuelStationsWithPrices) {
+    for  (const fuelStation of fuelStationsWithPrices) {
       const { fuelstationID, name, brandImage, latitude, longitude, isAlwaysOpen, timetables, prices } = fuelStation;
       const fullName = `${name} (${fuelstationID})`;
       const fuelPrices = await this.getFuelPrices(prices);
@@ -121,7 +121,7 @@ export class FuelStationsRepo {
   private static async getFuelPrices(prices: FuelPrice[], withStatistics = false): Promise<detailDataPrices[]> {
     const fuelPrices: detailDataPrices[] = [];
 
-    for await (const fuelPrice of prices) {
+    for (const fuelPrice of prices) {
       const { fuelstationID, fuelType, price, evolution } = fuelPrice;
       let priceData: detailDataPrices;
 
