@@ -1,33 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CacheJobController } from "./CacheJobController";
 import { MineturEndpoints } from "@/config/MineturEndpoints";
 import { FecthRestClient } from "@/sharedInfrastructure/FetchRestClient";
 import { RestFuelStationRemoteRepo } from "@/contexts/FuelStations/Infrastructure/Remote/RestFuelStationRemoteRepo";
 // FuelStations
-import { MysqlFuelStationRepo } from "@/contexts/FuelStations/Infrastructure/Persistence/MysqlFuelStationRepo";
 import { FuelStation } from "@/contexts/FuelStations/Domain/FuelStation";
 import { GetFuelStationsFromRemote } from "@/contexts/FuelStations/UseCases/GetFuelStationsFromRemote";
 import { PersistFuelStations } from "@/contexts/FuelStations/UseCases/PersistFuelStations";
 import { UpdateFuelStation } from "@/contexts/FuelStations/UseCases/UpdateFuelStation";
+import { SetFuelStationGeo } from "@/contexts/FuelStations/UseCases/SetFuelStationGeo";
+import { AddFuelStationToCache } from "@/contexts/FuelStations/UseCases/AddFuelStationToCache";
+import { MysqlFuelStationRepo } from "@/contexts/FuelStations/Infrastructure/Persistence/MysqlFuelStationRepo";
+import { CacheFuelStationRepo } from "@/contexts/FuelStations/Infrastructure/Persistence/CacheFuelStationRepo";
 // Timetables
-import { MysqlTimetablesRepo } from "@/contexts/Timetables/Infrastructure/Persistence/MysqlTimetablesRepo";
 import { Timetables } from "@/contexts/Timetables/Domain/Timetables";
 import { PersistTimetables } from "@/contexts/Timetables/UseCases/PersistTimetables";
+import { MysqlTimetablesRepo } from "@/contexts/Timetables/Infrastructure/Persistence/MysqlTimetablesRepo";
 // Prices
-import { MysqlFuelPriceRepo } from "@/contexts/FuelPrices/Infrastructure/Persistence/MysqlFuelPriceRepo";
+import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
 import { PersistFuelPrice } from "@/contexts/FuelPrices/UseCases/PersistFuelPrice";
 import { GetFuelPriceEvolution } from "@/contexts/FuelPrices/UseCases/GetFuelPriceEvolution";
 import { GetFuelPriceStatistics } from "@/contexts/FuelPrices/UseCases/GetFuelPriceStatistics";
-import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { PricesDump } from "@/contexts/FuelPrices/UseCases/PricesDump";
 import { GetBestMoments } from "@/contexts/FuelPrices/UseCases/GetBestMoments";
+import { MysqlFuelPriceRepo } from "@/contexts/FuelPrices/Infrastructure/Persistence/MysqlFuelPriceRepo";
 
 export class FuelStationJobController {
   static fuelStationRemoteRepo = new RestFuelStationRemoteRepo(MineturEndpoints.FuelStatinsByIdCCAA, FecthRestClient);
   static fuelStationDBRepo = new MysqlFuelStationRepo();
   static timetablesDBRepo = new MysqlTimetablesRepo();
   static pricesDBRepo = new MysqlFuelPriceRepo();
+  static fuelStationCacheRepo = new CacheFuelStationRepo();
 
   static async getRemoteFuelStations(ccaaID: string): Promise<FuelStation[]> {
     let retries = 5;
@@ -88,7 +91,7 @@ export class FuelStationJobController {
     const priceEvolution = new GetFuelPriceEvolution(this.pricesDBRepo);
     const updatedPrices: FuelPrice[] = [];
 
-    for await (const fuelPrice of prices) {
+    for (const fuelPrice of prices) {
       if (fuelPrice.price) {
         const evolution = await priceEvolution.getEvolution(fuelPrice.fuelstationID, fuelPrice.fuelType, fuelPrice.price);
         fuelPrice.setEvolution(evolution);
@@ -100,17 +103,27 @@ export class FuelStationJobController {
     return updatedPrices;
   }
 
+  static async cacheGeoData(longitude: number, latitude: number, fuelstationID: number): Promise<void> {
+    const fuelStationGeo = new SetFuelStationGeo(this.fuelStationCacheRepo);
+    await fuelStationGeo.setGeoPoint(longitude, latitude, fuelstationID);
+  }
+
+  static async cacheFuelStation(fuelstationID: number, fuelstation: FuelStation): Promise<void> {
+    const fuelStationCache = new AddFuelStationToCache(this.fuelStationCacheRepo);
+    await fuelStationCache.addToCache(fuelstationID, fuelstation);
+  }
+
   static async run(ccaaID: string): Promise<string> {
     const remoteFuelStations = await this.getRemoteFuelStations(ccaaID);
     await this.persistFuelStations(remoteFuelStations);
 
-    for await (const fuelStation of remoteFuelStations) {
+    for (const fuelStation of remoteFuelStations) {
       await this.persistTimetables(fuelStation.timetables);
       const updatedPrices = await this.persistPrices(fuelStation.prices);
       const updatedFuelStation = await this.setBrandAndMoments(fuelStation);
       updatedFuelStation.prices = updatedPrices;
-      await CacheJobController.cacheGeoData(updatedFuelStation.longitude, updatedFuelStation.latitude, updatedFuelStation.fuelstationID);
-      await CacheJobController.cacheFuelStation(updatedFuelStation.fuelstationID, updatedFuelStation);
+      await this.cacheGeoData(updatedFuelStation.longitude, updatedFuelStation.latitude, updatedFuelStation.fuelstationID);
+      await this.cacheFuelStation(updatedFuelStation.fuelstationID, updatedFuelStation);
     }
     return `Fuel stations of CCAA ${ccaaID} has been persisted correctly`;
   }
