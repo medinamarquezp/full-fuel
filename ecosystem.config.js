@@ -33,5 +33,13 @@ module.exports = {
     watch: false,
     cron_restart: "0 0 * * 0",
     autorestart: false
+  }, {
+    name: "RemovePricesJob",
+    script: "./build/apps/scheduledTasks/jobs/RemovePricesJob.js",
+    exec_mode: "fork",
+    time: true,
+    watch: false,
+    cron_restart: "0 7 1 * *",
+    autorestart: false
   }]
 };

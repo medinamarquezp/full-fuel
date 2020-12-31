@@ -15,7 +15,8 @@
     "cacheJob": "node build/apps/scheduledTasks/jobs/CacheJob.js",
     "ccaaJob": "node build/apps/scheduledTasks/jobs/CCAAJob.js",
     "fuelStationsJob": "node build/apps/scheduledTasks/jobs/FuelStationsJob.js",
-    "notificationsJob": "node build/apps/scheduledTasks/jobs/NotificationsJob.js"
+    "notificationsJob": "node build/apps/scheduledTasks/jobs/NotificationsJob.js",
+    "removePricesJob": "node build/apps/scheduledTasks/jobs/RemovePricesJob.js"
   },
   "keywords": [
     "nodejs",
