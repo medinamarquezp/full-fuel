@@ -4,7 +4,7 @@ import { FuelPriceProperties } from "./FuelPriceProperties";
 import { Today, dayMoments } from "@/sharedDomain/Today";
 
 export class FuelPrice implements FuelPriceProperties {
-  readonly month: number;
+  public month: number;
   readonly week: number;
   readonly day: number;
   readonly weekDay: number;
@@ -29,6 +29,10 @@ export class FuelPrice implements FuelPriceProperties {
 
   setEvolution(evolution: FuelPriceEvolution): void {
     this.evolution = evolution;
+  }
+
+  setMonth(month: number): void {
+    this.month = month;
   }
 
 }

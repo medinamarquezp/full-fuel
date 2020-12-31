@@ -112,4 +112,12 @@ export class InMemoryFuelPriceRepo implements FuelPriceRepo {
       return fuelPrice.fuelstationID === fuelstationID && fuelPrice.fuelType === fueltype;
     });
   }
+
+  async removeLastMonthPrices(): Promise<void>{
+    const lastMonth = Today.month() - 1;
+
+    this.fuelPricesStore =  this.fuelPricesStore.filter(fuelprice => {
+      if (fuelprice.month !== lastMonth) return fuelprice;
+    });
+  }
 }

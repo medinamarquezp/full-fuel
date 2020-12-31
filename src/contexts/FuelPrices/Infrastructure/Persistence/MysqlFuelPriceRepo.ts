@@ -248,4 +248,18 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
     });
   }
 
+  async removeLastMonthPrices(): Promise<void> {
+    const lastMonth = Today.month() - 1;
+
+    try {
+      await FuelPriceOrmEntity.destroy({
+        where: {
+          "month": lastMonth
+        }
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
 }
