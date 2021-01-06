@@ -12,9 +12,10 @@ import subscriptionsRoutes from "./subscriptionsRoutes";
 const brandImagesURL = join(resolve(process.cwd()), "src", "static", "images");
 
 export const routerHandler = (app: Express): Express => {
+  const apiVersion = "v1";
   app.get("/", (req: Request, res: Response) => ResponseHandler.response(res, "Fullfuel app UP and running!"));
-  app.use("/api/fuelstations", fuelStationsRoutes);
-  app.use("/api/subscriptions", subscriptionsRoutes);
+  app.use(`/${apiVersion}/fuelstations`, fuelStationsRoutes);
+  app.use(`/${apiVersion}/subscriptions`, subscriptionsRoutes);
   app.use("/static", express.static(brandImagesURL));
   app.use("*", () => { throw new NotFoundException("Resource not found"); });
 
