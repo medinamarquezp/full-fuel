@@ -16,28 +16,7 @@ export interface listData {
   distance: number,
   coordinates: coordinates,
   isNowOpen: boolean,
-  fuelPrices: detailDataPrices[]
-}
-
-export interface detailDataPrices {
-  fuelType: FuelTypes,
-  price: number,
-  evolution: FuelPriceEvolution | undefined
-  min?: number,
-  max?: number,
-  avg?: number
-}
-
-export interface MonthlyPrice {
-  day: number,
-  price: number
-}
-
-export interface MonthlyPriceEvolution {
-  month: number,
-  g95: MonthlyPrice[],
-  g98: MonthlyPrice[],
-  gasoil: MonthlyPrice[]
+  fuelPrices: fuelPrices[]
 }
 
 export interface detailData {
@@ -49,8 +28,33 @@ export interface detailData {
   coordinates: coordinates,
   isNowOpen: boolean,
   timetable: string,
-  fuelPrices: detailDataPrices[],
-  monthlyPriceEvolution: MonthlyPriceEvolution,
+  fuelPrices: fuelPrices[],
   bestDay: number | undefined,
   bestMoment: string | undefined
+}
+
+export interface fuelPrices {
+  fuelType: FuelTypes,
+  price: number,
+  evolution: FuelPriceEvolution | undefined,
+  min?: number | undefined,
+  max?: number | undefined,
+  avg?: number | undefined,
+  monthlyPriceEvolution?: MonthlyPriceEvolution | undefined
+}
+
+export interface MonthlyPriceEvolution {
+  month: number,
+  year: number,
+  prices: MonthlyPrice[]
+}
+export interface MonthlyPrice {
+  day: number,
+  price: number
+}
+
+export interface MonthlyPriceFuelTypes {
+  g95: MonthlyPrice[],
+  g98: MonthlyPrice[],
+  gasoil: MonthlyPrice[]
 }

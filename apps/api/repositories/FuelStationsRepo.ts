@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { headingDistanceTo } from "geolocation-utils";
 import { isOpen } from "../utils/isOpen";
-import { coordinates, geoPoint, listData, detailDataPrices, detailData, MonthlyPrice, MonthlyPriceEvolution } from "./FuelStationsRepoTypes";
+import { coordinates, geoPoint, listData, detailData, fuelPrices, MonthlyPrice, MonthlyPriceFuelTypes } from "./FuelStationsRepoTypes";
+import { Today } from "@/sharedDomain/Today";
 import { FuelTypes } from "@/sharedDomain/FuelTypes";
 import { Serializer } from "@/sharedInfrastructure/Serializer";
 import { NotFoundException } from "@/sharedDomain/Exceptions/NotFoundException";
@@ -12,7 +13,6 @@ import { GetFuelStationGeo } from "@/contexts/FuelStations/UseCases/GetFuelStati
 import { GetFuelStationsFromCache } from "@/contexts/FuelStations/UseCases/GetFuelStationsFromCache";
 import { CacheFuelStationRepo } from "@/contexts/FuelStations/Infrastructure/Persistence/CacheFuelStationRepo";
 import { FuelPrice } from "@/contexts/FuelPrices/Domain/FuelPrice";
-import { FuelMonthlyPrices } from "@/contexts/FuelPrices/Domain/FuelMonthlyPrices";
 import { FuelPriceStatisticsType } from "@/contexts/FuelPrices/Domain/FuelPriceStatistics";
 import { GetMonthlyPrices } from "@/contexts/FuelPrices/UseCases/GetMonthlyPrices";
 import { GetFuelPriceStatistics } from "@/contexts/FuelPrices/UseCases/GetFuelPriceStatistics";
@@ -98,15 +98,13 @@ export class FuelStationsRepo {
     const coordinates = {latitude, longitude};
     const isNowOpen = isOpen(isAlwaysOpen, timetables);
     const fuelPrices = await this.getFuelPrices(prices, true);
-    const monthlyPriceEvolution = await this.getMonthlyPrices(fuelstationID);
     return { fuelstationID, name: fullName, brandImage, address: fullAddress, distance, coordinates, timetable,
-             isNowOpen, fuelPrices, monthlyPriceEvolution, bestDay, bestMoment };
+             isNowOpen, fuelPrices, bestDay, bestMoment };
   }
 
-  private static async getMonthlyPrices(fuelstationID: number): Promise<MonthlyPriceEvolution>{
+  private static async getMonthlyPrices(fuelstationID: number): Promise<MonthlyPriceFuelTypes>{
     const getMonthlyPrices = new GetMonthlyPrices(this.dbFuelPriceRepo);
     const monthlyPrices = await getMonthlyPrices.getPrices(fuelstationID);
-    const month = monthlyPrices[0].month;
     const g95: MonthlyPrice[] = [], g98: MonthlyPrice[] = [], gasoil: MonthlyPrice[] = [];
 
     monthlyPrices.forEach(mp => {
@@ -115,24 +113,31 @@ export class FuelStationsRepo {
       if (mp.fuelType === FuelTypes.GASOIL) gasoil.push({day: mp.day, price: mp.price});
     });
 
-    return { month, g95, g98, gasoil };
+    return { g95, g98, gasoil };
   }
 
-  private static async getFuelPrices(prices: FuelPrice[], withStatistics = false): Promise<detailDataPrices[]> {
-    const fuelPrices: detailDataPrices[] = [];
+  private static async getFuelPrices(prices: FuelPrice[], withDetail = false): Promise<fuelPrices[]> {
+    const fuelPrices: fuelPrices[] = [];
+    let monthlyPriceFuelTypes: MonthlyPriceFuelTypes | undefined  = undefined;
+
+    if (withDetail) {
+      monthlyPriceFuelTypes = await this.getMonthlyPrices(prices[0].fuelstationID);
+    }
 
     for (const fuelPrice of prices) {
       const { fuelstationID, fuelType, price, evolution } = fuelPrice;
-      let priceData: detailDataPrices;
 
-      if (withStatistics) {
+      let dataPrice: fuelPrices = { fuelType, price, evolution };
+
+      if (withDetail) {
         const statistics = await this.getPriceStatistics(fuelstationID, fuelType);
         const { min, max, avg } = statistics;
-        priceData = { fuelType, price, evolution, min, max, avg };
-      } else {
-        priceData = { fuelType, price, evolution };
+        const prices = (monthlyPriceFuelTypes) ? monthlyPriceFuelTypes[fuelType] : [];
+        const monthlyPriceEvolution = { month: Today.month(), year: Today.year(), prices };
+        dataPrice = { ...dataPrice, min, max, avg, monthlyPriceEvolution };
       }
-      fuelPrices.push(priceData);
+
+      fuelPrices.push(dataPrice);
     }
     return fuelPrices;
   }
