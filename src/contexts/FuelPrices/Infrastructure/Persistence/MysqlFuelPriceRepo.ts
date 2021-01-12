@@ -66,7 +66,7 @@ export class MysqlFuelPriceRepo implements FuelPriceRepo
       const queryResult = await FuelPriceOrmEntity.findAll({
         attributes: ["month", "day", "fuelType", [Sequelize.fn("MIN", Sequelize.col("price")), "price"]],
         where: { fuelstationID, month },
-        order: [["day", "ASC"]],
+        order: [["updatedAt", "DESC"]],
         group: ["month", "day", "fuelType"],
         raw: true
       }) as FuelPrice[];
