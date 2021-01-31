@@ -8,7 +8,8 @@ describe.skip('Send notification to topic use case test', () => {
     repo = new FCMNotificationRepo();
     sendNotificationToTopic = new SendNotificationToTopic(repo);
     topic = "testTopic";
-    await repo.subscribeToTopic(topic)
+    const token = "bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1";
+    await repo.subscribeToTopic(topic, token)
   })
   afterAll(async() => {
     await repo.endApp();

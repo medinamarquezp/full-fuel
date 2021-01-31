@@ -24,8 +24,7 @@ export class FCMNotificationRepo implements NotificationRepo {
   async subscribeToTopic(topic: string, appToken?: string): Promise<void>{
     try {
       const token = process.env.APP_TOKEN || appToken as string;
-      const response = await admin.messaging().subscribeToTopic(token, topic);
-      console.log("Successfully subscribed to topic:", response);
+      await admin.messaging().subscribeToTopic(token, topic);
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +37,12 @@ export class FCMNotificationRepo implements NotificationRepo {
   async sendToTopic(notification: Notification): Promise<string>{
     let response = "";
     const { topic, title, message } = notification;
-    const messageObject = {topic, data:{ title, message }};
+
+    const messageObject = {
+      topic,
+      notification: { title, body: message },
+      data:{ "click_action": "FLUTTER_NOTIFICATION_CLICK", title, message }
+    };
 
     try {
       response = await admin.messaging().send(messageObject);
