@@ -41,7 +41,7 @@ export class FCMNotificationRepo implements NotificationRepo {
     const messageObject = {
       topic,
       notification: { title, body: message },
-      data:{ "click_action": "FLUTTER_NOTIFICATION_CLICK", title, message }
+      data:{ topic, "click_action": "FLUTTER_NOTIFICATION_CLICK", title, message }
     };
 
     try {
