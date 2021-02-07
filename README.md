@@ -7,12 +7,12 @@
 ![Fullfuel API CI](https://github.com/medinamarquezp/full-fuel/workflows/Fullfuel%20API%20CI/badge.svg)
 
 ## Documentación
-- [¿Qué es Fullfuel API?](#que-es-fullfuel-api)
-- [¿Qúe necesito para poder hacer funcionar este proyecto?](#que-necesito-para-poder-hacer-funcionar-este-proyecto)
-- [Cómo configurar el proyecto](#como-configurar-el-proyecto)
-- [Cómo cargar datos en la aplicación](#como-cargar-datos-en-la-aplicacion)
+- [¿Qué es Fullfuel API?](#qué-es-fullfuel-api)
+- [¿Qúe necesito para poder hacer funcionar este proyecto?](#qúe-necesito-para-poder-hacer-funcionar-este-proyecto)
+- [Cómo configurar el proyecto](#cómo-configurar-el-proyecto)
+- [Cómo cargar datos en la aplicación](#cómo-cargar-datos-en-la-aplicación)
 - [Uso de la API](#uso-de-la-api)
-- [Testeo de la aplicación](#testeo-de-la-aplicacion)
+- [Testeo de la aplicación](#testeo-de-la-aplicación)
 - [Estilo de commits](#estilo-de-commits)
 
 ## ¿Qué es Fullfuel API?
