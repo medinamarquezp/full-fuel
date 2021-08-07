@@ -1,16 +1,836 @@
 diff --git a/node_modules/sequelize/types/lib/model.d.ts b/node_modules/sequelize/types/lib/model.d.ts
-index bd900b3..4b82183 100644
+index bd900b3..fbfea9a 100644
 --- a/node_modules/sequelize/types/lib/model.d.ts
 +++ b/node_modules/sequelize/types/lib/model.d.ts
-@@ -2078,6 +2078,33 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
-     options: IncrementDecrementOptions
-   ): Promise<M>;
+@@ -1,14 +1,15 @@
+-import {
+-  Association,
+-  BelongsTo,
+-  BelongsToMany,
+-  BelongsToManyOptions,
+-  BelongsToOptions,
+-  HasMany,
+-  HasManyOptions,
+-  HasOne,
+-  HasOneOptions,
+-} from './associations/index';
++import
++  {
++    Association,
++    BelongsTo,
++    BelongsToMany,
++    BelongsToManyOptions,
++    BelongsToOptions,
++    HasMany,
++    HasManyOptions,
++    HasOne,
++    HasOneOptions,
++  } from './associations/index';
+ import { DataType } from './data-types';
+ import { Deferrable } from './deferrable';
+ import { HookReturn, Hooks, ModelHooks } from './hooks';
+@@ -22,7 +23,8 @@ import { Transaction, LOCK } from './transaction';
+ import { Col, Fn, Literal, Where } from './utils';
+ import { IndexHints } from '..';
  
+-export interface Logging {
++export interface Logging
++{
+   /**
+    * A function that gets executed while running the query to log the sql.
+    */
+@@ -34,7 +36,8 @@ export interface Logging {
+   benchmark?: boolean;
+ }
+ 
+-export interface Poolable {
++export interface Poolable
++{
+   /**
+    * Force the query to use the write pool, regardless of the query type.
+    *
+@@ -43,28 +46,32 @@ export interface Poolable {
+   useMaster?: boolean;
+ }
+ 
+-export interface Transactionable {
++export interface Transactionable
++{
+   /**
+    * Transaction to run query under
+    */
+   transaction?: Transaction;
+ }
+ 
+-export interface SearchPathable {
++export interface SearchPathable
++{
+   /**
+    * An optional parameter to specify the schema search_path (Postgres only)
+    */
+   searchPath?: string;
+ }
+ 
+-export interface Filterable {
++export interface Filterable
++{
+   /**
+    * Attribute has to be matched for rows to be selected for the given action.
+    */
+   where?: WhereOptions;
+ }
+ 
+-export interface Projectable {
++export interface Projectable
++{
+   /**
+    * A list of the attributes that you want to select. To rename an attribute, you can pass an array, with
+    * two elements - the first is the name of the attribute in the DB (or some kind of expression such as
+@@ -74,7 +81,8 @@ export interface Projectable {
+   attributes?: FindAttributeOptions;
+ }
+ 
+-export interface Paranoid {
++export interface Paranoid
++{
+   /**
+    * If true, only non-deleted records will be returned. If false, both deleted and non-deleted records will
+    * be returned. Only applies if `options.paranoid` is true for the model.
+@@ -87,7 +95,8 @@ export type GroupOption = string | Fn | Col | (string | Fn | Col)[];
+ /**
+  * Options to pass to Model on drop
+  */
+-export interface DropOptions extends Logging {
++export interface DropOptions extends Logging
++{
+   /**
+    * Also drop all objects depending on this table, such as views. Only works in postgres
+    */
+@@ -97,7 +106,8 @@ export interface DropOptions extends Logging {
+ /**
+  * Schema Options provided for applying a schema to a model
+  */
+-export interface SchemaOptions extends Logging {
++export interface SchemaOptions extends Logging
++{
+   /**
+    * The character(s) that separates the schema name from the table name
+    */
+@@ -107,7 +117,8 @@ export interface SchemaOptions extends Logging {
+ /**
+  * Scope Options for Model.scope
+  */
+-export interface ScopeOptions {
++export interface ScopeOptions
++{
+   /**
+    * The scope(s) to apply. Scopes can either be passed as consecutive arguments, or as an array of arguments.
+    * To apply simple scopes and scope functions with no arguments, pass them as strings. For scope function,
+@@ -128,12 +139,14 @@ export type WhereOptions = WhereAttributeHash | AndOperator | OrOperator | Liter
+  *
+  * _PG only_
+  */
+-export interface AnyOperator {
++export interface AnyOperator
++{
+   [Op.any]: (string | number)[];
+ }
+ 
+ /** Undocumented? */
+-export interface AllOperator {
++export interface AllOperator
++{
+   [Op.all]: (string | number | Date | Literal)[];
+ }
+ 
+@@ -144,7 +157,8 @@ export type Rangable = [number, number] | [Date, Date] | Literal;
+  *
+  * See https://sequelize.org/master/en/v3/docs/querying/#operators
+  */
+-export interface WhereOperators {
++export interface WhereOperators
++{
+   /**
+    * Example: `[Op.any]: [2,3]` becomes `ANY ARRAY[2, 3]::INTEGER`
+    *
+@@ -165,7 +179,7 @@ export interface WhereOperators {
+   [Op.ne]?: string | number | Literal | WhereOperators;
+ 
+   /** Example: `[Op.not]: true,` becomes `IS NOT TRUE` */
+-  [Op.not]?: boolean | string | number |  Literal | WhereOperators;
++  [Op.not]?: boolean | string | number | Literal | WhereOperators;
+ 
+   /** Example: `[Op.between]: [6, 10],` becomes `BETWEEN 6 AND 10` */
+   [Op.between]?: [number, number];
+@@ -316,19 +330,22 @@ export interface WhereOperators {
+ }
+ 
+ /** Example: `[Op.or]: [{a: 5}, {a: 6}]` becomes `(a = 5 OR a = 6)` */
+-export interface OrOperator {
++export interface OrOperator
++{
+   [Op.or]: WhereOptions | WhereOptions[] | WhereValue | WhereValue[];
+ }
+ 
+ /** Example: `[Op.and]: {a: 5}` becomes `AND (a = 5)` */
+-export interface AndOperator {
++export interface AndOperator
++{
+   [Op.and]: WhereOptions | WhereOptions[] | WhereValue | WhereValue[];
+ }
+ 
+ /**
+  * Where Geometry Options
+  */
+-export interface WhereGeometryOptions {
++export interface WhereGeometryOptions
++{
+   type: string;
+   coordinates: (number[] | number)[];
+ }
+@@ -356,7 +373,8 @@ export type WhereValue =
+ /**
+  * A hash of attributes to describe your search.
+  */
+-export interface WhereAttributeHash {
++export interface WhereAttributeHash
++{
+   /**
+    * Possible key values:
+    * - A simple attribute name
+@@ -373,7 +391,7 @@ export interface WhereAttributeHash {
+ /**
+  * Through options for Include Options
+  */
+-export interface IncludeThroughOptions extends Filterable, Projectable {}
++export interface IncludeThroughOptions extends Filterable, Projectable { }
+ 
+ /**
+  * Options for eager-loading associated models, also allowing for all associations to be loaded at once
+@@ -383,7 +401,8 @@ export type Includeable = typeof Model | Association | IncludeOptions | { all: t
+ /**
+  * Complex include options
+  */
+-export interface IncludeOptions extends Filterable, Projectable, Paranoid {
++export interface IncludeOptions extends Filterable, Projectable, Paranoid
++{
+   /**
+    * Mark the include as duplicating, will prevent a subquery from being used.
+    */
+@@ -484,20 +503,22 @@ export type ProjectionAlias = [string | Literal | Fn, string];
+ export type FindAttributeOptions =
+   | (string | ProjectionAlias)[]
+   | {
+-      exclude: string[];
+-      include?: (string | ProjectionAlias)[];
+-    }
++    exclude: string[];
++    include?: (string | ProjectionAlias)[];
++  }
+   | {
+-      exclude?: string[];
+-      include: (string | ProjectionAlias)[];
+-    };
++    exclude?: string[];
++    include: (string | ProjectionAlias)[];
++  };
+ 
+-export interface IndexHint {
++export interface IndexHint
++{
+   type: IndexHints;
+   values: string[];
+ }
+ 
+-export interface IndexHintable {
++export interface IndexHintable
++{
+   /**
+    * MySQL only.
+    */
+@@ -511,7 +532,8 @@ type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+  *
+  * A hash of options to describe the scope of the search
+  */
+-export interface FindOptions extends QueryOptions, Filterable, Projectable, Paranoid, IndexHintable {
++export interface FindOptions extends QueryOptions, Filterable, Projectable, Paranoid, IndexHintable
++{
+   /**
+    * A list of associations to eagerly load using a left join. Supported is either
+    * `{ include: [ Model1, Model2, ...]}`, `{ include: [{ model: Model1, as: 'Alias' }]}` or
+@@ -550,9 +572,9 @@ export interface FindOptions extends QueryOptions, Filterable, Projectable, Para
+    * locks with joins. See [transaction.LOCK for an example](transaction#lock)
+    */
+   lock?:
+-    | LOCK
+-    | { level: LOCK; of: typeof Model }
+-    | boolean;
++  | LOCK
++  | { level: LOCK; of: typeof Model }
++  | boolean;
+   /**
+    * Skip locked rows. Only supported in Postgres.
+    */
+@@ -574,7 +596,8 @@ export interface FindOptions extends QueryOptions, Filterable, Projectable, Para
+   subQuery?: boolean;
+ }
+ 
+-export interface NonNullFindOptions extends FindOptions {
++export interface NonNullFindOptions extends FindOptions
++{
+   /**
+    * Throw if nothing was found.
+    */
+@@ -584,7 +607,8 @@ export interface NonNullFindOptions extends FindOptions {
+ /**
+  * Options for Model.count method
+  */
+-export interface CountOptions extends Logging, Transactionable, Filterable, Projectable, Paranoid, Poolable {
++export interface CountOptions extends Logging, Transactionable, Filterable, Projectable, Paranoid, Poolable
++{
+   /**
+    * Include options. See `find` for details
+    */
+@@ -611,7 +635,8 @@ export interface CountOptions extends Logging, Transactionable, Filterable, Proj
+ /**
+  * Options for Model.count when GROUP BY is used
+  */
+-export interface CountWithOptions extends CountOptions {
++export interface CountWithOptions extends CountOptions
++{
+   /**
+    * GROUP BY in sql
+    * Used in conjunction with `attributes`.
+@@ -620,12 +645,13 @@ export interface CountWithOptions extends CountOptions {
+   group: GroupOption;
+ }
+ 
+-export interface FindAndCountOptions extends CountOptions, FindOptions {}
++export interface FindAndCountOptions extends CountOptions, FindOptions { }
+ 
+ /**
+  * Options for Model.build method
+  */
+-export interface BuildOptions {
++export interface BuildOptions
++{
+   /**
+    * If set to true, values will ignore field and virtual setters.
+    */
+@@ -644,7 +670,8 @@ export interface BuildOptions {
+   include?: Includeable[];
+ }
+ 
+-export interface Silent {
++export interface Silent
++{
+   /**
+    * If true, the updatedAt timestamp will not be updated.
+    *
+@@ -656,7 +683,8 @@ export interface Silent {
+ /**
+  * Options for Model.create method
+  */
+-export interface CreateOptions extends BuildOptions, Logging, Silent, Transactionable {
++export interface CreateOptions extends BuildOptions, Logging, Silent, Transactionable
++{
+   /**
+    * If set, only columns matching those in fields will be saved
+    */
+@@ -678,7 +706,8 @@ export interface CreateOptions extends BuildOptions, Logging, Silent, Transactio
+ /**
+  * Options for Model.findOrCreate method
+  */
+-export interface FindOrCreateOptions extends Logging, Transactionable {
++export interface FindOrCreateOptions extends Logging, Transactionable
++{
+   /**
+    * A hash of search attributes.
+    */
+@@ -693,7 +722,8 @@ export interface FindOrCreateOptions extends Logging, Transactionable {
+ /**
+  * Options for Model.upsert method
+  */
+-export interface UpsertOptions extends Logging, Transactionable, SearchPathable {
++export interface UpsertOptions extends Logging, Transactionable, SearchPathable
++{
+   /**
+    * The fields to insert / update. Defaults to all fields
+    */
+@@ -718,7 +748,8 @@ export interface UpsertOptions extends Logging, Transactionable, SearchPathable
+ /**
+  * Options for Model.bulkCreate method
+  */
+-export interface BulkCreateOptions extends Logging, Transactionable {
++export interface BulkCreateOptions extends Logging, Transactionable
++{
+   /**
+    * Fields to insert (defaults to all fields)
+    */
+@@ -768,7 +799,8 @@ export interface BulkCreateOptions extends Logging, Transactionable {
+ /**
+  * The options passed to Model.destroy in addition to truncate
+  */
+-export interface TruncateOptions extends Logging, Transactionable, Filterable {
++export interface TruncateOptions extends Logging, Transactionable, Filterable
++{
+   /**
+    * Only used in conjuction with TRUNCATE. Truncates  all tables that have foreign-key references to the
+    * named table, or to any tables added to the group due to CASCADE.
+@@ -808,7 +840,8 @@ export interface TruncateOptions extends Logging, Transactionable, Filterable {
+ /**
+  * Options used for Model.destroy
+  */
+-export interface DestroyOptions extends TruncateOptions {
++export interface DestroyOptions extends TruncateOptions
++{
+   /**
+    * If set to true, dialects that support it will use TRUNCATE instead of DELETE FROM. If a table is
+    * truncated the where and limit options are ignored
+@@ -819,7 +852,8 @@ export interface DestroyOptions extends TruncateOptions {
+ /**
+  * Options for Model.restore
+  */
+-export interface RestoreOptions extends Logging, Transactionable, Filterable {
++export interface RestoreOptions extends Logging, Transactionable, Filterable
++{
+   /**
+    * Run before / after bulk restore hooks?
+    */
+@@ -840,7 +874,8 @@ export interface RestoreOptions extends Logging, Transactionable, Filterable {
+ /**
+  * Options used for Model.update
+  */
+-export interface UpdateOptions extends Logging, Transactionable {
++export interface UpdateOptions extends Logging, Transactionable
++{
+   /**
+    * Options to describe the scope of the search.
+    */
+@@ -900,7 +935,8 @@ export interface UpdateOptions extends Logging, Transactionable {
+ /**
+  * Options used for Model.aggregate
+  */
+-export interface AggregateOptions<T extends DataType | unknown> extends QueryOptions, Filterable, Paranoid {
++export interface AggregateOptions<T extends DataType | unknown> extends QueryOptions, Filterable, Paranoid
++{
+   /**
+    * The type of the result. If `field` is a field in this Model, the default will be the type of that field,
+    * otherwise defaults to float.
+@@ -918,12 +954,13 @@ export interface AggregateOptions<T extends DataType | unknown> extends QueryOpt
+ /**
+  * Options used for Instance.increment method
+  */
+-export interface IncrementDecrementOptions extends Logging, Transactionable, Silent, SearchPathable, Filterable {}
++export interface IncrementDecrementOptions extends Logging, Transactionable, Silent, SearchPathable, Filterable { }
+ 
+ /**
+  * Options used for Instance.increment method
+  */
+-export interface IncrementDecrementOptionsWithBy extends IncrementDecrementOptions {
++export interface IncrementDecrementOptionsWithBy extends IncrementDecrementOptions
++{
+   /**
+    * The number to increment by
+    *
+@@ -935,12 +972,13 @@ export interface IncrementDecrementOptionsWithBy extends IncrementDecrementOptio
+ /**
+  * Options used for Instance.restore method
+  */
+-export interface InstanceRestoreOptions extends Logging, Transactionable {}
++export interface InstanceRestoreOptions extends Logging, Transactionable { }
+ 
+ /**
+  * Options used for Instance.destroy method
+  */
+-export interface InstanceDestroyOptions extends Logging, Transactionable {
++export interface InstanceDestroyOptions extends Logging, Transactionable
++{
+   /**
+    * If set to true, paranoid models will actually be deleted
+    */
+@@ -950,12 +988,13 @@ export interface InstanceDestroyOptions extends Logging, Transactionable {
+ /**
+  * Options used for Instance.update method
+  */
+-export interface InstanceUpdateOptions extends SaveOptions, SetOptions, Filterable {}
++export interface InstanceUpdateOptions extends SaveOptions, SetOptions, Filterable { }
+ 
+ /**
+  * Options used for Instance.set method
+  */
+-export interface SetOptions {
++export interface SetOptions
++{
+   /**
+    * If set to true, field and virtual setters will be ignored
+    */
+@@ -970,7 +1009,8 @@ export interface SetOptions {
+ /**
+  * Options used for Instance.save method
+  */
+-export interface SaveOptions extends Logging, Transactionable, Silent {
++export interface SaveOptions extends Logging, Transactionable, Silent
++{
+   /**
+    * An optional array of strings, representing database columns. If fields is provided, only those columns
+    * will be validated and saved.
+@@ -994,7 +1034,8 @@ export interface SaveOptions extends Logging, Transactionable, Silent {
+  *
+  * The validations are implemented by validator.js.
+  */
+-export interface ModelValidateOptions {
++export interface ModelValidateOptions
++{
+   /**
+    * is: ["^[a-z]+$",'i'] // will only allow letters
+    * is: /^[a-z]+[Op./i]  // same as the previous example using real RegExp
+@@ -1182,7 +1223,8 @@ export type ModelIndexesOptions = IndexesOptions
+ /**
+  * Interface for name property in InitOptions
+  */
+-export interface ModelNameOptions {
++export interface ModelNameOptions
++{
+   /**
+    * Singular model name
+    */
+@@ -1197,21 +1239,24 @@ export interface ModelNameOptions {
+ /**
+  * Interface for getterMethods in InitOptions
+  */
+-export interface ModelGetterOptions<M extends Model = Model> {
++export interface ModelGetterOptions<M extends Model = Model>
++{
+   [name: string]: (this: M) => unknown;
+ }
+ 
+ /**
+  * Interface for setterMethods in InitOptions
+  */
+-export interface ModelSetterOptions<M extends Model = Model> {
++export interface ModelSetterOptions<M extends Model = Model>
++{
+   [name: string]: (this: M, val: any) => void;
+ }
+ 
+ /**
+  * Interface for Define Scope Options
+  */
+-export interface ModelScopeOptions {
++export interface ModelScopeOptions
++{
+   /**
+    * Name of the scope and it's query
+    */
+@@ -1221,7 +1266,8 @@ export interface ModelScopeOptions {
+ /**
+  * General column options
+  */
+-export interface ColumnOptions {
++export interface ColumnOptions
++{
+   /**
+    * If false, the column will have a NOT NULL constraint, and a not null validation will be run before an
+    * instance is saved.
+@@ -1243,7 +1289,8 @@ export interface ColumnOptions {
+ /**
+  * References options for the column's attributes
+  */
+-export interface ModelAttributeColumnReferencesOptions {
++export interface ModelAttributeColumnReferencesOptions
++{
+   /**
+    * If this column references another table, provide it here as a Model, or a string
+    */
+@@ -1265,7 +1312,8 @@ export interface ModelAttributeColumnReferencesOptions {
+ /**
+  * Column options for the model schema attributes
+  */
+-export interface ModelAttributeColumnOptions<M extends Model = Model> extends ColumnOptions {
++export interface ModelAttributeColumnOptions<M extends Model = Model> extends ColumnOptions
++{
+   /**
+    * A string or a data type
+    */
+@@ -1358,7 +1406,8 @@ export interface ModelAttributeColumnOptions<M extends Model = Model> extends Co
+ /**
+  * Interface for Attributes provided for a column
+  */
+-export interface ModelAttributes<M extends Model = Model> {
++export interface ModelAttributes<M extends Model = Model>
++{
+   /**
+    * The description of a database column
+    */
+@@ -1373,7 +1422,8 @@ export type Identifier = number | string | Buffer;
+ /**
+  * Options for model definition
+  */
+-export interface ModelOptions<M extends Model = Model> {
++export interface ModelOptions<M extends Model = Model>
++{
+   /**
+    * Define the default search scope to use for this model. Scopes have the same form as the options passed to
+    * find / findAll.
+@@ -1517,7 +1567,8 @@ export interface ModelOptions<M extends Model = Model> {
+ /**
+  * Options passed to [[Model.init]]
+  */
+-export interface InitOptions<M extends Model =  Model> extends ModelOptions<M> {
++export interface InitOptions<M extends Model = Model> extends ModelOptions<M>
++{
+   /**
+    * The sequelize connection. Required ATM.
+    */
+@@ -1527,14 +1578,16 @@ export interface InitOptions<M extends Model =  Model> extends ModelOptions<M> {
+ /**
+  * AddScope Options for Model.addScope
+  */
+-export interface AddScopeOptions {
++export interface AddScopeOptions
++{
+   /**
+    * If a scope of the same name already exists, should it be overwritten?
+    */
+   override: boolean;
+ }
+ 
+-export abstract class Model<T = any, T2 = any> extends Hooks {
++export abstract class Model<T = any, T2 = any> extends Hooks
++{
+   /** The name of the database table */
+   public static readonly tableName: string;
+ 
+@@ -1644,10 +1697,10 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param options
+    */
+   public static schema<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     schema: string,
+     options?: SchemaOptions
+-  ): { new (): M } & typeof Model;
++  ): { new(): M } & typeof Model;
+ 
+   /**
+    * Get the tablename of the model, taking schema into account. The method will return The name as a string
+@@ -1713,7 +1766,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @return Model A reference to the model, with the scope(s) applied. Calling scope again on the returned
+    *  model will clear the previous scope.
+    */
+-  public static scope<M extends { new (): Model }>(
++  public static scope<M extends { new(): Model }>(
+     this: M,
+     options?: string | ScopeOptions | (string | ScopeOptions)[] | WhereAttributeHash
+   ): M;
+@@ -1791,19 +1844,19 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    *
+    * @see {Sequelize#query}
+    */
+-  public static findAll<M extends Model>(this: { new (): M } & typeof Model, options?: FindOptions): Promise<M[]>;
++  public static findAll<M extends Model>(this: { new(): M } & typeof Model, options?: FindOptions): Promise<M[]>;
+ 
+   /**
+    * Search for a single instance by its primary key. This applies LIMIT 1, so the listener will
+    * always be called with a single instance.
+    */
+   public static findByPk<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     identifier?: Identifier,
+     options?: Omit<FindOptions, 'where'>
+   ): Promise<M | null>;
+   public static findByPk<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     identifier: Identifier,
+     options: Omit<NonNullFindOptions, 'where'>
+   ): Promise<M>;
+@@ -1813,10 +1866,10 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * instance.
+    */
+   public static findOne<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     options?: FindOptions
+   ): Promise<M | null>;
+-  public static findOne<M extends Model>(this: { new (): M } & typeof Model, options: NonNullFindOptions): Promise<M>;
++  public static findOne<M extends Model>(this: { new(): M } & typeof Model, options: NonNullFindOptions): Promise<M>;
+ 
+   /**
+    * Run an aggregation method on the specified field
+@@ -1828,7 +1881,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    *     which case the complete data result is returned.
+    */
+   public static aggregate<M extends Model, T extends DataType | unknown>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     field: keyof M,
+     aggregateFunction: string,
+     options?: AggregateOptions<T>
+@@ -1882,7 +1935,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * profiles will be counted
+    */
+   public static findAndCountAll<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     options?: FindAndCountOptions
+   ): Promise<{ rows: M[]; count: number }>;
+ 
+@@ -1890,7 +1943,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Find the maximum value of field
+    */
+   public static max<M extends Model, T extends DataType | unknown>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     field: keyof M,
+     options?: AggregateOptions<T>
+   ): Promise<T>;
+@@ -1899,7 +1952,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Find the minimum value of field
+    */
+   public static min<M extends Model, T extends DataType | unknown>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     field: keyof M,
+     options?: AggregateOptions<T>
+   ): Promise<T>;
+@@ -1908,7 +1961,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Find the sum of field
+    */
+   public static sum<M extends Model, T extends DataType | unknown>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     field: keyof M,
+     options?: AggregateOptions<T>
+   ): Promise<number>;
+@@ -1917,7 +1970,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Builds a new model instance. Values is an object of key value pairs, must be defined but can be empty.
+    */
+   public static build<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     record?: object,
+     options?: BuildOptions
+   ): M;
+@@ -1926,7 +1979,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Undocumented bulkBuild
+    */
+   public static bulkBuild<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     records: object[],
+     options?: BuildOptions
+   ): M[];
+@@ -1935,7 +1988,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Builds a new model instance and calls save on it.
+    */
+   public static create<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     values?: object,
+     options?: CreateOptions
+   ): Promise<M>;
+@@ -1946,7 +1999,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * The successfull result of the promise will be (instance, initialized) - Make sure to use `.then(([...]))`
+    */
+   public static findOrBuild<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     options: FindOrCreateOptions
+   ): Promise<[M, boolean]>;
+ 
+@@ -1962,7 +2015,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * will be created instead, and any unique constraint violation will be handled internally.
+    */
+   public static findOrCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     options: FindOrCreateOptions
+   ): Promise<[M, boolean]>;
+ 
+@@ -1971,7 +2024,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Will execute a find call, if empty then attempt to create, if unique constraint then attempt to find again
+    */
+   public static findCreateFind<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     options: FindOrCreateOptions
+   ): Promise<[M, boolean]>;
+ 
+@@ -1995,16 +2048,16 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * whether the row was inserted or not.
+    */
+   public static upsert<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     values: object,
+     options?: UpsertOptions & { returning?: false | undefined }
+   ): Promise<boolean>;
+ 
+-  public static upsert<M extends Model> (
+-    this: { new (): M } & typeof Model,
++  public static upsert<M extends Model>(
++    this: { new(): M } & typeof Model,
+     values: object,
+     options?: UpsertOptions & { returning: true }
+-  ): Promise<[ M, boolean ]>;
++  ): Promise<[M, boolean]>;
+ 
+   /**
+    * Create and insert multiple instances in bulk.
+@@ -2018,7 +2071,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param records List of objects (key/value pairs) to create instances from
+    */
+   public static bulkCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     records: object[],
+     options?: BulkCreateOptions
+   ): Promise<M[]>;
+@@ -2046,7 +2099,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * affected rows (only supported in postgres and mssql with `options.returning` true.)
+    */
+   public static update<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     values: object,
+     options: UpdateOptions
+   ): Promise<[number, M[]]>;
+@@ -2055,7 +2108,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Increments a single field.
+    */
+   public static increment<M extends Model, K extends keyof M>(
+-    this: { new (): M },
++    this: { new(): M },
+     field: K,
+     options: IncrementDecrementOptionsWithBy
+   ): Promise<M>;
+@@ -2064,7 +2117,7 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Increments multiple fields by the same value.
+    */
+   public static increment<M extends Model, K extends keyof M>(
+-    this: { new (): M },
++    this: { new(): M },
+     fields: K[],
+     options: IncrementDecrementOptionsWithBy
+   ): Promise<M>;
+@@ -2073,7 +2126,34 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * Increments multiple fields by different values.
+    */
+   public static increment<M extends Model, K extends keyof M>(
+-    this: { new (): M },
++    this: { new(): M },
++    fields: { [key in K]?: number },
++    options: IncrementDecrementOptions
++  ): Promise<M>;
++
 +  /**
 +   * Decrements a single field.
 +   */
 +  public static decrement<M extends Model, K extends keyof M>(
-+    this: { new (): M },
++    this: { new(): M },
 +    field: K,
 +    options: IncrementDecrementOptionsWithBy
 +  ): Promise<M>;
@@ -19,7 +839,7 @@ index bd900b3..4b82183 100644
 +   * Decrements multiple fields by the same value.
 +   */
 +  public static decrement<M extends Model, K extends keyof M>(
-+    this: { new (): M },
++    this: { new(): M },
 +    fields: K[],
 +    options: IncrementDecrementOptionsWithBy
 +  ): Promise<M>;
@@ -28,11 +848,210 @@ index bd900b3..4b82183 100644
 +   * Decrements multiple fields by different values.
 +   */
 +  public static decrement<M extends Model, K extends keyof M>(
-+    this: { new (): M },
-+    fields: { [key in K]?: number },
-+    options: IncrementDecrementOptions
-+  ): Promise<M>;
-+
-   /**
-    * Run a describe query on the table. The result will be return to the listener as a hash of attributes and
-    * their types.
++    this: { new(): M },
+     fields: { [key in K]?: number },
+     options: IncrementDecrementOptions
+   ): Promise<M>;
+@@ -2096,12 +2176,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static beforeValidate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: ValidationOptions) => HookReturn
+   ): void;
+   public static beforeValidate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: ValidationOptions) => HookReturn
+   ): void;
+ 
+@@ -2112,12 +2192,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static afterValidate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: ValidationOptions) => HookReturn
+   ): void;
+   public static afterValidate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: ValidationOptions) => HookReturn
+   ): void;
+ 
+@@ -2128,12 +2208,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with attributes, options
+    */
+   public static beforeCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (attributes: M, options: CreateOptions) => HookReturn
+   ): void;
+   public static beforeCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (attributes: M, options: CreateOptions) => HookReturn
+   ): void;
+ 
+@@ -2144,12 +2224,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with attributes, options
+    */
+   public static afterCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (attributes: M, options: CreateOptions) => HookReturn
+   ): void;
+   public static afterCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (attributes: M, options: CreateOptions) => HookReturn
+   ): void;
+ 
+@@ -2160,12 +2240,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static beforeDestroy<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: InstanceDestroyOptions) => HookReturn
+   ): void;
+   public static beforeDestroy<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: Model, options: InstanceDestroyOptions) => HookReturn
+   ): void;
+ 
+@@ -2176,12 +2256,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static afterDestroy<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: InstanceDestroyOptions) => HookReturn
+   ): void;
+   public static afterDestroy<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: InstanceDestroyOptions) => HookReturn
+   ): void;
+ 
+@@ -2192,12 +2272,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static beforeUpdate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: UpdateOptions) => HookReturn
+   ): void;
+   public static beforeUpdate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: UpdateOptions) => HookReturn
+   ): void;
+ 
+@@ -2208,12 +2288,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static afterUpdate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: UpdateOptions) => HookReturn
+   ): void;
+   public static afterUpdate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: UpdateOptions) => HookReturn
+   ): void;
+ 
+@@ -2224,12 +2304,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static beforeSave<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: UpdateOptions | SaveOptions) => HookReturn
+   ): void;
+   public static beforeSave<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: UpdateOptions | SaveOptions) => HookReturn
+   ): void;
+ 
+@@ -2240,12 +2320,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instance, options
+    */
+   public static afterSave<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instance: M, options: UpdateOptions | SaveOptions) => HookReturn
+   ): void;
+   public static afterSave<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instance: M, options: UpdateOptions | SaveOptions) => HookReturn
+   ): void;
+ 
+@@ -2256,12 +2336,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instances, options
+    */
+   public static beforeBulkCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instances: M[], options: BulkCreateOptions) => HookReturn
+   ): void;
+   public static beforeBulkCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instances: M[], options: BulkCreateOptions) => HookReturn
+   ): void;
+ 
+@@ -2272,12 +2352,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn A callback function that is called with instances, options
+    */
+   public static afterBulkCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instances: M[], options: BulkCreateOptions) => HookReturn
+   ): void;
+   public static afterBulkCreate<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instances: M[], options: BulkCreateOptions) => HookReturn
+   ): void;
+ 
+@@ -2360,12 +2440,12 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+    * @param fn   A callback function that is called with instance(s), options
+    */
+   public static afterFind<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     name: string,
+     fn: (instancesOrInstance: M[] | M | null, options: FindOptions) => HookReturn
+   ): void;
+   public static afterFind<M extends Model>(
+-    this: { new (): M } & typeof Model,
++    this: { new(): M } & typeof Model,
+     fn: (instancesOrInstance: M[] | M | null, options: FindOptions) => HookReturn
+   ): void;
+ 
+@@ -2737,6 +2817,6 @@ export abstract class Model<T = any, T2 = any> extends Hooks {
+ 
+ export type ModelType = typeof Model;
+ 
+-export type ModelCtor<M extends Model> = { new (): M } & ModelType;
++export type ModelCtor<M extends Model> = { new(): M } & ModelType;
+ 
+ export default Model;
